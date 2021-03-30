@@ -119,7 +119,7 @@ class IndexPageState extends State<IndexPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text('多人视频会议'),
+        title: const Text('蜻蜓T系统'),
         centerTitle: true,
         elevation: 0,
         // automaticallyImplyLeading: false,
