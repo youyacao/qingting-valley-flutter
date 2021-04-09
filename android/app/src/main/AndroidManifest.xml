@@ -21,7 +21,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="蜻蜓T系统"
+        android:label="蜻蜓V系统"
         android:icon="@mipmap/ic_launcher"
         tools:replace="android:label"
     >
