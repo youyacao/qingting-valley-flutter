@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 
 class FilmPage extends StatefulWidget {
   @override
@@ -12,6 +15,7 @@ class _FilmPageState extends State<FilmPage>
   Color _colorRed = Color.fromRGBO(236, 97, 94, 1);
   TabController _tabController;
   List tabs = ["热门", "历史", "图片"];
+  int itemCount = 3;
 
   @override
   void initState() {
@@ -49,11 +53,32 @@ class _FilmPageState extends State<FilmPage>
                         Expanded(
                           flex: 1,
                           child: Container(
-                            height: 40.h,
-                            width: 200.w,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8.w,
+                            ),
+                            height: 35.h,
                             decoration: BoxDecoration(
                               color: Colors.white,
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(17.5.r),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.search,
+                                  color: Colors.grey,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    left: 8.w,
+                                  ),
+                                  child: Text(
+                                    '小楼昨夜又东风',
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -99,12 +124,62 @@ class _FilmPageState extends State<FilmPage>
             ),
             Expanded(
               flex: 1,
-              child: Container(
-                decoration: BoxDecoration(
-                    // color: Colors.red,
-                    ),
+              child: TabBarView(
+                controller: _tabController,
+                children: tabs.map((e) {
+                  return EasyRefresh.custom(
+                    slivers: <Widget>[
+                      SliverToBoxAdapter(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: 195.h,
+                              child: Swiper(
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Image.network(
+                                    "http://via.placeholder.com/350x150",
+                                    fit: BoxFit.cover,
+                                  );
+                                },
+                                itemCount: itemCount,
+                                // autoplay: true,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(16.r),
+                              child: Text('今日热播'),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SliverPadding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16.w,
+                        ),
+                        sliver: SliverGrid(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 6.r,
+                            mainAxisSpacing: 6.r,
+                          ),
+                          delegate: SliverChildBuilderDelegate(
+                              (BuildContext context, int index) {
+                            return Container(
+                              color: Colors
+                                  .primaries[index % Colors.primaries.length],
+                            );
+                          }, childCount: 20),
+                        ),
+                      ),
+                    ],
+                    onRefresh: () async {},
+                    onLoad: () async {},
+                  );
+                }).toList(),
               ),
-            )
+            ),
           ],
         ),
       ),
