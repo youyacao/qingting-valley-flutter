@@ -4,30 +4,41 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:trtc_demo/http/api.dart';
+import 'package:trtc_demo/models/category.dart';
 
 class FilmPage extends StatefulWidget {
   @override
   _FilmPageState createState() => _FilmPageState();
 }
 
-class _FilmPageState extends State<FilmPage>
-    with SingleTickerProviderStateMixin {
+class _FilmPageState extends State<FilmPage> with TickerProviderStateMixin {
   Color _colorRed = Color.fromRGBO(236, 97, 94, 1);
   TabController _tabController;
-  List tabs = ["热门", "历史", "图片"];
+  List tabs = [];
   int itemCount = 3;
 
   @override
   void initState() {
     super.initState();
-    // 创建Controller
     _tabController = TabController(length: tabs.length, vsync: this);
+    _getCategory();
+  }
+
+  _getCategory() async {
+    var json = await Api.Category();
+    var _categoryData = CategoryModel.fromJson(json);
+    setState(() {
+      tabs = _categoryData.data[0].children;
+      _tabController = TabController(length: tabs.length, vsync: this);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion(
       child: Scaffold(
+        backgroundColor: Color.fromRGBO(245, 245, 245, 1),
         body: Flex(
           direction: Axis.vertical,
           children: [
@@ -116,7 +127,10 @@ class _FilmPageState extends State<FilmPage>
                           ),
                         ),
                       ),
-                      tabs: tabs.map((e) => Tab(text: e)).toList(),
+                      tabs: tabs.map((e) {
+                        print(e);
+                        return Tab(text: e.name);
+                      }).toList(),
                     ),
                   ),
                 ],
@@ -158,23 +172,75 @@ class _FilmPageState extends State<FilmPage>
                           horizontal: 16.w,
                         ),
                         sliver: SliverGrid(
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            crossAxisSpacing: 6.r,
-                            mainAxisSpacing: 6.r,
+                            crossAxisSpacing: 8.r,
+                            mainAxisSpacing: 8.r,
+                            // childAspectRatio: 1.2,
                           ),
-                          delegate: SliverChildBuilderDelegate(
-                              (BuildContext context, int index) {
-                            return Container(
-                              color: Colors
-                                  .primaries[index % Colors.primaries.length],
+                          delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+                            return ClipRRect(
+                              borderRadius: BorderRadius.circular(6.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                ),
+                                child: Flex(
+                                  direction: Axis.vertical,
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: Image.network(
+                                        'http://api.btstu.cn/sjbz/api.php?lx=dongman&format=images',
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    Container(
+                                      alignment: Alignment.centerLeft,
+                                      padding: EdgeInsets.symmetric(horizontal: 8.w),
+                                      decoration: BoxDecoration(
+                                          // color: Colors.blue,
+                                          ),
+                                      height: 32.h,
+                                      child: Text(
+                                        '下面会提供出来本地插件，供大家使用下载',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              // child: Container(
+                              //   decoration: BoxDecoration(
+                              //     color: Colors.white,
+                              //   ),
+                              //   child: Column(
+                              //     children: [
+                              //       Image.network('http://api.btstu.cn/sjbz/api.php?lx=dongman&format=images', width: double.infinity, height: 110, fit: BoxFit.cover,),
+                              //       Padding(
+                              //         padding: EdgeInsets.only(
+                              //           top: 8.h,
+                              //           left: 8.w,
+                              //           right: 8.w,
+                              //         ),
+                              //         child: Text(
+                              //           '要同时滚动ListView和GridView的时候可以使用SliverList和SliverGrid。',
+                              //           maxLines: 1,
+                              //           overflow: TextOverflow.ellipsis,
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
                             );
                           }, childCount: 20),
                         ),
                       ),
                     ],
-                    onRefresh: () async {},
+                    onRefresh: () async {
+                      _getCategory();
+                    },
                     onLoad: () async {},
                   );
                 }).toList(),
