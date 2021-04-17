@@ -25,5 +25,6 @@ class Routes {
     router.define(douyin, handler: douyinHandler);
     router.define('/live', handler: liveHandler);
     router.define('/create_live', handler: createLiveHandler);
+    router.define('/film_details', handler: filmDetailsHandler);
   }
 }

@@ -6,14 +6,14 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:trtc_demo/debug/GenerateTestUserSig.dart';
 
 // 多人视频会议首页
-class IndexPage extends StatefulWidget {
-  IndexPage({Key key}) : super(key: key);
+class TRTCIndexPage extends StatefulWidget {
+  TRTCIndexPage({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => IndexPageState();
 }
 
-class IndexPageState extends State<IndexPage> {
+class IndexPageState extends State<TRTCIndexPage> {
   /// 用户id
   String userId = '';
 
@@ -118,13 +118,6 @@ class IndexPageState extends State<IndexPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: const Text('蜻蜓V系统'),
-        centerTitle: true,
-        elevation: 0,
-        // automaticallyImplyLeading: false,
-        backgroundColor: Color.fromRGBO(14, 25, 44, 1),
-      ),
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () {

@@ -13,7 +13,7 @@ import 'package:tencent_trtc_cloud/tx_device_manager.dart';
 import 'package:tencent_trtc_cloud/tx_audio_effect_manager.dart';
 import 'package:tencent_trtc_cloud/trtc_cloud_def.dart';
 import 'package:tencent_trtc_cloud/trtc_cloud_listener.dart';
-import 'package:trtc_demo/page/trtcmeetingdemo/index1.dart';
+import 'package:trtc_demo/page/trtcmeetingdemo/index.dart';
 import 'package:trtc_demo/models/meeting.dart';
 import 'package:trtc_demo/debug/GenerateTestUserSig.dart';
 import 'package:provider/provider.dart';
@@ -327,7 +327,7 @@ class MeetingPageState extends State<MeetingPage> with WidgetsBindingObserver {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => IndexPage(),
+                    builder: (context) => TRTCIndexPage(),
                   ),
                 );
               },

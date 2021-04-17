@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trtc_demo/page/douyin/index.dart';
 import 'package:trtc_demo/page/film/index.dart';
-import 'package:trtc_demo/page/live/create.dart';
 import 'package:trtc_demo/page/live/index.dart';
 import 'package:trtc_demo/page/my/index.dart';
+import 'package:trtc_demo/page/trtcmeetingdemo/index.dart';
 
 class IndexPage extends StatefulWidget {
   @override
@@ -18,7 +18,7 @@ class _IndexPageState extends State<IndexPage> {
   List _bottomBarItems = ['首页', '直播', '', '抖音', '我的'];
 
   List<StatefulWidget> _indexedStackChildren() {
-    return [FilmPage(), LivePage(), CreateLivePage(), DouYinPage(), MyPage()];
+    return [FilmPage(), LivePage(), TRTCIndexPage(), DouYinPage(), MyPage()];
   }
 
   @override

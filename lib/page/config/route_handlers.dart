@@ -1,3 +1,4 @@
+import 'package:trtc_demo/page/film/details.dart';
 import 'package:trtc_demo/page/index.dart';
 import 'package:trtc_demo/page/live/create.dart';
 import 'package:trtc_demo/page/live/index.dart';
@@ -88,4 +89,9 @@ var liveHandler = Handler(
 var createLiveHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
       return CreateLivePage();
+    });
+
+var filmDetailsHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+      return FilmDetailsPage(video: context.settings.arguments,);
     });

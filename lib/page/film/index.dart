@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:trtc_demo/http/api.dart';
 import 'package:trtc_demo/models/category.dart';
+import 'package:trtc_demo/models/video_list.dart';
+import 'package:trtc_demo/page/config/application.dart';
 
 class FilmPage extends StatefulWidget {
   @override
@@ -17,6 +20,10 @@ class _FilmPageState extends State<FilmPage> with TickerProviderStateMixin {
   TabController _tabController;
   List tabs = [];
   int itemCount = 3;
+  List _page = [];
+  List _videoList = [];
+  List _init = [];
+  List _noData = [];
 
   @override
   void initState() {
@@ -26,12 +33,45 @@ class _FilmPageState extends State<FilmPage> with TickerProviderStateMixin {
   }
 
   _getCategory() async {
+    EasyLoading.show(status: 'loading...');
     var json = await Api.Category();
     var _categoryData = CategoryModel.fromJson(json);
     setState(() {
       tabs = _categoryData.data[0].children;
-      _tabController = TabController(length: tabs.length, vsync: this);
+      for (var i = 0; i < tabs.length; i++) {
+        _videoList.add([]);
+        _init.add(false);
+        _noData.add(false);
+        _page.add(1);
+      }
+      _getVideoList();
+      _tabController = TabController(length: tabs.length, vsync: this)
+        ..addListener(() {
+          if (_videoList[_tabController.index].length == 0) {
+            _getVideoList();
+          }
+        });
     });
+  }
+
+  _getVideoList() async {
+    if (_page[_tabController.index] > 1) EasyLoading.show(status: 'loading...');
+    var json = await Api.VideoList({'page': _page[_tabController.index], 'limit': 10, 'category_id': tabs[_tabController.index].id});
+    var video_list = VideoListModel.fromJson(json);
+    setState(() {
+      _videoList[_tabController.index].addAll(video_list.data.list);
+    });
+    if (video_list.data.totalPage == 0 || video_list.data.currentPage > video_list.data.totalPage) {
+      _noData[_tabController.index] = true;
+    }
+    _init[_tabController.index] = true;
+    EasyLoading.dismiss();
+  }
+
+  _onTap(VideoListElement video) {
+    Application.router.navigateTo(context, "/film_details", routeSettings: RouteSettings(
+      arguments: video,
+    ));
   }
 
   @override
@@ -127,10 +167,10 @@ class _FilmPageState extends State<FilmPage> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                      tabs: tabs.map((e) {
-                        print(e);
-                        return Tab(text: e.name);
+                      tabs: tabs.asMap().entries.map((entry) {
+                        return Tab(text: '${entry.value.name}');
                       }).toList(),
+                      // tabs: tabs.map((e) => Tab(text: e.name,)).toList(),
                     ),
                   ),
                 ],
@@ -140,8 +180,39 @@ class _FilmPageState extends State<FilmPage> with TickerProviderStateMixin {
               flex: 1,
               child: TabBarView(
                 controller: _tabController,
-                children: tabs.map((e) {
+                children: tabs.asMap().entries.map((entry) {
                   return EasyRefresh.custom(
+                    footer: ClassicalFooter(
+                      enableInfiniteLoad: false,
+                    ),
+                    // emptyWidget: _videoList[entry.key].length == 0
+                    //     ? Container(
+                    //         height: double.infinity,
+                    //         child: Column(
+                    //           mainAxisAlignment: MainAxisAlignment.center,
+                    //           crossAxisAlignment: CrossAxisAlignment.center,
+                    //           children: <Widget>[
+                    //             Expanded(
+                    //               child: SizedBox(),
+                    //               flex: 2,
+                    //             ),
+                    //             SizedBox(
+                    //               width: 100.0,
+                    //               height: 100.0,
+                    //               child: Image.asset('assets/images/nodata.png'),
+                    //             ),
+                    //             Text(
+                    //               '没有数据',
+                    //               style: TextStyle(fontSize: 16.0, color: Colors.grey[400]),
+                    //             ),
+                    //             Expanded(
+                    //               child: SizedBox(),
+                    //               flex: 3,
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       )
+                    //     : null,
                     slivers: <Widget>[
                       SliverToBoxAdapter(
                         child: Column(
@@ -171,77 +242,69 @@ class _FilmPageState extends State<FilmPage> with TickerProviderStateMixin {
                         padding: EdgeInsets.symmetric(
                           horizontal: 16.w,
                         ),
-                        sliver: SliverGrid(
+                        sliver: _videoList[entry.key].length == 0 && _init[_tabController.index] ? SliverToBoxAdapter(child: Center(child: Text('没有数据'),),) : SliverGrid(
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             crossAxisSpacing: 8.r,
                             mainAxisSpacing: 8.r,
                             // childAspectRatio: 1.2,
                           ),
-                          delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(6.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                ),
-                                child: Flex(
-                                  direction: Axis.vertical,
-                                  children: [
-                                    Expanded(
-                                      flex: 1,
-                                      child: Image.network(
-                                        'http://api.btstu.cn/sjbz/api.php?lx=dongman&format=images',
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    Container(
-                                      alignment: Alignment.centerLeft,
-                                      padding: EdgeInsets.symmetric(horizontal: 8.w),
+                          delegate: SliverChildBuilderDelegate(
+                            (BuildContext context, int index) {
+                              if (_videoList[entry.key].length > 0) {
+                                return GestureDetector(
+                                  onTap: () => _onTap(_videoList[entry.key][index]),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(6.0),
+                                    child: Container(
                                       decoration: BoxDecoration(
-                                          // color: Colors.blue,
+                                        color: Colors.white,
+                                      ),
+                                      child: Flex(
+                                        direction: Axis.vertical,
+                                        children: [
+                                          Expanded(
+                                            flex: 1,
+                                            child: Image.network(
+                                              _videoList[entry.key][index].thumb,
+                                              height: double.infinity,
+                                              width: double.infinity,
+                                              fit: BoxFit.cover,
+                                            ),
                                           ),
-                                      height: 32.h,
-                                      child: Text(
-                                        '下面会提供出来本地插件，供大家使用下载',
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
+                                          Container(
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.symmetric(horizontal: 8.w),
+                                            decoration: BoxDecoration(
+                                              // color: Colors.blue,
+                                            ),
+                                            height: 32.h,
+                                            child: Text(
+                                              _videoList[entry.key][index].title,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                              // child: Container(
-                              //   decoration: BoxDecoration(
-                              //     color: Colors.white,
-                              //   ),
-                              //   child: Column(
-                              //     children: [
-                              //       Image.network('http://api.btstu.cn/sjbz/api.php?lx=dongman&format=images', width: double.infinity, height: 110, fit: BoxFit.cover,),
-                              //       Padding(
-                              //         padding: EdgeInsets.only(
-                              //           top: 8.h,
-                              //           left: 8.w,
-                              //           right: 8.w,
-                              //         ),
-                              //         child: Text(
-                              //           '要同时滚动ListView和GridView的时候可以使用SliverList和SliverGrid。',
-                              //           maxLines: 1,
-                              //           overflow: TextOverflow.ellipsis,
-                              //         ),
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
-                            );
-                          }, childCount: 20),
+                                  ),
+                                );
+                              }
+                            },
+                            childCount: _videoList[entry.key].length,
+                          ),
                         ),
                       ),
                     ],
                     onRefresh: () async {
                       _getCategory();
                     },
-                    onLoad: () async {},
+                    onLoad: () async {
+                      if (_noData[_tabController.index]) return false;
+                      _page[_tabController.index]++;
+                      _getCategory();
+                    },
                   );
                 }).toList(),
               ),

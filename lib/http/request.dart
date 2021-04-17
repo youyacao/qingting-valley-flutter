@@ -34,7 +34,7 @@ class Request {
             EasyLoading.showInfo('服务器错误，状态码为：${response.data['status']}');
             return Future.error(response.data['msg']);
           } else {
-            LogUtil.v(response.data, tag: '响应的数据为：');
+            // LogUtil.v(response.data, tag: '响应的数据为：');
             if (response.data is Map) {
               return response.data;
             } else {
