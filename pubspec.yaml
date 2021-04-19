@@ -26,6 +26,9 @@ dependencies:
   common_utils: ^2.0.2
   chewie: ^1.0.0
   video_player: ^2.1.1
+  fijkplayer: ^0.8.7
+  tapped: any
+  safemap: any
   flutter:
     sdk: flutter
 

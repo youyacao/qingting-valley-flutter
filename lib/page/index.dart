@@ -18,7 +18,7 @@ class _IndexPageState extends State<IndexPage> {
   List _bottomBarItems = ['首页', '直播', '', '抖音', '我的'];
 
   List<StatefulWidget> _indexedStackChildren() {
-    return [FilmPage(), LivePage(), TRTCIndexPage(), DouYinPage(), MyPage()];
+    return [FilmPage(), LivePage(), TRTCIndexPage(), DouYinPage(key: tikTokKey), MyPage()];
   }
 
   @override
@@ -87,6 +87,11 @@ class _IndexPageState extends State<IndexPage> {
   }
 
   void _onItemTapped(int index) {
+    if (index == 3) {
+      tikTokKey.currentState.start();
+    } else {
+      tikTokKey.currentState.pause();
+    }
     setState(() {
       _selectedIndex = index;
     });
