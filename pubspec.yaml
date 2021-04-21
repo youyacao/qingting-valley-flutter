@@ -29,6 +29,7 @@ dependencies:
   fijkplayer: ^0.8.7
   tapped: any
   safemap: any
+  wakelock: ^0.4.0
   flutter:
     sdk: flutter
 

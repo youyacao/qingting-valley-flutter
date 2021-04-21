@@ -1,13 +1,6 @@
-import 'package:trtc_demo/mock/video.dart';
 import 'package:flutter/material.dart';
 import 'package:fijkplayer/fijkplayer.dart';
-
-// class VideoInfo {
-//   final String url;
-//   final String title;
-
-//   VideoInfo(this.url, this.title);
-// }
+import 'package:trtc_demo/models/video_list.dart';
 
 class VideoListController {
   /// 构造方法
@@ -39,12 +32,12 @@ class VideoListController {
   int get videoCount => playerList.length;
 
   /// 在当前的list后面继续增加视频，并预加载封面
-  addVideoInfo(List<UserVideo> list) {
+  addVideoInfo(List<VideoListElement> list) {
     for (var info in list) {
       playerList.add(
         FijkPlayer()
           ..setDataSource(
-            info.url,
+            info.videoUrl,
             // autoPlay: playerList.length == 0,
             showCover: true,
           )
@@ -54,7 +47,8 @@ class VideoListController {
   }
 
   /// 初始化
-  init(PageController pageController, List<UserVideo> initialList) {
+  init(PageController pageController, List<VideoListElement> initialList) {
+    print(initialList);
     addVideoInfo(initialList);
     setPageContrller(pageController);
   }
@@ -72,7 +66,6 @@ class VideoListController {
 
   /// 销毁全部
   void dispose() {
-    // 销毁全部
     for (var player in playerList) {
       player.dispose();
     }

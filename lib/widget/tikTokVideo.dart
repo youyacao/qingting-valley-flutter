@@ -37,6 +37,7 @@ class TikTokVideoPage extends StatelessWidget {
     this.aspectRatio: 9 / 16.0,
     this.hidePauseIcon: false,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     // 右边的按钮列表
@@ -74,7 +75,7 @@ class TikTokVideoPage extends StatelessWidget {
           //         width: double.infinity,
           //         alignment: Alignment.center,
           //         child: Icon(
-          //           Icons.play_circle_outline,
+          //           Icons.play_arrow_outlined,
           //           size: 120,
           //           color: Colors.white.withOpacity(0.4),
           //         ),
@@ -147,12 +148,15 @@ class VideoLoadingPlaceHolder extends StatelessWidget {
 
 class VideoUserInfo extends StatelessWidget {
   final String desc;
+  final String username;
+
   // final Function onGoodGift;
   const VideoUserInfo({
     Key key,
     @required this.bottomPadding,
     // @required this.onGoodGift,
     this.desc,
+    this.username,
   }) : super(key: key);
 
   final double bottomPadding;
@@ -170,7 +174,7 @@ class VideoUserInfo extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            '@朱二旦的枯燥生活',
+            '@${username}',
             style: StandardTextStyle.big,
           ),
           Container(height: 6),
@@ -178,19 +182,19 @@ class VideoUserInfo extends StatelessWidget {
             desc ?? '#原创 有钱人的生活就是这么朴实无华，且枯燥 #短视频',
             style: StandardTextStyle.normal,
           ),
-          Container(height: 6),
-          Row(
-            children: <Widget>[
-              Icon(Icons.music_note, size: 14),
-              Expanded(
-                child: Text(
-                  '朱二旦的枯燥生活创作的原声',
-                  maxLines: 9,
-                  style: StandardTextStyle.normal,
-                ),
-              )
-            ],
-          )
+          // Container(height: 6),
+          // Row(
+          //   children: <Widget>[
+          //     Icon(Icons.music_note, size: 14),
+          //     Expanded(
+          //       child: Text(
+          //         '朱二旦的枯燥生活创作的原声',
+          //         maxLines: 9,
+          //         style: StandardTextStyle.normal,
+          //       ),
+          //     )
+          //   ],
+          // ),
         ],
       ),
     );
