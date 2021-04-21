@@ -48,6 +48,7 @@ class StandardTextStyle {
     fontWeight: FontWeight.normal,
     fontSize: SysSize.small,
     inherit: true,
+    color: Colors.white,
   );
   static const TextStyle smallWithOpacity = const TextStyle(
     color: const Color.fromRGBO(0xff, 0xff, 0xff, .66),

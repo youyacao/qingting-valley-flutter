@@ -38,7 +38,6 @@ class VideoListController {
         FijkPlayer()
           ..setDataSource(
             info.videoUrl,
-            // autoPlay: playerList.length == 0,
             showCover: true,
           )
           ..setLoop(0),
