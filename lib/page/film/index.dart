@@ -105,12 +105,12 @@ class _FilmPageState extends State<FilmPage> with TickerProviderStateMixin {
                           flex: 1,
                           child: Container(
                             padding: EdgeInsets.symmetric(
-                              horizontal: 8.w,
+                              horizontal: 15.w,
                             ),
-                            height: 35.h,
+                            height: 60.h,
                             decoration: BoxDecoration(
                               color: Colors.white,
-                              borderRadius: BorderRadius.circular(17.5.r),
+                              borderRadius: BorderRadius.circular(30.h),
                             ),
                             child: Row(
                               children: [
@@ -120,7 +120,7 @@ class _FilmPageState extends State<FilmPage> with TickerProviderStateMixin {
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(
-                                    left: 8.w,
+                                    left: 10.w,
                                   ),
                                   child: Text(
                                     '小楼昨夜又东风',
@@ -140,7 +140,9 @@ class _FilmPageState extends State<FilmPage> with TickerProviderStateMixin {
                             color: Colors.white,
                             size: 28,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Application.router.navigateTo(context, "/login");
+                          },
                         ),
                         Container(
                           child: Icon(
@@ -219,7 +221,7 @@ class _FilmPageState extends State<FilmPage> with TickerProviderStateMixin {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              height: 195.h,
+                              height: 350.h,
                               child: Swiper(
                                 itemBuilder: (BuildContext context, int index) {
                                   return Image.network(
@@ -232,7 +234,7 @@ class _FilmPageState extends State<FilmPage> with TickerProviderStateMixin {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.all(16.r),
+                              padding: EdgeInsets.all(24.r),
                               child: Text('今日热播'),
                             ),
                           ],
@@ -240,13 +242,13 @@ class _FilmPageState extends State<FilmPage> with TickerProviderStateMixin {
                       ),
                       SliverPadding(
                         padding: EdgeInsets.symmetric(
-                          horizontal: 16.w,
+                          horizontal: 24.w,
                         ),
                         sliver: _videoList[entry.key].length == 0 && _init[_tabController.index] ? SliverToBoxAdapter(child: Center(child: Text('没有数据'),),) : SliverGrid(
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            crossAxisSpacing: 8.r,
-                            mainAxisSpacing: 8.r,
+                            crossAxisSpacing: 16.r,
+                            mainAxisSpacing: 16.r,
                             // childAspectRatio: 1.2,
                           ),
                           delegate: SliverChildBuilderDelegate(
@@ -274,11 +276,11 @@ class _FilmPageState extends State<FilmPage> with TickerProviderStateMixin {
                                           ),
                                           Container(
                                             alignment: Alignment.centerLeft,
-                                            padding: EdgeInsets.symmetric(horizontal: 8.w),
+                                            padding: EdgeInsets.symmetric(horizontal: 15.w),
                                             decoration: BoxDecoration(
                                               // color: Colors.blue,
                                             ),
-                                            height: 32.h,
+                                            height: 60.h,
                                             child: Text(
                                               _videoList[entry.key][index].title,
                                               maxLines: 1,

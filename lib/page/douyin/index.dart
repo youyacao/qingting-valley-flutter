@@ -49,7 +49,7 @@ class _DouYinPageState extends State<DouYinPage> with WidgetsBindingObserver {
           loadAsset();
         }
       });
-    loadAsset();
+    // loadAsset();
     super.initState();
   }
 
@@ -64,10 +64,10 @@ class _DouYinPageState extends State<DouYinPage> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state != AppLifecycleState.resumed) {
-      _videoListController.currentPlayer.pause();
+      _videoListController ?? _videoListController.currentPlayer.pause();
     }
     if (state == AppLifecycleState.resumed) {
-      _videoListController.currentPlayer.start();
+      _videoListController ?? _videoListController.currentPlayer.start();
     }
   }
 

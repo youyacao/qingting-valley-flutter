@@ -67,7 +67,7 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> with SingleTickerProv
             children: [
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: 220.h + MediaQuery.of(context).padding.top,
+                height: 360.h + MediaQuery.of(context).padding.top,
                 padding: EdgeInsets.only(
                   top: MediaQuery.of(context).padding.top,
                 ),
@@ -91,7 +91,7 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> with SingleTickerProv
                             ),
                           ),
                     Positioned(
-                      top: 8.h,
+                      top: 15.h,
                       left: 24.w,
                       right: 24.w,
                       child: Row(
@@ -154,9 +154,9 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> with SingleTickerProv
                     SliverToBoxAdapter(
                       child: Padding(
                         padding: EdgeInsets.only(
-                          left: 14.r,
-                          right: 14.r,
-                          top: 14.r,
+                          left: 24.r,
+                          right: 24.r,
+                          top: 24.r,
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,13 +169,13 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> with SingleTickerProv
                                     children: [
                                       Padding(
                                         padding: EdgeInsets.only(
-                                          right: 7.r,
+                                          right: 15.r,
                                         ),
                                         child: ClipOval(
                                           child: Image.network(
                                             widget.video.avatar,
-                                            width: 40.r,
-                                            height: 40.r,
+                                            width: 80.r,
+                                            height: 80.r,
                                           ),
                                         ),
                                       ),
@@ -189,14 +189,14 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> with SingleTickerProv
                                                   ? widget.video.nickname
                                                   : widget.video.username,
                                               style: TextStyle(
-                                                fontSize: 14.sp,
+                                                fontSize: 28.sp,
                                               ),
                                             ),
                                           ),
                                           Text(
                                             '2810粉丝 - 19视频',
                                             style: TextStyle(
-                                              fontSize: 12.sp,
+                                              fontSize: 24.sp,
                                               color: Color.fromRGBO(128, 134, 149, 1),
                                             ),
                                           ),
@@ -221,8 +221,8 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> with SingleTickerProv
                             ),
                             Padding(
                               padding: EdgeInsets.only(
-                                top: 8.r,
-                                bottom: 2.r,
+                                top: 10.r,
+                                bottom: 5.r,
                               ),
                               child: Text(
                                 widget.video.title,
@@ -236,14 +236,14 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> with SingleTickerProv
                             Text(
                               '原创 · 19.7万次观看 · 10-16发布',
                               style: TextStyle(
-                                fontSize: 12.sp,
+                                fontSize: 24.sp,
                                 color: Color.fromRGBO(128, 134, 149, 1),
                               ),
                             ),
                             Padding(
                               padding: EdgeInsets.only(
-                                top: 16.r,
-                                bottom: 16.r,
+                                top: 24.r,
+                                bottom: 24.r,
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -285,24 +285,24 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> with SingleTickerProv
                         (content, index) {
                           return Container(
                             padding: EdgeInsets.only(
-                              left: 14.r,
-                              right: 14.r,
-                              top: 14.r,
+                              left: 24.r,
+                              right: 24.r,
+                              top: 24.r,
                             ),
-                            height: 90.h,
+                            height: 160.h,
                             child: Flex(
                               direction: Axis.horizontal,
                               children: [
                                 Container(
                                   padding: EdgeInsets.only(
-                                    right: 12.w,
+                                    right: 24.w,
                                   ),
                                   child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(6.r),
+                                    borderRadius: BorderRadius.circular(8.r),
                                     child: Image.network(
                                       'http://api.btstu.cn/sjbz/api.php?lx=dongman&format=images',
-                                      width: 150.w,
-                                      height: 90.h,
+                                      width: 295.w,
+                                      height: 160.h,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -320,12 +320,12 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> with SingleTickerProv
                                       ),
                                       Padding(
                                         padding: EdgeInsets.only(
-                                          top: 4.h,
+                                          top: 10.h,
                                         ),
                                         child: Text(
                                           '暴走漫画 · 19.7万次观看',
                                           style: TextStyle(
-                                            fontSize: 12.sp,
+                                            fontSize: 24.sp,
                                             color: Color.fromRGBO(128, 134, 149, 1),
                                           ),
                                         ),

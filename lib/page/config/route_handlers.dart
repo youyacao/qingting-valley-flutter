@@ -1,7 +1,11 @@
+import 'package:trtc_demo/page/chat/chat.dart';
 import 'package:trtc_demo/page/film/details.dart';
+import 'package:trtc_demo/page/friends/add_friends.dart';
+import 'package:trtc_demo/page/friends/search_friends.dart';
 import 'package:trtc_demo/page/index.dart';
 import 'package:trtc_demo/page/live/create.dart';
 import 'package:trtc_demo/page/live/index.dart';
+import 'package:trtc_demo/page/login/index.dart';
 import 'package:trtc_demo/page/trtcmeetingdemo/setting.dart';
 import '../helpers/color_helpers.dart';
 import '../demo/demo_simple_component.dart';
@@ -9,13 +13,11 @@ import 'package:flutter/painting.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
-var rootHandler = Handler(
-    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+var rootHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return IndexPage();
 });
 
-var demoRouteHandler = Handler(
-    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+var demoRouteHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   String message = params["message"]?.first;
   String colorHex = params["color_hex"]?.first;
   String result = params["result"]?.first;
@@ -64,34 +66,48 @@ var demoFunctionHandler = Handler(
 /// To test on Android:
 ///
 /// `adb shell am start -W -a android.intent.action.VIEW -d "fluro://deeplink?path=/message&mesage=fluro%20rocks%21%21" com.theyakka.fluro`
-var deepLinkHandler = Handler(
-    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+var deepLinkHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   String colorHex = params["color_hex"]?.first;
   String result = params["result"]?.first;
   Color color = Color(0xFFFFFFFF);
   if (colorHex != null && colorHex.length > 0) {
     color = Color(ColorHelpers.fromHexString(colorHex));
   }
-  return DemoSimpleComponent(
-      message: "DEEEEEP LINK!!!", color: color, result: result);
+  return DemoSimpleComponent(message: "DEEEEEP LINK!!!", color: color, result: result);
 });
 
-var douyinHandler = Handler(
-    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+var douyinHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return SettingPage();
 });
 
-var liveHandler = Handler(
-    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-      return LivePage();
-    });
+var liveHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return LivePage();
+});
 
-var createLiveHandler = Handler(
-    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-      return CreateLivePage();
-    });
+var createLiveHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return CreateLivePage();
+});
 
-var filmDetailsHandler = Handler(
-    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-      return FilmDetailsPage(video: context.settings.arguments,);
-    });
+var filmDetailsHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return FilmDetailsPage(
+    video: context.settings.arguments,
+  );
+});
+
+var loginHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return LoginPage();
+});
+
+var chatHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return ChatPage();
+});
+
+var searchFriendsHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return SearchFriendsPage();
+});
+
+var addFriendsHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return AddFriendsPage(
+    user: context.settings.arguments,
+  );
+});

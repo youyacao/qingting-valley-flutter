@@ -2,6 +2,8 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:trtc_demo/provider/jmessage_manager_provider.dart';
 
 import 'SplashScreen.dart';
 import 'page/config/application.dart';
@@ -17,17 +19,25 @@ class APP extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: Size(390, 844),
+      designSize: Size(750, 1334),
       // allowFontScaling: false,
-      builder: () => MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter_ScreenUtil',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+      builder: () => MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (_) => JMessageManagerProvider()..init(),
+            lazy: false,
+          ),
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter_ScreenUtil',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: SplashScreen(),
+          onGenerateRoute: Application.router.generator,
+          builder: EasyLoading.init(),
         ),
-        home: SplashScreen(),
-        onGenerateRoute: Application.router.generator,
-        builder: EasyLoading.init(),
       ),
     );
   }

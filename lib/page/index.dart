@@ -22,6 +22,12 @@ class _IndexPageState extends State<IndexPage> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: IndexedStack(
@@ -31,7 +37,7 @@ class _IndexPageState extends State<IndexPage> {
         children: _indexedStackChildren(),
       ),
       bottomNavigationBar: Container(
-        height: 50.h,
+        height: 80.h,
         decoration: BoxDecoration(color: Colors.white),
         child: Flex(
           direction: Axis.horizontal,
@@ -46,11 +52,11 @@ class _IndexPageState extends State<IndexPage> {
                     },
                     child: Center(
                       child: Container(
-                        height: 28.h,
-                        width: 38.w,
+                        height: 45.h,
+                        width: 80.w,
                         decoration: BoxDecoration(
                           color: _selectdColor,
-                          borderRadius: BorderRadius.circular(2.5),
+                          borderRadius: BorderRadius.circular(6),
                         ),
                         child: Icon(
                           Icons.add,
@@ -78,7 +84,7 @@ class _IndexPageState extends State<IndexPage> {
             label,
             style: TextStyle(
               color: _selectedIndex == index ? _selectdColor : _unselectdColor,
-              fontSize: ScreenUtil().setSp(14),
+              fontSize: ScreenUtil().setSp(28),
             ),
           ),
         ),
@@ -89,7 +95,8 @@ class _IndexPageState extends State<IndexPage> {
   void _onItemTapped(int index) {
     if (index == 3) {
       tikTokKey.currentState.start();
-    } else {
+    }
+    if (_selectedIndex == 3) {
       tikTokKey.currentState.pause();
     }
     setState(() {

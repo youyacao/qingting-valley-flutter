@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jmessage_flutter/jmessage_flutter.dart';
+import 'package:trtc_demo/page/config/application.dart';
+import 'package:trtc_demo/provider/jmessage_manager_provider.dart';
 
 class LivePage extends StatefulWidget {
   @override
@@ -30,7 +33,10 @@ class _LivePageState extends State<LivePage> with SingleTickerProviderStateMixin
           children: [
             Container(
               padding: EdgeInsets.only(
-                top: MediaQuery.of(context).padding.top,
+                top: MediaQuery
+                    .of(context)
+                    .padding
+                    .top,
               ),
               decoration: BoxDecoration(
                 color: _colorRed,
@@ -49,14 +55,15 @@ class _LivePageState extends State<LivePage> with SingleTickerProviderStateMixin
                         color: Color.fromRGBO(255, 255, 255, 0.3),
                       ),
                       tabs: tabs
-                          .map((e) => Tab(
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                  ),
-                                  child: Text(e),
-                                ),
-                              ))
+                          .map((e) =>
+                          Tab(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 20,
+                              ),
+                              child: Text(e),
+                            ),
+                          ))
                           .toList(),
                     ),
                   ),
@@ -65,9 +72,11 @@ class _LivePageState extends State<LivePage> with SingleTickerProviderStateMixin
                     right: 16.w,
                     bottom: 0,
                     child: Center(
-                      child: Icon(
-                        Icons.search,
-                        color: Colors.white,
+                      child: IconButton(
+                        icon: Icon(Icons.search_outlined, color: Colors.white,),
+                        onPressed: () {
+                          Application.router.navigateTo(context, "/search_friends");
+                        },
                       ),
                     ),
                   ),
@@ -95,13 +104,13 @@ class _LivePageState extends State<LivePage> with SingleTickerProviderStateMixin
     return EasyRefresh.custom(
       slivers: <Widget>[
         SliverPadding(
-          padding: EdgeInsets.all(14.r),
+          padding: EdgeInsets.all(24.r),
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate(
-              (content, index) {
+                  (content, index) {
                 return Padding(
                   padding: EdgeInsets.only(
-                    bottom: 14.r,
+                    bottom: 24.r,
                   ),
                   child: Container(
                     decoration: BoxDecoration(
@@ -110,29 +119,29 @@ class _LivePageState extends State<LivePage> with SingleTickerProviderStateMixin
                       boxShadow: [
                         BoxShadow(
                           color: Color.fromRGBO(0, 0, 0, 0.02),
-                          blurRadius: 4.r,
+                          blurRadius: 8.r,
                           spreadRadius: 0,
-                          offset: Offset(0, 2.r),
+                          offset: Offset(0, 4.r),
                         ),
                       ],
                     ),
-                    height: 90.h,
+                    height: 155.h,
                     child: Flex(
                       direction: Axis.horizontal,
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(5),
+                          borderRadius: BorderRadius.circular(8.r),
                           child: Image.network(
                             'http://api.btstu.cn/sjbz/api.php?lx=dongman&format=images',
-                            width: 90.r,
-                            height: 90.r,
+                            width: 155.h,
+                            height: 155.h,
                             fit: BoxFit.cover,
                           ),
                         ),
                         Expanded(
                           child: Padding(
                             padding: EdgeInsets.symmetric(
-                              horizontal: 14.r,
+                              horizontal: 24.r,
                             ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -140,14 +149,14 @@ class _LivePageState extends State<LivePage> with SingleTickerProviderStateMixin
                               children: [
                                 Padding(
                                   padding: EdgeInsets.only(
-                                    bottom: 4.r,
+                                    bottom: 15.r,
                                   ),
                                   child: Text(
                                     '韩国XJJ',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                      fontSize: 16.sp,
+                                      fontSize: 32.sp,
                                     ),
                                   ),
                                 ),
@@ -161,13 +170,16 @@ class _LivePageState extends State<LivePage> with SingleTickerProviderStateMixin
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(right: 7.r),
+                          padding: EdgeInsets.only(right: 15.r),
                           child: ElevatedButton(
                             style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all(_colorRed),
                               foregroundColor: MaterialStateProperty.all(Colors.white),
                             ),
                             child: Text('进入'),
+                            onPressed: () {
+                              _getMyInfo();
+                            },
                           ),
                         ),
                       ],
@@ -185,24 +197,33 @@ class _LivePageState extends State<LivePage> with SingleTickerProviderStateMixin
     );
   }
 
+  _getMyInfo() async {
+    JMUserInfo user = await JMessage.getMyInfo();
+    if (user != null) {
+      Application.router.navigateTo(context, "/chat");
+    } else {
+      Application.router.navigateTo(context, "/login");
+    }
+  }
+
   zhiBo() {
     return EasyRefresh.custom(
       slivers: <Widget>[
         SliverPadding(
-          padding: EdgeInsets.all(14.r),
+          padding: EdgeInsets.all(24.r),
           sliver: SliverGrid(
             gridDelegate:
-                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 14.r, mainAxisSpacing: 14.r),
+            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 24.r, mainAxisSpacing: 24.r),
             delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
+                  (BuildContext context, int index) {
                 return Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(5.r),
+                    borderRadius: BorderRadius.circular(8.r),
                     boxShadow: [
                       BoxShadow(
                         color: Color.fromRGBO(0, 0, 0, 0.02),
-                        blurRadius: 4.r,
+                        blurRadius: 8.r,
                         spreadRadius: 0,
                         offset: Offset(0, 2.r),
                       ),
@@ -211,7 +232,7 @@ class _LivePageState extends State<LivePage> with SingleTickerProviderStateMixin
                   child: Stack(
                     children: [
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
+                        // borderRadius: BorderRadius.circular(8.r),
                         child: Image.network(
                           'http://api.btstu.cn/sjbz/api.php?lx=dongman&format=images',
                           width: double.infinity,
@@ -220,18 +241,18 @@ class _LivePageState extends State<LivePage> with SingleTickerProviderStateMixin
                         ),
                       ),
                       Positioned(
-                        top: 7.r,
-                        right: 7.r,
+                        top: 10.r,
+                        right: 10.r,
                         child: Container(
-                          height: 24.h,
-                          padding: EdgeInsets.symmetric(horizontal: 8.r),
+                          height: 40.h,
+                          padding: EdgeInsets.symmetric(horizontal: 15.r),
                           decoration: BoxDecoration(
                             color: Colors.black26,
-                            borderRadius: BorderRadius.circular(12.h),
+                            borderRadius: BorderRadius.circular(20.h),
                           ),
                           child: Row(
                             children: [
-                              Icon(Icons.local_fire_department, color: Colors.white, size: 18.sp,),
+                              Icon(Icons.local_fire_department, color: Colors.white, size: 32.sp,),
                               Text('1230', style: TextStyle(
                                 color: Colors.white,
                               ),),
@@ -244,16 +265,16 @@ class _LivePageState extends State<LivePage> with SingleTickerProviderStateMixin
                         bottom: 0,
                         right: 0,
                         child: Container(
-                          padding: EdgeInsets.all(7.r),
+                          padding: EdgeInsets.all(10.r),
                           decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.bottomCenter,
-                                end: Alignment.topCenter,
-                                colors: [
-                                  Colors.black45,
-                                  Colors.transparent,
-                                ],
-                              ),
+                            gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                              colors: [
+                                Colors.black45,
+                                Colors.transparent,
+                              ],
+                            ),
                           ),
                           child: Text('小姐姐在直播间等你喔', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(
                             color: Colors.white,

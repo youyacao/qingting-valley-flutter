@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-
 import 'page/config/application.dart';
 
 class SplashBody extends StatefulWidget {
@@ -15,8 +14,8 @@ class _SplashBodyState extends State<SplashBody> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
     startTime();
+    super.initState();
   }
 
   startTime() {
