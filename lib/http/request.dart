@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'package:common_utils/common_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../app.dart';
 
 class Request {
   // 配置 Dio 实例
@@ -23,18 +26,25 @@ class Request {
         }
       });
     }
-    LogUtil.init(isDebug: true, tag: 'test');
+    LogUtil.init(isDebug: true);
+    var TOKEN = await _getToken();
+    /// token
+    Map<String, dynamic> headers = {
+      'Authorization': TOKEN
+    };
     LogUtil.v(data, tag: '发送的数据为：');
+    LogUtil.v(headers, tag: 'TOKEN：');
     try {
-      Response response = await _dio.request(path, data: data, options: Options(method: method));
+      Response response = await _dio.request(path, data: data, options: Options(method: method, headers: headers));
       if (response.statusCode == 200 || response.statusCode == 201) {
         try {
           if (response.data['code'] != 200) {
-            LogUtil.v(response.data['status'], tag: '服务器错误，状态码为：');
-            EasyLoading.showInfo('服务器错误，状态码为：${response.data['status']}');
+            LogUtil.v(response.data, tag: '响应的数据为：');
+            if (response.data['code'] == 500) {
+              navigatorKey.currentState.pushNamed('/login');
+            }
             return Future.error(response.data['msg']);
           } else {
-            // LogUtil.v(response.data, tag: '响应的数据为：');
             if (response.data is Map) {
               return response.data;
             } else {
@@ -59,6 +69,12 @@ class Request {
       LogUtil.v(e, tag: '未知异常');
       return Future.error('未知异常');
     }
+  }
+
+  static Future<String>_getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var TOKEN = prefs.getString('TOKEN');
+    return TOKEN;
   }
 
   // 处理 Dio 异常

@@ -9,6 +9,8 @@ import 'SplashScreen.dart';
 import 'page/config/application.dart';
 import 'page/config/routes.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+
 class APP extends StatelessWidget {
   APP() {
     final router = FluroRouter();
@@ -37,6 +39,7 @@ class APP extends StatelessWidget {
           home: SplashScreen(),
           onGenerateRoute: Application.router.generator,
           builder: EasyLoading.init(),
+          navigatorKey: navigatorKey,
         ),
       ),
     );

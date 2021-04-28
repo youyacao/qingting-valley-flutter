@@ -54,3 +54,5 @@ flutter:
   assets:
    - images/icon.png
    - assets/images/
+
+version: 1.1.0

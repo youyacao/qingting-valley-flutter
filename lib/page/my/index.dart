@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:jmessage_flutter/jmessage_flutter.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:trtc_demo/http/api.dart';
+import 'package:trtc_demo/models/user_info.dart';
 import 'package:trtc_demo/page/config/application.dart';
 import 'package:trtc_demo/provider/jmessage_manager_provider.dart';
 
@@ -10,21 +11,17 @@ class MyPage extends StatefulWidget {
 }
 
 class _MyPageState extends State<MyPage> {
-  PageController _pageController = PageController();
-  List _list = [];
-  String _result = '';
+  UserInfoModel _userInfo;
 
   @override
   void initState() {
     // TODO: implement initState
-    _list = [1, 2, 3, 4, 5];
-    _pageController.addListener(() {
-      if (_pageController.page.round() == _list.length - 2) {
-        _list.addAll([6, 7, 8, 9, 10]);
-        setState(() {});
-      }
-    });
     super.initState();
+  }
+
+  _getUserInfo() async {
+    var json = await Api.UserInfo();
+    print('===============================$json');
   }
 
   @override
@@ -35,42 +32,31 @@ class _MyPageState extends State<MyPage> {
       ),
       body: Column(
         children: [
-          Text(_result),
-          ElevatedButton(
-            child: Text('_result'),
-            onPressed: () {
-              _login();
-            },
-          ),
           ElevatedButton(
             child: Text('chat'),
             onPressed: () {
               Application.router.navigateTo(context, "/chat");
             },
           ),
+          ElevatedButton(
+            child: Text('logou im'),
+            onPressed: _logout,
+          ),
+          ElevatedButton(
+            child: Text('getUserInfo'),
+            onPressed: _getUserInfo,
+          ),
         ],
       ),
     );
   }
 
-  _login() async {
-    await JMessage.login(username: 'yinman', password: '123456a2').then((onValue) {
-      if (onValue is JMUserInfo) {
-        JMUserInfo u = onValue;
-        _result = "【登录后】${u.toJson()}";
-      } else {
-        _result = "【登录后】null";
-      }
-      setState(() {});
-    }, onError: (error) {
-      setState(() {
-        if (error is PlatformException) {
-          PlatformException ex = error;
-          _result = "【登录后】code = ${ex.code},message = ${ex.message}";
-        } else {
-          _result = "【登录后】code = ${error.toString()}";
-        }
-      });
-    });
+  _logout() {
+    JMessage.logout();
+    Fluttertoast.showToast(
+      msg: '退出成功',
+      gravity: ToastGravity.CENTER,
+    );
+    Application.router.navigateTo(context, "/login");
   }
 }

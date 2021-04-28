@@ -1,9 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jmessage_flutter/jmessage_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:trtc_demo/http/api.dart';
+import 'package:trtc_demo/models/login.dart';
 import 'package:trtc_demo/page/config/application.dart';
 import 'package:trtc_demo/provider/jmessage_manager_provider.dart';
 
@@ -18,12 +22,13 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _unameController = TextEditingController();
   TextEditingController _pwdController = TextEditingController();
   String _result;
+  String TOKEN;
 
   @override
   void initState() {
     // TODO: implement initState
-    _unameController.text = 'yinman';
-    _pwdController.text = '123456a';
+    _unameController.text = '15882478525';
+    _pwdController.text = '123456';
     super.initState();
   }
 
@@ -132,6 +137,22 @@ class _LoginPageState extends State<LoginPage> {
         gravity: ToastGravity.CENTER,
       );
     }
+    EasyLoading.show(status: '正在登陆...', maskType: EasyLoadingMaskType.black);
+    await Api.Login({'username': _unameController.text, 'password': _pwdController.text}).then((value) {
+      var res = LoginModel.fromJson(value);
+      TOKEN = res.data.token;
+      _imLogin();
+    }, onError: (error) {
+      EasyLoading.dismiss();
+      return Fluttertoast.showToast(
+        msg: error,
+        gravity: ToastGravity.CENTER,
+      );
+    });
+    setState(() {});
+  }
+
+  _imLogin() async {
     await JMessage.login(username: _unameController.text, password: _pwdController.text).then((onValue) {
       if (onValue is JMUserInfo) {
         JMUserInfo u = onValue;
@@ -139,11 +160,7 @@ class _LoginPageState extends State<LoginPage> {
       } else {
         _result = "【登录后】null";
       }
-      Fluttertoast.showToast(
-        msg: '登录成功',
-        gravity: ToastGravity.CENTER,
-      );
-      Application.router.pop(context);
+      _setToken();
       setState(() {});
     }, onError: (error) {
       setState(() {
@@ -153,11 +170,32 @@ class _LoginPageState extends State<LoginPage> {
         } else {
           _result = "【登录后】code = ${error.toString()}";
         }
-        Fluttertoast.showToast(
-          msg: '账号或密码不正确',
-          gravity: ToastGravity.CENTER,
-        );
+        _imRegister();
+        // Fluttertoast.showToast(
+        //   msg: '账号或密码不正确',
+        //   gravity: ToastGravity.CENTER,
+        // );
       });
     });
+  }
+
+  _setToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('TOKEN', TOKEN);
+    EasyLoading.dismiss();
+    Fluttertoast.showToast(
+      msg: '登录成功',
+      gravity: ToastGravity.CENTER,
+    );
+    Application.router.pop(context);
+  }
+
+  _imRegister() async {
+    await JMessage.userRegister(
+        username: _unameController.text,
+        nickname: _unameController.text,
+        password: _pwdController.text
+    );
+    _imLogin();
   }
 }
