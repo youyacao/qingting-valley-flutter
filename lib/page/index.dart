@@ -18,7 +18,7 @@ class _IndexPageState extends State<IndexPage> {
   List _bottomBarItems = ['首页', '直播', '', '抖音', '我的'];
 
   List<StatefulWidget> _indexedStackChildren() {
-    return [FilmPage(), LivePage(), TRTCIndexPage(), DouYinPage(key: tikTokKey), MyPage()];
+    return [FilmPage(), LivePage(), TRTCIndexPage(), DouYinPage(), MyPage()];
   }
 
   @override

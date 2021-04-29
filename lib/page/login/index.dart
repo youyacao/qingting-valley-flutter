@@ -17,6 +17,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final FocusNode focusNode = FocusNode();
   Color _colorRed = Color.fromRGBO(236, 97, 94, 1);
   bool _checkValue = true;
   TextEditingController _unameController = TextEditingController();
@@ -41,84 +42,89 @@ class _LoginPageState extends State<LoginPage> {
         centerTitle: true,
         backgroundColor: _colorRed,
       ),
-      body: Padding(
-        padding: EdgeInsets.all(55.r),
-        child: Column(
-          children: [
-            Container(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 24.r),
-                    child: TextField(
-                      autofocus: true,
-                      controller: _unameController,
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.person),
-                        hintText: '手机号/邮箱',
-                      ),
-                    ),
-                  ),
-                  TextField(
-                    controller: _pwdController,
-                    obscureText: true,
-                    keyboardType: TextInputType.visiblePassword,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.lock_open_outlined),
-                      hintText: '请输入登录密码',
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 96.h),
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: 65.h,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _login();
-                        },
-                        style: ButtonStyle(),
-                        child: Text('登录'),
-                      ),
-                    ),
-                  ),
-                  Row(
-                    // alignment: Alignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Transform.scale(
-                        scale: 0.9,
-                        child: Checkbox(
-                          value: _checkValue,
-                          onChanged: (value) {
-                            setState(() {
-                              _checkValue = value;
-                            });
-                          },
+      body: GestureDetector(
+        onTap: () {
+          focusNode.unfocus();
+        },
+        child: Padding(
+          padding: EdgeInsets.all(55.r),
+          child: Column(
+            children: [
+              Container(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 24.r),
+                      child: TextField(
+                        autofocus: true,
+                        controller: _unameController,
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.person),
+                          hintText: '手机号/邮箱',
                         ),
                       ),
-                      Text.rich(
-                        TextSpan(text: '登录即代表同意并阅读', style: TextStyle(fontSize: 24.sp, color: Color(0xFF999999),), recognizer: TapGestureRecognizer()..onTap = () {
-                          setState(() {
-                            _checkValue = !_checkValue;
-                          });
-                        }, children: [
-                          TextSpan(
-                            text: '《服务协议》',
-                            style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                print('onTap');
-                              },
-                          ),
-                        ]),
+                    ),
+                    TextField(
+                      controller: _pwdController,
+                      obscureText: true,
+                      keyboardType: TextInputType.visiblePassword,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.lock_open_outlined),
+                        hintText: '请输入登录密码',
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 96.h),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 65.h,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            _login();
+                          },
+                          style: ButtonStyle(),
+                          child: Text('登录'),
+                        ),
+                      ),
+                    ),
+                    Row(
+                      // alignment: Alignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Transform.scale(
+                          scale: 0.9,
+                          child: Checkbox(
+                            value: _checkValue,
+                            onChanged: (value) {
+                              setState(() {
+                                _checkValue = value;
+                              });
+                            },
+                          ),
+                        ),
+                        Text.rich(
+                          TextSpan(text: '登录即代表同意并阅读', style: TextStyle(fontSize: 24.sp, color: Color(0xFF999999),), recognizer: TapGestureRecognizer()..onTap = () {
+                            setState(() {
+                              _checkValue = !_checkValue;
+                            });
+                          }, children: [
+                            TextSpan(
+                              text: '《服务协议》',
+                              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  print('onTap');
+                                },
+                            ),
+                          ]),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

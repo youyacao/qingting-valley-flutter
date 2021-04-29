@@ -36,7 +36,15 @@ class APP extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: SplashScreen(),
+          home: GestureDetector(
+            onTap: () {
+              FocusScopeNode currentFocus = FocusScope.of(context);
+              if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+                FocusManager.instance.primaryFocus.unfocus();
+              }
+            },
+            child: SplashScreen(),
+          ),
           onGenerateRoute: Application.router.generator,
           builder: EasyLoading.init(),
           navigatorKey: navigatorKey,

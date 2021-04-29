@@ -33,7 +33,7 @@ class Request {
       'Authorization': TOKEN
     };
     LogUtil.v(data, tag: '发送的数据为：');
-    LogUtil.v(headers, tag: 'TOKEN：');
+    // LogUtil.v(headers, tag: 'TOKEN：');
     try {
       Response response = await _dio.request(path, data: data, options: Options(method: method, headers: headers));
       if (response.statusCode == 200 || response.statusCode == 201) {
