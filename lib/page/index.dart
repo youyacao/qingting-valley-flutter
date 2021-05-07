@@ -18,7 +18,7 @@ class _IndexPageState extends State<IndexPage> {
   List _bottomBarItems = ['首页', '直播', '', '抖音', '我的'];
 
   List<StatefulWidget> _indexedStackChildren() {
-    return [FilmPage(), LivePage(), TRTCIndexPage(), DouYinPage(), MyPage()];
+    return [FilmPage(), LivePage(), TRTCIndexPage(), DouYinPage(key: tikTokKey,), MyPage()];
   }
 
   @override
@@ -38,7 +38,7 @@ class _IndexPageState extends State<IndexPage> {
       ),
       bottomNavigationBar: Container(
         height: 80.h,
-        decoration: BoxDecoration(color: Colors.white),
+        decoration: BoxDecoration(color: Colors.white, border: Border(top: BorderSide(width: 2.r, style: BorderStyle.solid, color: Colors.grey[100]))),
         child: Flex(
           direction: Axis.horizontal,
           children: [
