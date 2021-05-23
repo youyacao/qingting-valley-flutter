@@ -47,7 +47,7 @@ class _DouYinPageState extends State<DouYinPage> with WidgetsBindingObserver {
           loadAsset();
         }
       });
-    loadAsset();
+    // loadAsset();
     super.initState();
   }
 

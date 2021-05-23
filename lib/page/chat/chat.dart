@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:trtc_demo/provider/jmessage_manager_provider.dart';
 
 /// 聊天界面示例
 class ChatPage extends StatefulWidget {
@@ -34,6 +35,14 @@ class ChatPageState extends State<ChatPage> {
       setState(() {});
     });
     _scrollController = ScrollController();
+    addListener();
+  }
+
+  void addListener() async {
+    JMessage.addReceiveMessageListener((event) {
+      print('=======================================================');
+      print(event.toJson());
+    });
   }
 
   @override

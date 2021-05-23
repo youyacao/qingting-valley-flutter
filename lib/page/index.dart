@@ -5,6 +5,7 @@ import 'package:trtc_demo/page/film/index.dart';
 import 'package:trtc_demo/page/live/index.dart';
 import 'package:trtc_demo/page/my/index.dart';
 import 'package:trtc_demo/page/trtcmeetingdemo/index.dart';
+import 'package:trtc_demo/provider/jmessage_manager_provider.dart';
 
 class IndexPage extends StatefulWidget {
   @override
@@ -25,6 +26,9 @@ class _IndexPageState extends State<IndexPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    JMessage.addContactNotifyListener((event) {
+      print(event);
+    });
   }
 
   @override
