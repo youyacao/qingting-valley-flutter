@@ -24,7 +24,8 @@ class ChatPageState extends State<ChatPage> {
   // 滚动控制器
   ScrollController _scrollController;
 
-  final JMSingle kMockUser = JMSingle.fromJson({'username': 'yinman1', 'appKey': 'e6c4b0e7040066f0d8f8c212'});
+  // final JMSingle kMockUser = JMSingle.fromJson({'username': '15882478525', 'appKey': 'e6c4b0e7040066f0d8f8c212'});
+  final JMSingle kMockUser = JMSingle.fromJson({'username': '15882478524', 'appKey': 'e6c4b0e7040066f0d8f8c212'});
 
   @override
   void initState() {

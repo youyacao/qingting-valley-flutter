@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trtc_demo/http/api.dart';
 import 'package:trtc_demo/models/user_info.dart';
 import 'package:trtc_demo/page/config/application.dart';
@@ -501,18 +502,21 @@ class _MyPageState extends State<MyPage> {
                   height: 18.r,
                   color: Colors.grey[100],
                 ),
-                _menuItemBuild('官方福利群', Icons.account_circle_outlined, '参加活动送VIP'),
-                _menuItemBuild('兑换激活码', Icons.keyboard_outlined),
-                _menuItemBuild('任务中心', Icons.list_alt_outlined, '升级提升特权'),
-                _menuItemBuild('我的评论', Icons.speaker_notes_outlined),
-                _menuItemBuild('我的点赞', Icons.thumb_up_alt_outlined),
-                _menuItemBuild('我的下载', Icons.download_outlined),
-                _menuItemBuild('播放记录', Icons.schedule_outlined),
+                _menuItemBuild('官方福利群', Icons.account_circle_outlined, () {}, '参加活动送VIP'),
+                _menuItemBuild('兑换激活码', Icons.keyboard_outlined, () {},),
+                _menuItemBuild('任务中心', Icons.list_alt_outlined, () {}, '升级提升特权'),
+                _menuItemBuild('我的评论', Icons.speaker_notes_outlined, () {},),
+                _menuItemBuild('我的点赞', Icons.thumb_up_alt_outlined, () {},),
+                _menuItemBuild('我的下载', Icons.download_outlined, () {},),
+                _menuItemBuild('播放记录', Icons.schedule_outlined, () {},),
                 Container(
                   height: 18.r,
                   color: Colors.grey[100],
                 ),
-                _menuItemBuild('设置', Icons.settings_outlined),
+                _menuItemBuild('设置', Icons.settings_outlined, () {
+                  print('------');
+                  _logout();
+                },),
                 // Column(
                 //   children: [
                 //     ElevatedButton(
@@ -539,67 +543,76 @@ class _MyPageState extends State<MyPage> {
     );
   }
 
-  _menuItemBuild(String label, IconData iconData, [String tip = '']) {
-    return Container(
-      height: 100.r,
-      padding: EdgeInsets.symmetric(horizontal: 30.r),
-      child: Flex(
-        direction: Axis.horizontal,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(right: 20.r),
-            child: Icon(
-              iconData,
-              size: 48.sp,
-            ),
-          ),
-          Expanded(
-            child: Container(
-              height: 100.r,
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(width: 2.r, style: BorderStyle.solid, color: Colors.grey[100]),
-                ),
+  _menuItemBuild(String label, IconData iconData, onTap, [String tip = '']) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 100.r,
+        padding: EdgeInsets.symmetric(horizontal: 30.r),
+        child: Flex(
+          direction: Axis.horizontal,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(right: 20.r),
+              child: Icon(
+                iconData,
+                size: 48.sp,
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    label,
-                    style: TextStyle(
-                      fontSize: 28.sp,
-                    ),
+            ),
+            Expanded(
+              child: Container(
+                height: 100.r,
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(width: 2.r, style: BorderStyle.solid, color: Colors.grey[100]),
                   ),
-                  Row(
-                    children: [
-                      if (tip != '')
-                        Padding(
-                          padding: EdgeInsets.only(right: 5.r),
-                          child: Text(
-                            tip,
-                            style: TextStyle(
-                              color: Color.fromRGBO(245, 140, 168, 1),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      label,
+                      style: TextStyle(
+                        fontSize: 28.sp,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        if (tip != '')
+                          Padding(
+                            padding: EdgeInsets.only(right: 5.r),
+                            child: Text(
+                              tip,
+                              style: TextStyle(
+                                color: Color.fromRGBO(245, 140, 168, 1),
+                              ),
                             ),
                           ),
+                        Image.network(
+                          'https://qingtingyunshejiaoxcx.youyacao.com/right_arrow.png',
+                          width: 28.r,
+                          height: 28.r,
                         ),
-                      Image.network(
-                        'https://qingtingyunshejiaoxcx.youyacao.com/right_arrow.png',
-                        width: 28.r,
-                        height: 28.r,
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   _logout() {
     JMessage.logout();
+    _removeToken();
+  }
+
+  _removeToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('TOKEN');
     Fluttertoast.showToast(
       msg: '退出成功',
       gravity: ToastGravity.CENTER,
