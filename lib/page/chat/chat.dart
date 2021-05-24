@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:jmessage_flutter/jmessage_flutter.dart';
 import 'package:trtc_demo/provider/jmessage_manager_provider.dart';
 
 /// 聊天界面示例
@@ -15,7 +16,7 @@ class ChatPage extends StatefulWidget {
 
 class ChatPageState extends State<ChatPage> {
   // 信息列表
-  List<MessageEntity> _msgList;
+  List<JMTextMessage> _msgList = [];
 
   // 输入框
   TextEditingController _textEditingController;
@@ -23,13 +24,11 @@ class ChatPageState extends State<ChatPage> {
   // 滚动控制器
   ScrollController _scrollController;
 
+  final JMSingle kMockUser = JMSingle.fromJson({'username': 'yinman1', 'appKey': 'e6c4b0e7040066f0d8f8c212'});
+
   @override
   void initState() {
     super.initState();
-    _msgList = [
-      MessageEntity(true, "It's good!"),
-      MessageEntity(false, 'EasyRefresh'),
-    ];
     _textEditingController = TextEditingController();
     _textEditingController.addListener(() {
       setState(() {});
@@ -39,9 +38,12 @@ class ChatPageState extends State<ChatPage> {
   }
 
   void addListener() async {
-    JMessage.addReceiveMessageListener((event) {
-      print('=======================================================');
-      print(event.toJson());
+    JMessage.addReceiveMessageListener((msg) {
+      print('=======================================================接收消息');
+      print(msg.toJson());
+      setState(() {
+        _msgList.insert(0, msg);
+      });
     });
   }
 
@@ -53,10 +55,17 @@ class ChatPageState extends State<ChatPage> {
   }
 
   // 发送消息
-  void _sendMsg(String msg) {
+  void _sendMsg(String msg) async {
+    JMTextMessage message = await JMessage.sendTextMessage(
+      type: kMockUser,
+      text: msg,
+    );
+    print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+    print(message.toJson());
     setState(() {
-      _msgList.insert(0, MessageEntity(true, msg));
+      _msgList.insert(0, message);
     });
+
     _scrollController.animateTo(0.0, duration: Duration(milliseconds: 300), curve: Curves.linear);
   }
 
@@ -88,7 +97,7 @@ class ChatPageState extends State<ChatPage> {
                 // 判断列表内容是否大于展示区域
                 bool overflow = false;
                 double heightTmp = 0.0;
-                for (MessageEntity entity in _msgList) {
+                for (JMTextMessage entity in _msgList) {
                   heightTmp += _calculateMsgHeight(context, constraints, entity);
                   if (heightTmp > constraints.maxHeight) {
                     overflow = true;
@@ -101,8 +110,8 @@ class ChatPageState extends State<ChatPage> {
                       enableInfiniteLoad: false,
                       extent: 40.0,
                       triggerDistance: 50.0,
-                      footerBuilder: (context, loadState, pulledExtent, loadTriggerPullDistance, loadIndicatorExtent, axisDirection, float, completeDuration,
-                          enableInfiniteLoad, success, noMore) {
+                      footerBuilder: (context, loadState, pulledExtent, loadTriggerPullDistance, loadIndicatorExtent,
+                          axisDirection, float, completeDuration, enableInfiniteLoad, success, noMore) {
                         return Stack(
                           children: <Widget>[
                             Positioned(
@@ -138,7 +147,7 @@ class ChatPageState extends State<ChatPage> {
                           width: double.infinity,
                           child: Column(
                             children: <Widget>[
-                              for (MessageEntity entity in _msgList.reversed) _buildMsg(entity),
+                              for (JMTextMessage entity in _msgList.reversed) _buildMsg(entity),
                             ],
                           ),
                         ),
@@ -148,10 +157,10 @@ class ChatPageState extends State<ChatPage> {
                     await Future.delayed(Duration(seconds: 2), () {
                       if (mounted) {
                         setState(() {
-                          _msgList.addAll([
-                            MessageEntity(true, "It's good!"),
-                            MessageEntity(false, 'EasyRefresh'),
-                          ]);
+                          // _msgList.addAll([
+                          //   MessageEntity(true, "It's good!"),
+                          //   MessageEntity(false, 'EasyRefresh'),
+                          // ]);
                         });
                       }
                     });
@@ -237,8 +246,8 @@ class ChatPageState extends State<ChatPage> {
   }
 
   // 构建消息视图
-  Widget _buildMsg(MessageEntity entity) {
-    if (entity.own) {
+  Widget _buildMsg(entity) {
+    if (entity.isSend) {
       return Container(
         margin: EdgeInsets.all(
           10.0,
@@ -272,7 +281,7 @@ class ChatPageState extends State<ChatPage> {
                     maxWidth: 200.0,
                   ),
                   child: Text(
-                    entity.msg,
+                    entity.text,
                     overflow: TextOverflow.clip,
                     style: TextStyle(
                       fontSize: 16.0,
@@ -348,7 +357,7 @@ class ChatPageState extends State<ChatPage> {
                     maxWidth: 200.0,
                   ),
                   child: Text(
-                    entity.msg,
+                    entity.text,
                     overflow: TextOverflow.clip,
                     style: TextStyle(
                       fontSize: 16.0,
@@ -364,7 +373,7 @@ class ChatPageState extends State<ChatPage> {
   }
 
   // 计算内容的高度
-  double _calculateMsgHeight(BuildContext context, BoxConstraints constraints, MessageEntity entity) {
+  double _calculateMsgHeight(BuildContext context, BoxConstraints constraints, entity) {
     return 45.0 +
         _calculateTextHeight(
           context,
@@ -379,7 +388,7 @@ class ChatPageState extends State<ChatPage> {
           constraints.copyWith(
             maxWidth: 200.0,
           ),
-          text: entity.msg,
+          text: entity.text,
           textStyle: TextStyle(
             fontSize: 16.0,
           ),
@@ -401,12 +410,4 @@ class ChatPageState extends State<ChatPage> {
     renderObject.layout(constraints);
     return renderObject.computeMinIntrinsicHeight(constraints.maxWidth);
   }
-}
-
-/// 信息实体
-class MessageEntity {
-  bool own;
-  String msg;
-
-  MessageEntity(this.own, this.msg);
 }
