@@ -16,4 +16,8 @@ class Api {
   static UserInfo() {
     return Request.post("/user");
   }
+
+  static CarmiExchange() {
+    return Request.post("/cipher/receive");
+  }
 }

@@ -6,6 +6,7 @@ import 'package:trtc_demo/page/index.dart';
 import 'package:trtc_demo/page/live/create.dart';
 import 'package:trtc_demo/page/live/index.dart';
 import 'package:trtc_demo/page/login/index.dart';
+import 'package:trtc_demo/page/my/carmi/exchange.dart';
 import 'package:trtc_demo/page/trtcmeetingdemo/setting.dart';
 import '../helpers/color_helpers.dart';
 import '../demo/demo_simple_component.dart';
@@ -110,4 +111,8 @@ var addFriendsHandler = Handler(handlerFunc: (BuildContext context, Map<String, 
   return AddFriendsPage(
     user: context.settings.arguments,
   );
+});
+
+var carmiExchangeHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return CarmiExchange();
 });

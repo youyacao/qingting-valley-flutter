@@ -503,7 +503,9 @@ class _MyPageState extends State<MyPage> {
                   color: Colors.grey[100],
                 ),
                 _menuItemBuild('官方福利群', Icons.account_circle_outlined, () {}, '参加活动送VIP'),
-                _menuItemBuild('兑换激活码', Icons.keyboard_outlined, () {},),
+                _menuItemBuild('兑换激活码', Icons.keyboard_outlined, () {
+                  Application.router.navigateTo(context, "/carmi_exchange");
+                },),
                 _menuItemBuild('任务中心', Icons.list_alt_outlined, () {}, '升级提升特权'),
                 _menuItemBuild('我的评论', Icons.speaker_notes_outlined, () {},),
                 _menuItemBuild('我的点赞', Icons.thumb_up_alt_outlined, () {},),

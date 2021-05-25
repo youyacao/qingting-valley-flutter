@@ -28,5 +28,6 @@ class Routes {
     router.define('/chat', handler: chatHandler);
     router.define('/search_friends', handler: searchFriendsHandler);
     router.define('/add_friends', handler: addFriendsHandler);
+    router.define('/carmi_exchange', handler: carmiExchangeHandler);
   }
 }
