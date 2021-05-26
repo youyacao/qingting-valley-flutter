@@ -7,6 +7,8 @@ import 'package:trtc_demo/page/live/create.dart';
 import 'package:trtc_demo/page/live/index.dart';
 import 'package:trtc_demo/page/login/index.dart';
 import 'package:trtc_demo/page/my/carmi/exchange.dart';
+import 'package:trtc_demo/page/my/fans/list.dart';
+import 'package:trtc_demo/page/my/follow/list.dart';
 import 'package:trtc_demo/page/trtcmeetingdemo/setting.dart';
 import '../helpers/color_helpers.dart';
 import '../demo/demo_simple_component.dart';
@@ -115,4 +117,12 @@ var addFriendsHandler = Handler(handlerFunc: (BuildContext context, Map<String, 
 
 var carmiExchangeHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return CarmiExchange();
+});
+
+var fansListHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return FansListPage();
+});
+
+var followListHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return FollowListPage();
 });

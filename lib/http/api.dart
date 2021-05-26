@@ -17,7 +17,19 @@ class Api {
     return Request.post("/user");
   }
 
-  static CarmiExchange() {
-    return Request.post("/cipher/receive");
+  static CarmiExchange(data) {
+    return Request.post("/cipher/receive", data: data);
+  }
+
+  static FansList(data) {
+    return Request.post("/follow/fans", data: data);
+  }
+
+  static FollowList(data) {
+    return Request.post("/follow/me", data: data);
+  }
+
+  static FollowUser(data) {
+    return Request.post("/follow/on", data: data);
   }
 }

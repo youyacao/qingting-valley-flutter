@@ -29,5 +29,7 @@ class Routes {
     router.define('/search_friends', handler: searchFriendsHandler);
     router.define('/add_friends', handler: addFriendsHandler);
     router.define('/carmi_exchange', handler: carmiExchangeHandler);
+    router.define('/fans_list', handler: fansListHandler);
+    router.define('/follow_list', handler: followListHandler);
   }
 }

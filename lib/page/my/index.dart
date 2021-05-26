@@ -20,6 +20,7 @@ class _MyPageState extends State<MyPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _getUserInfo();
   }
 
   _getUserInfo() async {
@@ -106,42 +107,52 @@ class _MyPageState extends State<MyPage> {
                           children: [
                             Expanded(
                               flex: 1,
-                              child: Column(
-                                children: [
-                                  Text(
-                                    '0',
-                                    style: TextStyle(
-                                      fontSize: 42.sp,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Application.router.navigateTo(context, "/fans_list");
+                                },
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      '${_userInfo?.followNum ?? '0'}',
+                                      style: TextStyle(
+                                        fontSize: 42.sp,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    '粉丝',
-                                    style: TextStyle(
-                                      fontSize: 28.sp,
-                                      color: Color.fromRGBO(153, 153, 153, 1),
+                                    Text(
+                                      '粉丝',
+                                      style: TextStyle(
+                                        fontSize: 28.sp,
+                                        color: Color.fromRGBO(153, 153, 153, 1),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                             Expanded(
                               flex: 1,
-                              child: Column(
-                                children: [
-                                  Text(
-                                    '0',
-                                    style: TextStyle(
-                                      fontSize: 42.sp,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Application.router.navigateTo(context, "/follow_list");
+                                },
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      '${_userInfo?.myFollowNum ?? '0'}',
+                                      style: TextStyle(
+                                        fontSize: 42.sp,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    '关注',
-                                    style: TextStyle(
-                                      fontSize: 28.sp,
-                                      color: Color.fromRGBO(153, 153, 153, 1),
+                                    Text(
+                                      '关注',
+                                      style: TextStyle(
+                                        fontSize: 28.sp,
+                                        color: Color.fromRGBO(153, 153, 153, 1),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                             Expanded(
@@ -510,7 +521,9 @@ class _MyPageState extends State<MyPage> {
                 _menuItemBuild('我的评论', Icons.speaker_notes_outlined, () {},),
                 _menuItemBuild('我的点赞', Icons.thumb_up_alt_outlined, () {},),
                 _menuItemBuild('我的下载', Icons.download_outlined, () {},),
-                _menuItemBuild('播放记录', Icons.schedule_outlined, () {},),
+                _menuItemBuild('播放记录', Icons.schedule_outlined, () async {
+                  print(await _getToken());
+                },),
                 Container(
                   height: 18.r,
                   color: Colors.grey[100],
@@ -543,6 +556,12 @@ class _MyPageState extends State<MyPage> {
         ],
       ),
     );
+  }
+
+  _getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var TOKEN = prefs.getString('TOKEN');
+    return TOKEN;
   }
 
   _menuItemBuild(String label, IconData iconData, onTap, [String tip = '']) {

@@ -2,6 +2,7 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:trtc_demo/http/api.dart';
 import 'package:trtc_demo/models/video_list.dart';
 import 'package:trtc_demo/page/config/application.dart';
 import 'package:video_player/video_player.dart';
@@ -55,6 +56,14 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> with SingleTickerProv
       // autoInitialize: true,
     );
     setState(() {});
+  }
+
+  _followUser() async {
+    Api.FollowUser({
+      'follow_id': widget.video.userId
+    }).then((value) {
+      print(value.toString());
+    });
   }
 
   @override
@@ -206,7 +215,7 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> with SingleTickerProv
                                   ),
                                 ),
                                 OutlinedButton(
-                                  onPressed: () {},
+                                  onPressed: _followUser,
                                   style: ButtonStyle(
                                     side: MaterialStateProperty.all(BorderSide(
                                       color: _colorRed,

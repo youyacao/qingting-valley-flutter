@@ -47,7 +47,7 @@ class _DouYinPageState extends State<DouYinPage> with WidgetsBindingObserver {
           loadAsset();
         }
       });
-    // loadAsset();
+    loadAsset();
     super.initState();
   }
 
@@ -115,7 +115,7 @@ class _DouYinPageState extends State<DouYinPage> with WidgetsBindingObserver {
     double a = MediaQuery.of(context).size.aspectRatio;
     bool hasBottomPadding = a < 0.55;
 
-    if (_videoListController.videoCount <= 0 || size == null) {
+    if (_videoListController.videoCount <= 0) {
       return emptyWidgetbuildCupertinoActivityIndicator();
     } else {
       return PageView.builder(

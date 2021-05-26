@@ -18,8 +18,21 @@ class _IndexPageState extends State<IndexPage> {
   Color _unselectdColor = Colors.black;
   List _bottomBarItems = ['首页', '直播', '', '抖音', '我的'];
 
-  List<StatefulWidget> _indexedStackChildren() {
-    return [FilmPage(), LivePage(), TRTCIndexPage(), DouYinPage(key: tikTokKey,), MyPage()];
+  final LivePage _livePage = LivePage();
+  final TRTCIndexPage _trtcIndexPage = TRTCIndexPage();
+  final DouYinPage _douYinPage = DouYinPage(key: tikTokKey);
+  final MyPage _myPage = MyPage();
+
+  bool _tab1Show = false;
+  bool _tab2Show = false;
+  bool _tab4Show = false;
+
+  Widget get tabItem1 => _tab1Show ? _livePage : _sizedBox();
+  Widget get tabItem2 => _tab2Show ? _trtcIndexPage : _sizedBox();
+  Widget get tabItem4 => _tab4Show ? _myPage : _sizedBox();
+
+  List<Widget> _indexedStackChildren() {
+    return [FilmPage(), tabItem1, tabItem2, _douYinPage, tabItem4];
   }
 
   @override
@@ -29,6 +42,10 @@ class _IndexPageState extends State<IndexPage> {
     JMessage.addContactNotifyListener((event) {
       print(event);
     });
+  }
+
+  Widget _sizedBox() {
+    return SizedBox();
   }
 
   @override
@@ -106,5 +123,16 @@ class _IndexPageState extends State<IndexPage> {
     setState(() {
       _selectedIndex = index;
     });
+    switch (index) {
+      case 1:
+        _tab1Show = true;
+        break;
+      case 2:
+        _tab2Show = true;
+        break;
+      case 4:
+        _tab4Show = true;
+        break;
+    }
   }
 }
