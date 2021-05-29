@@ -87,7 +87,7 @@ class UserInfoElement {
   final String truename;
   final String qq;
   final int sex;
-  final DateTime birthday;
+  final String birthday;
   final String amount;
   final int integral;
   final int gold;
@@ -95,7 +95,7 @@ class UserInfoElement {
   final int grade;
   final String alipayAccountName;
   final String alipayAccount;
-  final int vipEndTime;
+  final dynamic vipEndTime;
   final String position;
   final String desc;
   final int pid;
@@ -110,7 +110,7 @@ class UserInfoElement {
   final String updatedAt;
   final String createdAt;
   final String avatarOrigin;
-  final List<String> roles;
+  final List<dynamic> roles;
   final int isVip;
   final String followNum;
   final String myFollowNum;
@@ -130,7 +130,7 @@ class UserInfoElement {
     truename: json["truename"] == null ? null : json["truename"],
     qq: json["qq"] == null ? null : json["qq"],
     sex: json["sex"] == null ? null : json["sex"],
-    birthday: json["birthday"] == null ? null : DateTime.parse(json["birthday"]),
+    birthday: json["birthday"] == null ? null : json["birthday"],
     amount: json["amount"] == null ? null : json["amount"],
     integral: json["integral"] == null ? null : json["integral"],
     gold: json["gold"] == null ? null : json["gold"],
@@ -153,7 +153,7 @@ class UserInfoElement {
     updatedAt: json["updated_at"] == null ? null : json["updated_at"],
     createdAt: json["created_at"] == null ? null : json["created_at"],
     avatarOrigin: json["avatar_origin"] == null ? null : json["avatar_origin"],
-    roles: json["roles"] == null ? null : List<String>.from(json["roles"].map((x) => x)),
+    roles: json["roles"] == null ? null : List<dynamic>.from(json["roles"].map((x) => x)),
     isVip: json["is_vip"] == null ? null : json["is_vip"],
     followNum: json["follow_num"] == null ? null : json["follow_num"],
     myFollowNum: json["my_follow_num"] == null ? null : json["my_follow_num"],
@@ -174,7 +174,7 @@ class UserInfoElement {
     "truename": truename == null ? null : truename,
     "qq": qq == null ? null : qq,
     "sex": sex == null ? null : sex,
-    "birthday": birthday == null ? null : "${birthday.year.toString().padLeft(4, '0')}-${birthday.month.toString().padLeft(2, '0')}-${birthday.day.toString().padLeft(2, '0')}",
+    "birthday": birthday == null ? null : birthday,
     "amount": amount == null ? null : amount,
     "integral": integral == null ? null : integral,
     "gold": gold == null ? null : gold,

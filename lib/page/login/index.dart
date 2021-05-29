@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     // TODO: implement initState
-    _unameController.text = '15882478525';
+    _unameController.text = '15882478524';
     _pwdController.text = '123456';
     super.initState();
   }
@@ -147,7 +147,8 @@ class _LoginPageState extends State<LoginPage> {
     await Api.Login({'username': _unameController.text, 'password': _pwdController.text}).then((value) {
       var res = LoginModel.fromJson(value);
       TOKEN = res.data.token;
-      _imLogin();
+      _setToken();
+      // _imLogin();
     }, onError: (error) {
       EasyLoading.dismiss();
       return Fluttertoast.showToast(

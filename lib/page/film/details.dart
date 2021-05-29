@@ -32,6 +32,12 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> with SingleTickerProv
     _tabController = TabController(length: 2, vsync: this);
   }
 
+  _addDownloadRecord() async {
+    await Api.AddDownloadRecord(widget.video.id).then((json) {
+      print(json.toString());
+    });
+  }
+
   Future<void> initializePlayer() async {
     _videoPlayerController = VideoPlayerController.network(widget.video.videoUrl);
     await Future.wait([
@@ -275,11 +281,14 @@ class _FilmDetailsPageState extends State<FilmDetailsPage> with SingleTickerProv
                                       Text('883'),
                                     ],
                                   ),
-                                  Column(
-                                    children: [
-                                      Icon(Icons.save_alt_outlined),
-                                      Text('缓存'),
-                                    ],
+                                  GestureDetector(
+                                    onTap: _addDownloadRecord,
+                                    child: Column(
+                                      children: [
+                                        Icon(Icons.save_alt_outlined),
+                                        Text('缓存'),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),

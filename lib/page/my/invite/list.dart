@@ -3,16 +3,16 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trtc_demo/http/api.dart';
-import 'package:trtc_demo/models/follow_list.dart';
+import 'package:trtc_demo/models/invite_list.dart';
 
-class FollowListPage extends StatefulWidget {
+class InviteListPage extends StatefulWidget {
   @override
-  _FollowListPageState createState() => _FollowListPageState();
+  _InviteListPageState createState() => _InviteListPageState();
 }
 
-class _FollowListPageState extends State<FollowListPage> {
+class _InviteListPageState extends State<InviteListPage> {
   int _page = 1;
-  List<FollowListElement> _list = [];
+  List<InviteListElement> _list = [];
   bool _lastPage = false;
   bool _init = false;
 
@@ -20,16 +20,16 @@ class _FollowListPageState extends State<FollowListPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _followList();
+    _inviteList();
   }
 
-  _followList() async {
+  _inviteList() async {
     if (_lastPage) return;
     EasyLoading.show(status: '正在加载...');
-    var json = await Api.FollowList({'page': _page, 'limit': 10});
+    var json = await Api.InviteList({'page': _page, 'limit': 10});
     EasyLoading.dismiss();
     _init = true;
-    var result = FollowListModel.fromJson(json);
+    var result = InviteListModel.fromJson(json);
     if (result.data.list.length > 0) {
       if (_page == 1) {
         _list = [];
@@ -46,7 +46,7 @@ class _FollowListPageState extends State<FollowListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('我的关注'),
+        title: Text('我的推广'),
         centerTitle: true,
       ),
       body: EasyRefresh.custom(
@@ -95,11 +95,23 @@ class _FollowListPageState extends State<FollowListPage> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 20.r),
-                        child: Text(
-                          _list[index].nickname != '' ? _list[index].nickname : _list[index].username,
-                          style: TextStyle(
-                            fontSize: 28.sp,
-                          ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _list[index].nickname != '' ? _list[index].nickname : _list[index].username,
+                              style: TextStyle(
+                                fontSize: 28.sp,
+                              ),
+                            ),
+                            Padding(padding: EdgeInsets.only(top: 5.r), child: Text(
+                              'ID: ${_list[index].id}',
+                              style: TextStyle(
+                                fontSize: 24.sp,
+                                color: Color.fromRGBO(153, 153, 153, 1),
+                              ),
+                            ),),
+                          ],
                         ),
                       ),
                     ],
@@ -111,11 +123,11 @@ class _FollowListPageState extends State<FollowListPage> {
         ],
         onRefresh: () async {
           _page = 1;
-          _followList();
+          _inviteList();
         },
         onLoad: () async {
           _page++;
-          _followList();
+          _inviteList();
         },
       ),
     );

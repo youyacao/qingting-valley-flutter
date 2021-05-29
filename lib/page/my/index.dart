@@ -8,18 +8,41 @@ import 'package:trtc_demo/page/config/application.dart';
 import 'package:trtc_demo/provider/jmessage_manager_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../app.dart';
+
 class MyPage extends StatefulWidget {
   @override
   _MyPageState createState() => _MyPageState();
 }
 
-class _MyPageState extends State<MyPage> {
+class _MyPageState extends State<MyPage> with RouteAware {
   UserInfoElement _userInfo;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _getUserInfo();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // 添加监听订阅
+    APP.routeObserver.subscribe(this, ModalRoute.of(context));
+  }
+
+  @override
+  void dispose() {
+    // 移除监听订阅
+    APP.routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  void didPopNext() {
+    super.didPopNext();
+    // 从其他页面pop回当前页面走这里
     _getUserInfo();
   }
 
@@ -160,7 +183,7 @@ class _MyPageState extends State<MyPage> {
                               child: Column(
                                 children: [
                                   Text(
-                                    '0',
+                                    '${_userInfo?.likeNum ?? '0'}',
                                     style: TextStyle(
                                       fontSize: 42.sp,
                                     ),
@@ -177,22 +200,27 @@ class _MyPageState extends State<MyPage> {
                             ),
                             Expanded(
                               flex: 1,
-                              child: Column(
-                                children: [
-                                  Text(
-                                    '0',
-                                    style: TextStyle(
-                                      fontSize: 42.sp,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Application.router.navigateTo(context, "/invite_list");
+                                },
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      '${_userInfo?.refNum ?? '0'}',
+                                      style: TextStyle(
+                                        fontSize: 42.sp,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    '推广',
-                                    style: TextStyle(
-                                      fontSize: 28.sp,
-                                      color: Color.fromRGBO(153, 153, 153, 1),
+                                    Text(
+                                      '推广',
+                                      style: TextStyle(
+                                        fontSize: 28.sp,
+                                        color: Color.fromRGBO(153, 153, 153, 1),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ],
@@ -517,18 +545,27 @@ class _MyPageState extends State<MyPage> {
                 _menuItemBuild('兑换激活码', Icons.keyboard_outlined, () {
                   Application.router.navigateTo(context, "/carmi_exchange");
                 },),
-                _menuItemBuild('任务中心', Icons.list_alt_outlined, () {}, '升级提升特权'),
+                _menuItemBuild('任务中心', Icons.list_alt_outlined, () {
+                  Application.router.navigateTo(context, "/task_center");
+                }, '升级提升特权'),
                 _menuItemBuild('我的评论', Icons.speaker_notes_outlined, () {},),
                 _menuItemBuild('我的点赞', Icons.thumb_up_alt_outlined, () {},),
-                _menuItemBuild('我的下载', Icons.download_outlined, () {},),
+                _menuItemBuild('我的下载', Icons.download_outlined, () {
+                  Application.router.navigateTo(context, "/download_record");
+                },),
                 _menuItemBuild('播放记录', Icons.schedule_outlined, () async {
                   print(await _getToken());
+                  Application.router.navigateTo(context, "/play_record");
                 },),
                 Container(
                   height: 18.r,
                   color: Colors.grey[100],
                 ),
-                _menuItemBuild('设置', Icons.settings_outlined, () {
+                // _menuItemBuild('设置', Icons.settings_outlined, () {
+                //   print('------');
+                //   _logout();
+                // },),
+                _menuItemBuild('登出', Icons.logout, () {
                   print('------');
                   _logout();
                 },),

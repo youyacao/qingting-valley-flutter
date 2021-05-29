@@ -12,6 +12,9 @@ import 'page/config/routes.dart';
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
 class APP extends StatelessWidget {
+  // 用于路由返回监听
+  static final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
   APP() {
     final router = FluroRouter();
     Routes.configureRoutes(router);
@@ -31,6 +34,7 @@ class APP extends StatelessWidget {
           ),
         ],
         child: MaterialApp(
+          navigatorObservers: [APP.routeObserver],
           debugShowCheckedModeBanner: false,
           title: 'Flutter_ScreenUtil',
           theme: ThemeData(

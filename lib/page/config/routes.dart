@@ -31,5 +31,9 @@ class Routes {
     router.define('/carmi_exchange', handler: carmiExchangeHandler);
     router.define('/fans_list', handler: fansListHandler);
     router.define('/follow_list', handler: followListHandler);
+    router.define('/invite_list', handler: inviteListHandler);
+    router.define('/task_center', handler: taskCenterHandler);
+    router.define('/download_record', handler: downloadRecordHandler);
+    router.define('/play_record', handler: playRecordHandler);
   }
 }

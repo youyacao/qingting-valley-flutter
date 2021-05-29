@@ -32,4 +32,32 @@ class Api {
   static FollowUser(data) {
     return Request.post("/follow/on", data: data);
   }
+
+  static InviteList(data) {
+    return Request.post("/refer", data: data);
+  }
+
+  static TaskList() {
+    return Request.post("/task/list");
+  }
+
+  static RecieveTask(task_id) {
+    return Request.post("/task/receive", data: { 'task_id': task_id });
+  }
+
+  static DownloadRecord(data) {
+    return Request.post("/downloadList", data: data);
+  }
+
+  static AddDownloadRecord(vid) {
+    return Request.post("/download", data: { 'vid': vid });
+  }
+
+  static PlayRecord(data) {
+    return Request.post("/video/historyList", data: data);
+  }
+
+  static LikeVideoList(data) {
+    return Request.post("/like/me", data: data);
+  }
 }
