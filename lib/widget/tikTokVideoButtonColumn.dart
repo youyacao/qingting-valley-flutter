@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:tapped/tapped.dart';
 
 class TikTokButtonColumn extends StatelessWidget {
-  final double bottomPadding;
+  final double? bottomPadding;
   final bool isFavorite;
-  final Function onFavorite;
-  final Function onComment;
-  final Function onShare;
-  final Function onAvatar;
+  final Function? onFavorite;
+  final Function? onComment;
+  final Function? onShare;
+  final Function? onAvatar;
 
   const TikTokButtonColumn({
-    Key key,
+    Key? key,
     this.bottomPadding,
     this.onFavorite,
     this.onComment,
@@ -37,18 +37,18 @@ class TikTokButtonColumn extends StatelessWidget {
             onTap: onAvatar,
           ),
           FavoriteIcon(
-            onFavorite: onFavorite,
+            onFavorite: onFavorite as Function,
             isFavorite: isFavorite,
           ),
           _IconButton(
             icon: IconToText(Icons.textsms, size: SysSize.iconBig - 4),
             text: '4213',
-            onTap: onComment,
+            onTap: onComment as Function,
           ),
           _IconButton(
             icon: IconToText(Icons.reply, size: SysSize.iconBig),
             text: '346',
-            onTap: onShare,
+            onTap: onShare as Function,
           ),
           Container(
             width: SysSize.avatar,
@@ -67,12 +67,12 @@ class TikTokButtonColumn extends StatelessWidget {
 
 class FavoriteIcon extends StatelessWidget {
   const FavoriteIcon({
-    Key key,
+    Key? key,
     @required this.onFavorite,
-    this.isFavorite,
+    this.isFavorite = false,
   }) : super(key: key);
   final bool isFavorite;
-  final Function onFavorite;
+  final Function? onFavorite;
 
   @override
   Widget build(BuildContext context) {
@@ -80,17 +80,17 @@ class FavoriteIcon extends StatelessWidget {
       icon: IconToText(
         Icons.favorite,
         size: SysSize.iconBig,
-        color: isFavorite ? ColorPlate.red : null,
+        color: isFavorite ? ColorPlate.red : Colors.transparent,
       ),
       text: '1.0w',
-      onTap: onFavorite,
+      onTap: onFavorite as Function,
     );
   }
 }
 
 class TikTokAvatar extends StatelessWidget {
   const TikTokAvatar({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -141,13 +141,13 @@ class TikTokAvatar extends StatelessWidget {
 /// 把IconData转换为文字，使其可以使用文字样式
 class IconToText extends StatelessWidget {
   final IconData icon;
-  final TextStyle style;
-  final double size;
-  final Color color;
+  final TextStyle? style;
+  final double? size;
+  final Color? color;
 
   const IconToText(
     this.icon, {
-    Key key,
+    Key? key,
     this.style,
     this.size,
     this.color,
@@ -169,12 +169,12 @@ class IconToText extends StatelessWidget {
 }
 
 class _IconButton extends StatelessWidget {
-  final Widget icon;
-  final String text;
-  final Function onTap;
+  final Widget? icon;
+  final String? text;
+  final Function? onTap;
 
   const _IconButton({
-    Key key,
+    Key? key,
     this.icon,
     this.text,
     this.onTap,

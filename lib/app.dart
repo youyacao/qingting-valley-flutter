@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:trtc_demo/provider/jmessage_manager_provider.dart';
 
 import 'SplashScreen.dart';
+import 'models/meeting.dart';
 import 'page/config/application.dart';
 import 'page/config/routes.dart';
 
@@ -32,6 +33,7 @@ class APP extends StatelessWidget {
             create: (_) => JMessageManagerProvider()..init(),
             lazy: false,
           ),
+          ChangeNotifierProvider(create: (context) => MeetingModel()),
         ],
         child: MaterialApp(
           navigatorObservers: [APP.routeObserver],
@@ -44,7 +46,7 @@ class APP extends StatelessWidget {
             onTap: () {
               FocusScopeNode currentFocus = FocusScope.of(context);
               if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
-                FocusManager.instance.primaryFocus.unfocus();
+                FocusManager.instance.primaryFocus?.unfocus();
               }
             },
             child: SplashScreen(),

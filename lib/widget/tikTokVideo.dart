@@ -12,21 +12,21 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 /// 底部padding（用于适配有沉浸式底部状态栏时）
 ///
 class TikTokVideoPage extends StatelessWidget {
-  final Widget video;
+  final Widget? video;
   final double aspectRatio;
-  final String tag;
+  final String? tag;
   final double bottomPadding;
 
-  final Widget rightButtonColumn;
-  final Widget userInfoWidget;
+  final Widget? rightButtonColumn;
+  final Widget? userInfoWidget;
 
   final bool hidePauseIcon;
 
-  final Function onAddFavorite;
-  final Function onSingleTap;
+  final Function? onAddFavorite;
+  final Function? onSingleTap;
 
   const TikTokVideoPage({
-    Key key,
+    Key? key,
     this.bottomPadding: 16,
     this.tag,
     this.rightButtonColumn,
@@ -108,11 +108,11 @@ class TikTokVideoPage extends StatelessWidget {
 
 class VideoLoadingPlaceHolder extends StatelessWidget {
   const VideoLoadingPlaceHolder({
-    Key key,
+    Key? key,
     @required this.tag,
   }) : super(key: key);
 
-  final String tag;
+  final String? tag;
 
   @override
   Widget build(BuildContext context) {
@@ -147,13 +147,13 @@ class VideoLoadingPlaceHolder extends StatelessWidget {
 }
 
 class VideoUserInfo extends StatelessWidget {
-  final String desc;
-  final String username;
+  final String? desc;
+  final String? username;
 
   // final Function onGoodGift;
   const VideoUserInfo({
-    Key key,
-    @required this.bottomPadding,
+    Key? key,
+    @required this.bottomPadding = 0.0,
     // @required this.onGoodGift,
     this.desc,
     this.username,

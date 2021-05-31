@@ -48,8 +48,7 @@ class GenerateTestUserSig {
    * 注意：该方案仅适用于调试Demo，正式上线前请将 UserSig 计算代码和密钥迁移到您的后台服务器上，以避免加密密钥泄露导致的流量盗用。
    * 文档：https://cloud.tencent.com/document/product/647/17275#Server
    */
-  static String secretKey =
-      'de33b4989e7038ba9f0792f627acb07255dbc1bb745477c1cedbb7a899eaa602';
+  static String secretKey = 'de33b4989e7038ba9f0792f627acb07255dbc1bb745477c1cedbb7a899eaa602';
 
   ///生成UserSig
   static genTestSig(String userId) {
@@ -80,25 +79,20 @@ class GenerateTestUserSig {
   }
 
   static String _hmacsha256({
-    @required String identifier,
-    @required int currTime,
-    @required int expire,
+    @required String? identifier,
+    @required int? currTime,
+    @required int? expire,
   }) {
     int sdkappid = sdkAppId;
-    String contentToBeSigned =
-        "TLS.identifier:$identifier\nTLS.sdkappid:$sdkappid\nTLS.time:$currTime\nTLS.expire:$expire\n";
+    String contentToBeSigned = "TLS.identifier:$identifier\nTLS.sdkappid:$sdkappid\nTLS.time:$currTime\nTLS.expire:$expire\n";
     Hmac hmacSha256 = new Hmac(sha256, utf8.encode(secretKey));
-    Digest hmacSha256Digest =
-        hmacSha256.convert(utf8.encode(contentToBeSigned));
+    Digest hmacSha256Digest = hmacSha256.convert(utf8.encode(contentToBeSigned));
     return base64.encode(hmacSha256Digest.bytes);
   }
 
   static String _escape({
-    @required String content,
+    @required String content = '',
   }) {
-    return content
-        .replaceAll('\+', '*')
-        .replaceAll('\/', '-')
-        .replaceAll('=', '_');
+    return content.replaceAll('\+', '*').replaceAll('\/', '-').replaceAll('=', '_');
   }
 }

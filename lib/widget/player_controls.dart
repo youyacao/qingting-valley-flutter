@@ -8,20 +8,22 @@ import 'package:video_player/video_player.dart';
 
 class PlayerControls extends StatefulWidget {
   VideoPlayerController controller;
+
   @override
   State<StatefulWidget> createState() {
     return _MaterialControlsState(controller);
   }
+
   PlayerControls(this.controller);
 }
 
 class _MaterialControlsState extends State<PlayerControls> {
-  VideoPlayerValue _latestValue;
-  double _latestVolume;
+  late VideoPlayerValue _latestValue;
+  late double _latestVolume;
   bool _hideStuff = true;
-  Timer _hideTimer;
-  Timer _initTimer;
-  Timer _showAfterExpandCollapseTimer;
+  Timer? _hideTimer;
+  Timer? _initTimer;
+  Timer? _showAfterExpandCollapseTimer;
   bool _dragging = false;
   bool _displayTapped = false;
 
@@ -53,15 +55,12 @@ class _MaterialControlsState extends State<PlayerControls> {
           absorbing: _hideStuff,
           child: Column(
             children: <Widget>[
-              _latestValue != null &&
-                  !_latestValue.isPlaying &&
-                  _latestValue.duration == null ||
-                  _latestValue.isBuffering
+              _latestValue != null && !_latestValue.isPlaying && _latestValue.duration == null || _latestValue.isBuffering
                   ? const Expanded(
-                child: const Center(
-                  child: const CircularProgressIndicator(),
-                ),
-              )
+                      child: const Center(
+                        child: const CircularProgressIndicator(),
+                      ),
+                    )
                   : _buildHitArea(),
               _buildBottomBar(context),
             ],
@@ -85,9 +84,9 @@ class _MaterialControlsState extends State<PlayerControls> {
   }
 
   AnimatedOpacity _buildBottomBar(
-      BuildContext context,
-      ) {
-    final iconColor = Theme.of(context).textTheme.button.color;
+    BuildContext context,
+  ) {
+    final iconColor = Theme.of(context).textTheme.button!.color;
 
     return AnimatedOpacity(
       opacity: _hideStuff ? 0.0 : 1.0,
@@ -98,7 +97,7 @@ class _MaterialControlsState extends State<PlayerControls> {
         child: Row(
           children: <Widget>[
             _buildPlayPause(controller),
-            _buildPosition(iconColor),
+            _buildPosition(iconColor as Color),
             _buildProgressBar(),
             _buildMuteButton(controller),
           ],
@@ -130,10 +129,7 @@ class _MaterialControlsState extends State<PlayerControls> {
           color: Colors.transparent,
           child: Center(
             child: AnimatedOpacity(
-              opacity:
-              _latestValue != null && !_latestValue.isPlaying && !_dragging
-                  ? 1.0
-                  : 0.0,
+              opacity: _latestValue != null && !_latestValue.isPlaying && !_dragging ? 1.0 : 0.0,
               duration: Duration(milliseconds: 300),
               child: GestureDetector(
                 child: Container(
@@ -155,14 +151,14 @@ class _MaterialControlsState extends State<PlayerControls> {
   }
 
   GestureDetector _buildMuteButton(
-      VideoPlayerController controller,
-      ) {
+    VideoPlayerController controller,
+  ) {
     return GestureDetector(
       onTap: () {
         _cancelAndRestartTimer();
 
         if (_latestValue.volume == 0) {
-          controller.setVolume(_latestVolume ?? 0.5);
+          controller.setVolume(_latestVolume);
         } else {
           _latestVolume = controller.value.volume;
           controller.setVolume(0.0);
@@ -180,9 +176,7 @@ class _MaterialControlsState extends State<PlayerControls> {
                 right: 8.0,
               ),
               child: Icon(
-                (_latestValue != null && _latestValue.volume > 0)
-                    ? Icons.volume_up
-                    : Icons.volume_off,
+                (_latestValue != null && _latestValue.volume > 0) ? Icons.volume_up : Icons.volume_off,
               ),
             ),
           ),
@@ -210,12 +204,8 @@ class _MaterialControlsState extends State<PlayerControls> {
   }
 
   Widget _buildPosition(Color iconColor) {
-    final position = _latestValue != null && _latestValue.position != null
-        ? _latestValue.position
-        : Duration.zero;
-    final duration = _latestValue != null && _latestValue.duration != null
-        ? _latestValue.duration
-        : Duration.zero;
+    final position = _latestValue != null && _latestValue.position != null ? _latestValue.position : Duration.zero;
+    final duration = _latestValue != null && _latestValue.duration != null ? _latestValue.duration : Duration.zero;
 
     return Padding(
       padding: EdgeInsets.only(right: 24.0),
@@ -317,6 +307,7 @@ class _MaterialControlsState extends State<PlayerControls> {
 
             _startHideTimer();
           },
+          onDragUpdate: () {},
           colors: ChewieProgressColors(
               playedColor: Theme.of(context).accentColor,
               handleColor: Theme.of(context).accentColor,

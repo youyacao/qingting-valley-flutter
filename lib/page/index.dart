@@ -59,7 +59,7 @@ class _IndexPageState extends State<IndexPage> {
       ),
       bottomNavigationBar: Container(
         height: 80.h,
-        decoration: BoxDecoration(color: Colors.white, border: Border(top: BorderSide(width: 2.r, style: BorderStyle.solid, color: Colors.grey[100]))),
+        decoration: BoxDecoration(color: Colors.white, border: Border(top: BorderSide(width: 2.r, style: BorderStyle.solid, color: Colors.grey[100] as Color))),
         child: Flex(
           direction: Axis.horizontal,
           children: [
@@ -115,10 +115,10 @@ class _IndexPageState extends State<IndexPage> {
 
   void _onItemTapped(int index) {
     if (index == 3) {
-      tikTokKey.currentState.start();
+      tikTokKey.currentState!.start();
     }
     if (_selectedIndex == 3) {
-      tikTokKey.currentState.pause();
+      tikTokKey.currentState!.pause();
     }
     setState(() {
       _selectedIndex = index;

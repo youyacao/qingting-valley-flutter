@@ -8,15 +8,15 @@ import 'package:flutter/material.dart';
 /// 双击：点赞，双击后再次单击也是增加点赞爱心
 class TikTokVideoGesture extends StatefulWidget {
   const TikTokVideoGesture({
-    Key key,
+    Key? key,
     @required this.child,
     this.onAddFavorite,
     this.onSingleTap,
   }) : super(key: key);
 
-  final Function onAddFavorite;
-  final Function onSingleTap;
-  final Widget child;
+  final Function? onAddFavorite;
+  final Function? onSingleTap;
+  final Widget? child;
 
   @override
   _TikTokVideoGestureState createState() => _TikTokVideoGestureState();
@@ -27,7 +27,7 @@ class _TikTokVideoGestureState extends State<TikTokVideoGesture> {
 
   // 内部转换坐标点
   Offset _p(Offset p) {
-    RenderBox getBox = _key.currentContext.findRenderObject();
+    RenderBox getBox = _key.currentContext?.findRenderObject() as RenderBox;
     return getBox.globalToLocal(p);
   }
 
@@ -35,7 +35,7 @@ class _TikTokVideoGestureState extends State<TikTokVideoGesture> {
 
   bool canAddFavorite = false;
   bool justAddFavorite = false;
-  Timer timer;
+  late Timer? timer;
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +83,7 @@ class _TikTokVideoGestureState extends State<TikTokVideoGesture> {
       },
       child: Stack(
         children: <Widget>[
-          widget.child,
+          widget.child as Widget,
           iconStack,
         ],
       ),
@@ -92,28 +92,27 @@ class _TikTokVideoGestureState extends State<TikTokVideoGesture> {
 }
 
 class TikTokFavoriteAnimationIcon extends StatefulWidget {
-  final Offset position;
+  final Offset? position;
   final double size;
-  final Function onAnimationComplete;
+  final Function? onAnimationComplete;
 
   const TikTokFavoriteAnimationIcon({
-    Key key,
+    Key? key,
     this.onAnimationComplete,
     this.position,
     this.size: 100,
   }) : super(key: key);
 
   @override
-  _TikTokFavoriteAnimationIconState createState() =>
-      _TikTokFavoriteAnimationIconState();
+  _TikTokFavoriteAnimationIconState createState() => _TikTokFavoriteAnimationIconState();
 }
 
-class _TikTokFavoriteAnimationIconState
-    extends State<TikTokFavoriteAnimationIcon> with TickerProviderStateMixin {
-  AnimationController _animationController;
+class _TikTokFavoriteAnimationIconState extends State<TikTokFavoriteAnimationIcon> with TickerProviderStateMixin {
+  late AnimationController _animationController;
+
   @override
   void dispose() {
-    _animationController?.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -146,7 +145,7 @@ class _TikTokFavoriteAnimationIconState
 
   double rotate = pi / 10.0 * (2 * Random().nextDouble() - 1);
 
-  double get value => _animationController?.value;
+  double get value => _animationController.value;
 
   double appearDuration = 0.1;
   double dismissDuration = 0.8;
@@ -204,8 +203,8 @@ class _TikTokFavoriteAnimationIconState
     return widget.position == null
         ? Container()
         : Positioned(
-            left: widget.position.dx - widget.size / 2,
-            top: widget.position.dy - widget.size / 2,
+            left: widget.position!.dx - widget.size / 2,
+            top: widget.position!.dy - widget.size / 2,
             child: body,
           );
   }

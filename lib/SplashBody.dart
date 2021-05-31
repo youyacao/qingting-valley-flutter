@@ -9,7 +9,7 @@ class SplashBody extends StatefulWidget {
 }
 
 class _SplashBodyState extends State<SplashBody> {
-  Timer _timer;
+  late Timer _timer;
 
   @override
   void initState() {

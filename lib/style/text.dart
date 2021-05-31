@@ -1,15 +1,14 @@
 import 'package:trtc_demo/style/style.dart';
 import 'package:flutter/material.dart';
 
-
 class AdMucisText extends StatelessWidget {
-  final String text;
-  final TextStyle style;
-  final TextStyle defaultStyle;
+  final String? text;
+  final TextStyle? style;
+  final TextStyle? defaultStyle;
   final bool enableOffset;
 
   const AdMucisText({
-    Key key,
+    Key? key,
     this.text,
     this.style,
     this.defaultStyle,
@@ -18,9 +17,9 @@ class AdMucisText extends StatelessWidget {
 
   const AdMucisText.small(
     String text, {
-    Key key,
-    TextStyle style,
-    bool enableOffset,
+    Key? key,
+    TextStyle? style,
+    bool enableOffset = false,
   }) : this(
           key: key,
           text: text,
@@ -31,9 +30,9 @@ class AdMucisText extends StatelessWidget {
 
   const AdMucisText.normal(
     String text, {
-    Key key,
-    TextStyle style,
-    bool enableOffset,
+    Key? key,
+    TextStyle? style,
+    bool enableOffset = false,
   }) : this(
           key: key,
           text: text,
@@ -44,9 +43,9 @@ class AdMucisText extends StatelessWidget {
 
   const AdMucisText.big(
     String text, {
-    Key key,
-    TextStyle style,
-    bool enableOffset,
+    Key? key,
+    TextStyle? style,
+    bool enableOffset = false,
   }) : this(
           key: key,
           text: text,
@@ -72,7 +71,7 @@ class AdMucisText extends StatelessWidget {
   }
 
   bool get isAscii {
-    for (var unit in text.codeUnits) {
+    for (var unit in text!.codeUnits) {
       if (unit > 0xff) {
         return false;
       }
@@ -86,9 +85,9 @@ class AdMucisText extends StatelessWidget {
       // TODO: 用于修正字体偏移无法对齐,注意：如判断字体为中文等，需禁用偏移
       padding: EdgeInsets.only(top: offset),
       child: DefaultTextStyle(
-        style: defaultStyle,
+        style: defaultStyle!,
         child: Text(
-          text,
+          text!,
           maxLines: 5,
           style: style,
         ),
