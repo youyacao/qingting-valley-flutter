@@ -23,24 +23,24 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
   CallingScenes _callingScenes = CallingScenes.AudioOneVOne;
   //已经通话时长
   String _hadCallingTime = "00:00";
-  late DateTime _startAnswerTime;
+  DateTime _startAnswerTime;
   bool _isCameraOff = false;
   bool _isHandsFree = true;
   bool _isMicrophoneOff = false;
   bool _isFrontCamera = true;
-  late int _bigVideoViewId;
-  Timer? _hadCalledCalcTimer;
+  int _bigVideoViewId;
+  Timer _hadCalledCalcTimer;
 
-  late int _smallVideoViewId;
+  int _smallVideoViewId;
   double _smallViewTop = 64;
   double _smallViewRight = 20;
   //为false的时候，在已接听状态的时候。小画面显示本地视频，大画面显示远端视频。
   bool isChangeBigSmallVideo = false;
-  UserModel? _remoteUserInfo;
+  UserModel _remoteUserInfo;
   //远端画面可见不可见
   bool _remoteUserAvailable = true;
 
-  late TRTCCalling _tRTCCallingService;
+  TRTCCalling _tRTCCallingService;
 
   @override
   void initState() {
@@ -103,7 +103,7 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
   }
 
   initRemoteInfo() async {
-    Map arguments = ModalRoute.of(context)!.settings.arguments! as Map;
+    Map arguments = ModalRoute.of(context).settings.arguments as Map;
     safeSetState(() {
       _remoteUserInfo = arguments['remoteUserInfo'] as UserModel;
       _currentCallType = arguments["callType"] as CallTypes;
@@ -111,7 +111,7 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
       Future.delayed(Duration(microseconds: 100), () {
         if (_currentCallType == CallTypes.Type_Call_Someone) {
           _tRTCCallingService.call(
-              _remoteUserInfo!.userId,
+              _remoteUserInfo.userId,
               _callingScenes == CallingScenes.VideoOneVOne
                   ? TRTCCalling.typeVideoCall
                   : TRTCCalling.typeAudioCall);
@@ -129,7 +129,7 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
         _currentCallStatus = CallStatus.answer;
         _hadCallingTime = "00:00";
         await _tRTCCallingService.startRemoteView(
-          _remoteUserInfo!.userId,
+          _remoteUserInfo.userId,
           TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_SMALL,
           _bigVideoViewId,
         );
@@ -140,7 +140,7 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
 
   handleOnUserVideoAvailable(params) async {
     if (_remoteUserInfo != null &&
-        params["userId"].toString() == _remoteUserInfo!.userId) {
+        params["userId"].toString() == _remoteUserInfo.userId) {
       safeSetState(() {
         _remoteUserAvailable = params["available"] as bool;
       });
@@ -207,7 +207,7 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
   @override
   dispose() {
     if (_hadCalledCalcTimer != null) {
-      _hadCalledCalcTimer!.cancel();
+      _hadCalledCalcTimer.cancel();
     }
     _tRTCCallingService.unRegisterListener(onRtcListener);
     super.dispose();
@@ -295,7 +295,7 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      _remoteUserInfo != null ? _remoteUserInfo!.name : "--",
+                      _remoteUserInfo != null ? _remoteUserInfo.name : "--",
                       style: TextStyle(
                         fontSize: 24,
                         color: Colors.white,
@@ -344,9 +344,7 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          _remoteUserInfo != null
-                              ? _remoteUserInfo!.name
-                              : "--",
+                          _remoteUserInfo != null ? _remoteUserInfo.name : "--",
                           style: TextStyle(
                             fontSize: 24,
                             color: Colors.white,
@@ -493,7 +491,7 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
         decoration: _remoteUserInfo != null
             ? BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage(_remoteUserInfo!.avatar),
+                  image: NetworkImage(_remoteUserInfo.avatar),
                   fit: BoxFit.cover,
                 ),
               )
@@ -536,7 +534,7 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
           _remoteUserInfo != null && _currentCallStatus == CallStatus.calling
               ? BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage(_remoteUserInfo!.avatar),
+                    image: NetworkImage(_remoteUserInfo.avatar),
                     fit: BoxFit.cover,
                   ),
                 )

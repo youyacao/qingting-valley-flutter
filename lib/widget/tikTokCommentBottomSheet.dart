@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class TikTokCommentBottomSheet extends StatelessWidget {
   const TikTokCommentBottomSheet({
-    Key? key,
+    Key key,
   }) : super(key: key);
 
   @override
@@ -61,7 +61,7 @@ class TikTokCommentBottomSheet extends StatelessWidget {
 
 class _CommentRow extends StatelessWidget {
   const _CommentRow({
-    Key? key,
+    Key key,
   }) : super(key: key);
 
   @override

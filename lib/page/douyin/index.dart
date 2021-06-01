@@ -16,7 +16,7 @@ import 'package:trtc_demo/other/bottomSheet.dart' as CustomBottomSheet;
 GlobalKey<_DouYinPageState> tikTokKey = GlobalKey();
 
 class DouYinPage extends StatefulWidget {
-  DouYinPage({Key? key}) : super(key: key);
+  DouYinPage({Key key}) : super(key: key);
 
   @override
   _DouYinPageState createState() => _DouYinPageState();
@@ -32,7 +32,7 @@ class _DouYinPageState extends State<DouYinPage> with WidgetsBindingObserver {
   int _page = 1;
   int _limit = 10;
 
-  Size? size;
+  Size size;
 
   double offset = 0.0;
 
@@ -47,7 +47,7 @@ class _DouYinPageState extends State<DouYinPage> with WidgetsBindingObserver {
           loadAsset();
         }
       });
-    // loadAsset();
+    loadAsset();
     super.initState();
   }
 

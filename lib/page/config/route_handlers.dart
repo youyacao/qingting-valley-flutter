@@ -13,7 +13,6 @@ import 'package:trtc_demo/page/my/invite/list.dart';
 import 'package:trtc_demo/page/my/record/download.dart';
 import 'package:trtc_demo/page/my/record/play.dart';
 import 'package:trtc_demo/page/my/task/center.dart';
-import 'package:trtc_demo/page/trtcmeetingdemo/meeting.dart';
 import 'package:trtc_demo/page/trtcmeetingdemo/setting.dart';
 import '../helpers/color_helpers.dart';
 import '../demo/demo_simple_component.dart';
@@ -148,6 +147,3 @@ var playRecordHandler = Handler(handlerFunc: (BuildContext context, Map<String, 
   return PlayRecordPage();
 });
 
-var meetingHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  return MeetingPage();
-});

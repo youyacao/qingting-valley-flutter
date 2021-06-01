@@ -17,51 +17,51 @@ class TikTokScaffoldController extends ValueNotifier<TikTokPagePositon> {
   ]) : super(value);
 
   Future animateToPage(TikTokPagePositon pagePositon) {
-    return _onAnimateToPage.call(pagePositon);
+    return _onAnimateToPage?.call(pagePositon);
   }
 
   Future animateToLeft() {
-    return _onAnimateToPage.call(TikTokPagePositon.left);
+    return _onAnimateToPage?.call(TikTokPagePositon.left);
   }
 
   Future animateToRight() {
-    return _onAnimateToPage.call(TikTokPagePositon.right);
+    return _onAnimateToPage?.call(TikTokPagePositon.right);
   }
 
   Future animateToMiddle() {
-    return _onAnimateToPage.call(TikTokPagePositon.middle);
+    return _onAnimateToPage?.call(TikTokPagePositon.middle);
   }
 
-  late Future Function(TikTokPagePositon pagePositon) _onAnimateToPage;
+  Future Function(TikTokPagePositon pagePositon) _onAnimateToPage;
 }
 
 class TikTokScaffold extends StatefulWidget {
-  late TikTokScaffoldController? controller;
+  final TikTokScaffoldController controller;
 
   /// 首页的顶部
-  final Widget? header;
+  final Widget header;
 
   /// 底部导航
-  final Widget? tabBar;
+  final Widget tabBar;
 
   /// 左滑页面
-  final Widget? leftPage;
+  final Widget leftPage;
 
   /// 右滑页面
-  final Widget? rightPage;
+  final Widget rightPage;
 
   /// 视频序号
-  final int? currentIndex;
+  final int currentIndex;
 
-  final bool? hasBottomPadding;
-  final bool? enableGesture;
+  final bool hasBottomPadding;
+  final bool enableGesture;
 
-  final Widget? page;
+  final Widget page;
 
-  late Function()? onPullDownRefresh;
+  final Function() onPullDownRefresh;
 
-  TikTokScaffold({
-    Key? key,
+  const TikTokScaffold({
+    Key key,
     this.header,
     this.tabBar,
     this.leftPage,
@@ -79,10 +79,10 @@ class TikTokScaffold extends StatefulWidget {
 }
 
 class _TikTokScaffoldState extends State<TikTokScaffold> with TickerProviderStateMixin {
-  late AnimationController animationControllerX;
-  late AnimationController animationControllerY;
-  late Animation<double> animationX;
-  late Animation<double> animationY;
+  AnimationController animationControllerX;
+  AnimationController animationControllerY;
+  Animation<double> animationX;
+  Animation<double> animationY;
   double offsetX = 0.0;
   double offsetY = 0.0;
 
@@ -91,7 +91,7 @@ class _TikTokScaffoldState extends State<TikTokScaffold> with TickerProviderStat
 
   @override
   void initState() {
-    widget.controller?._onAnimateToPage = animateToPage;
+    widget.controller._onAnimateToPage = animateToPage;
     super.initState();
   }
 
@@ -110,10 +110,10 @@ class _TikTokScaffoldState extends State<TikTokScaffold> with TickerProviderStat
         await animateTo(-screenWidth);
         break;
     }
-    widget.controller?.value = p;
+    widget.controller.value = p;
   }
 
-  late double screenWidth;
+  double screenWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +123,7 @@ class _TikTokScaffoldState extends State<TikTokScaffold> with TickerProviderStat
       children: <Widget>[
         _LeftPageTransform(
           offsetX: offsetX,
-          content: widget.leftPage as Widget,
+          content: widget.leftPage,
         ),
         _MiddlePage(
           absorbing: absorbing,
@@ -133,15 +133,15 @@ class _TikTokScaffoldState extends State<TikTokScaffold> with TickerProviderStat
           },
           offsetX: offsetX,
           offsetY: offsetY,
-          header: widget.header as Widget,
-          tabBar: widget.tabBar as Widget,
-          isStack: widget.hasBottomPadding ?? false,
-          page: widget.page as Widget,
+          header: widget.header,
+          tabBar: widget.tabBar,
+          isStack: !widget.hasBottomPadding,
+          page: widget.page,
         ),
         _RightPageTransform(
           offsetX: offsetX,
           offsetY: offsetY,
-          content: widget.rightPage as Widget,
+          content: widget.rightPage,
         ),
       ],
     );
@@ -149,7 +149,7 @@ class _TikTokScaffoldState extends State<TikTokScaffold> with TickerProviderStat
     body = GestureDetector(
       onVerticalDragUpdate: calculateOffsetY,
       onVerticalDragEnd: (_) async {
-        if (widget.enableGesture == null) return;
+        if (!widget.enableGesture) return;
         absorbing = false;
         if (offsetY != 0) {
           await animateToTop();
@@ -163,9 +163,9 @@ class _TikTokScaffoldState extends State<TikTokScaffold> with TickerProviderStat
       ),
       // 水平方向滑动开始
       onHorizontalDragStart: (_) {
-        if (widget.enableGesture == null) return;
-        animationControllerX.stop();
-        animationControllerY.stop();
+        if (!widget.enableGesture) return;
+        animationControllerX?.stop();
+        animationControllerY?.stop();
       },
       onHorizontalDragUpdate: (details) => onHorizontalDragUpdate(
         details,
@@ -175,11 +175,11 @@ class _TikTokScaffoldState extends State<TikTokScaffold> with TickerProviderStat
     );
     body = WillPopScope(
       onWillPop: () async {
-        if (widget.enableGesture == null) return true;
+        if (!widget.enableGesture) return true;
         if (inMiddle == 0) {
           return true;
         }
-        widget.controller?.animateToMiddle();
+        widget.controller.animateToMiddle();
         return false;
       },
       child: Scaffold(
@@ -193,7 +193,7 @@ class _TikTokScaffoldState extends State<TikTokScaffold> with TickerProviderStat
 
   // 水平方向滑动中
   void onHorizontalDragUpdate(details, screenWidth) {
-    if (widget.enableGesture == null) return;
+    if (!widget.enableGesture) return;
     // 控制 offsetX 的值在 -screenWidth 到 screenWidth 之间
     if (offsetX + details.delta.dx >= screenWidth) {
       setState(() {
@@ -212,7 +212,7 @@ class _TikTokScaffoldState extends State<TikTokScaffold> with TickerProviderStat
 
   // 水平方向滑动结束
   onHorizontalDragEnd(details, screenWidth) {
-    if (widget.enableGesture == null) return;
+    if (!widget.enableGesture) return;
     print('velocity:${details.velocity}');
     var vOffset = details.velocity.pixelsPerSecond.dx;
 
@@ -281,7 +281,7 @@ class _TikTokScaffoldState extends State<TikTokScaffold> with TickerProviderStat
   /// 手指上滑,[absorbing]为false，不阻止事件，事件交给底层PageView处理
   /// 处于第一页且是下拉，则拦截滑动���件
   void calculateOffsetY(DragUpdateDetails details) {
-    if (widget.enableGesture == null) return;
+    if (!widget.enableGesture) return;
     if (inMiddle != 0) {
       setState(() => absorbing = false);
       return;
@@ -310,8 +310,8 @@ class _TikTokScaffoldState extends State<TikTokScaffold> with TickerProviderStat
 
   @override
   void dispose() {
-    animationControllerX.dispose();
-    animationControllerY.dispose();
+    animationControllerX?.dispose();
+    animationControllerY?.dispose();
     super.dispose();
   }
 }
@@ -319,21 +319,21 @@ class _TikTokScaffoldState extends State<TikTokScaffold> with TickerProviderStat
 class _MiddlePage extends StatelessWidget {
   final bool absorbing;
   final bool isStack;
-  final Widget? page;
+  final Widget page;
 
   final double offsetX;
   final double offsetY;
-  final Function? onTopDrag;
+  final Function onTopDrag;
 
-  final Widget? header;
-  final Widget? tabBar;
+  final Widget header;
+  final Widget tabBar;
 
   const _MiddlePage({
-    Key? key,
-    this.absorbing = false,
+    Key key,
+    this.absorbing,
     this.onTopDrag,
-    this.offsetX = 0.0,
-    this.offsetY = 0.0,
+    this.offsetX,
+    this.offsetY,
     this.isStack: false,
     @required this.header,
     @required this.tabBar,
@@ -417,7 +417,7 @@ class _MiddlePage extends StatelessWidget {
       child: NotificationListener<OverscrollIndicatorNotification>(
         onNotification: (notification) {
           notification.disallowGlow();
-          return false;
+          return;
         },
         child: NotificationListener<UserScrollNotification>(
           onNotification: (notification) {
@@ -426,7 +426,7 @@ class _MiddlePage extends StatelessWidget {
               onTopDrag?.call();
               return false;
             }
-            return false;
+            return null;
           },
           child: middle,
         ),
@@ -441,9 +441,9 @@ class _MiddlePage extends StatelessWidget {
 /// 最小 0.88 最大为 1
 class _LeftPageTransform extends StatelessWidget {
   final double offsetX;
-  final Widget? content;
+  final Widget content;
 
-  const _LeftPageTransform({Key? key, this.offsetX = 0.0, this.content}) : super(key: key);
+  const _LeftPageTransform({Key key, this.offsetX, this.content}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -460,12 +460,12 @@ class _RightPageTransform extends StatelessWidget {
   final double offsetX;
   final double offsetY;
 
-  final Widget? content;
+  final Widget content;
 
   const _RightPageTransform({
-    Key? key,
-    this.offsetX = 0.0,
-    this.offsetY = 0.0,
+    Key key,
+    this.offsetX,
+    this.offsetY,
     this.content,
   }) : super(key: key);
 

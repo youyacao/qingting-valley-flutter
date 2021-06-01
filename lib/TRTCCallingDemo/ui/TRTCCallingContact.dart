@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:trtc_demo/debug/GenerateTestUserSig.dart';
-import 'package:trtc_demo/page/login/ProfileManager_Mock.dart';
 import '../../utils/TxUtils.dart';
+import '../../page/login/ProfileManager_Mock.dart';
 import '../model/TRTCCalling.dart';
 import 'base/CallTypes.dart';
 import 'base/CallingScenes.dart';
 
 class TRTCCallingContact extends StatefulWidget {
-  TRTCCallingContact(this.callingScenes, {Key? key}) : super(key: key);
+  TRTCCallingContact(this.callingScenes, {Key key}) : super(key: key);
   final CallingScenes callingScenes;
 
   @override
@@ -20,7 +20,7 @@ class _TRTCCallingContactState extends State<TRTCCallingContact> {
   String searchText = '';
   String myLoginInfoId = '';
   List<UserModel> userList = [];
-  late TRTCCalling sInstance;
+  TRTCCalling sInstance;
   goIndex() {
     Navigator.pushReplacementNamed(
       context,

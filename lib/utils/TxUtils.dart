@@ -90,7 +90,7 @@ class TxUtils {
 
   static Future<String> getStorageByKey(key) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String? rStr = sharedPreferences.getString(key);
+    String rStr = sharedPreferences.getString(key);
     return rStr == null ? Future.value('') : Future.value(rStr);
   }
 
@@ -104,7 +104,7 @@ class TxUtils {
   static Future<Null> uploadException(
       String title, //标题
       String detail, //内容
-      {Map? data} //data为文本附件, Android 错误分析=>跟踪数据=>extraMessage.txt
+      {Map data} //data为文本附件, Android 错误分析=>跟踪数据=>extraMessage.txt
       //iOS 错误分析=>跟踪数据=>crash_attach.log
       ) {
     return FlutterBugly.uploadException(

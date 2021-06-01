@@ -11,7 +11,7 @@ class SettingPage extends StatefulWidget {
 }
 
 class SettingPageState extends State<SettingPage> {
-  late TRTCCloud trtcCloud;
+  TRTCCloud trtcCloud;
 
   double currentCaptureValue = 100; //默认采集音量
   double currentPlayValue = 100; //默认播放音量
@@ -96,7 +96,7 @@ class SettingPageState extends State<SettingPage> {
   }
 
   initRoom() async {
-    trtcCloud = await TRTCCloud.sharedInstance() as TRTCCloud;
+    trtcCloud = await TRTCCloud.sharedInstance();
   }
 
   dealMirror(state, value) {

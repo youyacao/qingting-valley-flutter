@@ -7,7 +7,7 @@ class MeetingTool {
   // 每4个一屏，得到一个二维数组
   static getScreenList(list) {
     int len = 4; //4个一屏
-    List<List> result = [];
+    List<List> result = List();
     int index = 1;
     while (true) {
       if (index * len < list.length) {

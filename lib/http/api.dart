@@ -42,7 +42,7 @@ class Api {
   }
 
   static RecieveTask(task_id) {
-    return Request.post("/task/receive", data: { 'task_id': task_id });
+    return Request.post("/task/receive", data: {'task_id': task_id});
   }
 
   static DownloadRecord(data) {
@@ -50,7 +50,7 @@ class Api {
   }
 
   static AddDownloadRecord(vid) {
-    return Request.post("/download", data: { 'vid': vid });
+    return Request.post("/download", data: {'vid': vid});
   }
 
   static PlayRecord(data) {

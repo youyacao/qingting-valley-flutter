@@ -63,7 +63,7 @@ class ColorPlate {
   static const Color orange = const Color(0xffFFC459);
   static const Color yellow = const Color(0xffF1E300);
   static const Color green = const Color(0xff7ED321);
-  static Color get red => const Color(0xffEB3838);
+  static const Color red = const Color(0xffEB3838);
   static const Color darkGray = const Color(0xff4A4A4A);
   static const Color gray = const Color(0xff9b9b9b);
   static const Color lightGray = const Color(0xfff5f5f4);

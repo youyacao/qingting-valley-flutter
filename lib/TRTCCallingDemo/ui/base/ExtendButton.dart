@@ -8,19 +8,19 @@ class ExtendButton extends StatelessWidget {
       this.onTap,
       this.imgHieght = 0,
       this.imgColor,
-      Key? key})
+      Key key})
       : super(key: key);
   final String imgUrl;
   final double imgHieght;
-  final Color? imgColor;
+  final Color imgColor;
   final String tips;
-  final GestureTapCallback? onTap;
+  final GestureTapCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        this.onTap!();
+        this.onTap();
       },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

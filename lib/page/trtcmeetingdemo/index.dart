@@ -4,7 +4,6 @@ import 'package:tencent_trtc_cloud/trtc_cloud_def.dart';
 import 'package:toast/toast.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:trtc_demo/debug/GenerateTestUserSig.dart';
-import 'package:trtc_demo/page/config/application.dart';
 
 // 多人视频会议首页
 class TRTCIndexPage extends StatefulWidget {
@@ -101,23 +100,15 @@ class IndexPageState extends State<TRTCIndexPage> {
       return;
     }
     unFocus();
-    if (await Permission.camera.request().isGranted && await Permission.microphone.request().isGranted) {
-      // Navigator.pushNamed(context, "/video", arguments: {
-      //   "meetId": int.parse(meetId),
-      //   "userId": userId,
-      //   "enabledCamera": enabledCamera,
-      //   "enabledMicrophone": enabledMicrophone,
-      //   "quality": quality
-      // });
-      Application.router.navigateTo(context, "/meeting", routeSettings: RouteSettings(
-        arguments: {
-          "meetId": int.parse(meetId),
-          "userId": userId,
-          "enabledCamera": enabledCamera,
-          "enabledMicrophone": enabledMicrophone,
-          "quality": quality
-        },
-      ));
+    if (await Permission.camera.request().isGranted &&
+        await Permission.microphone.request().isGranted) {
+      Navigator.pushNamed(context, "/video", arguments: {
+        "meetId": int.parse(meetId),
+        "userId": userId,
+        "enabledCamera": enabledCamera,
+        "enabledMicrophone": enabledMicrophone,
+        "quality": quality
+      });
     } else {
       showToast('需要获取音视频权限才能进入');
     }
@@ -155,7 +146,8 @@ class IndexPageState extends State<TRTCIndexPage> {
                           labelText: "会议号",
                           hintText: "请输入会议号",
                           labelStyle: TextStyle(color: Colors.white),
-                          hintStyle: TextStyle(color: Color.fromRGBO(255, 255, 255, 0.5)),
+                          hintStyle: TextStyle(
+                              color: Color.fromRGBO(255, 255, 255, 0.5)),
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.white),
                           ),
@@ -170,7 +162,8 @@ class IndexPageState extends State<TRTCIndexPage> {
                           labelText: "用户ID",
                           hintText: "请输入用户ID",
                           labelStyle: TextStyle(color: Colors.white),
-                          hintStyle: TextStyle(color: Color.fromRGBO(255, 255, 255, 0.5)),
+                          hintStyle: TextStyle(
+                              color: Color.fromRGBO(255, 255, 255, 0.5)),
                           border: InputBorder.none,
                         ),
                         keyboardType: TextInputType.text,
@@ -184,43 +177,61 @@ class IndexPageState extends State<TRTCIndexPage> {
                   children: [
                     ListTile(
                       contentPadding: EdgeInsets.all(0),
-                      title: Text("开启摄像头", style: TextStyle(color: Colors.white)),
+                      title:
+                          Text("开启摄像头", style: TextStyle(color: Colors.white)),
                       trailing: Switch(
                         value: enabledCamera,
-                        onChanged: (value) => this.setState(() => enabledCamera = value),
+                        onChanged: (value) =>
+                            this.setState(() => enabledCamera = value),
                       ),
                     ),
                     ListTile(
                       contentPadding: EdgeInsets.all(0),
-                      title: Text("开启麦克风", style: TextStyle(color: Colors.white)),
+                      title:
+                          Text("开启麦克风", style: TextStyle(color: Colors.white)),
                       trailing: Switch(
                         value: enabledMicrophone,
-                        onChanged: (value) => this.setState(() => enabledMicrophone = value),
+                        onChanged: (value) =>
+                            this.setState(() => enabledMicrophone = value),
                       ),
                     ),
                     ListTile(
                       contentPadding: EdgeInsets.all(0),
-                      title: Text("音质选择", style: TextStyle(color: Colors.white)),
+                      title:
+                          Text("音质选择", style: TextStyle(color: Colors.white)),
                       subtitle: Row(
                         children: [
-                          {"text": "语音", "value": TRTCCloudDef.TRTC_AUDIO_QUALITY_SPEECH},
-                          {"text": "标准", "value": TRTCCloudDef.TRTC_AUDIO_QUALITY_DEFAULT},
-                          {"text": "音乐", "value": TRTCCloudDef.TRTC_AUDIO_QUALITY_MUSIC},
+                          {
+                            "text": "语音",
+                            "value": TRTCCloudDef.TRTC_AUDIO_QUALITY_SPEECH
+                          },
+                          {
+                            "text": "标准",
+                            "value": TRTCCloudDef.TRTC_AUDIO_QUALITY_DEFAULT
+                          },
+                          {
+                            "text": "音乐",
+                            "value": TRTCCloudDef.TRTC_AUDIO_QUALITY_MUSIC
+                          },
                         ]
                             .map(
                               (e) => Expanded(
                                 child: Row(
                                   children: [
                                     Theme(
-                                      data: ThemeData(unselectedWidgetColor: Color.fromRGBO(102, 102, 102, 1)),
+                                      data: ThemeData(
+                                          unselectedWidgetColor:
+                                              Color.fromRGBO(102, 102, 102, 1)),
                                       child: Radio(
                                         hoverColor: Colors.white,
                                         value: e["value"],
                                         groupValue: this.quality,
-                                        onChanged: (value) => this.setState(() => this.quality = value),
+                                        onChanged: (value) => this.setState(
+                                            () => this.quality = value),
                                       ),
                                     ),
-                                    Text(e["text"], style: TextStyle(color: Colors.white)),
+                                    Text(e["text"],
+                                        style: TextStyle(color: Colors.white)),
                                   ],
                                 ),
                               ),

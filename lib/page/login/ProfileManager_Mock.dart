@@ -1,4 +1,4 @@
-import '../utils/TxUtils.dart';
+import '../../utils/TxUtils.dart';
 
 class UserModel {
   String phone;
@@ -10,7 +10,7 @@ class UserModel {
 }
 
 class ProfileManager {
-  static ProfileManager? _instance;
+  static ProfileManager _instance;
 
   static getInstance() {
     if (_instance == null) {

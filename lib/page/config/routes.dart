@@ -35,6 +35,5 @@ class Routes {
     router.define('/task_center', handler: taskCenterHandler);
     router.define('/download_record', handler: downloadRecordHandler);
     router.define('/play_record', handler: playRecordHandler);
-    router.define('/meeting', handler: meetingHandler);
   }
 }

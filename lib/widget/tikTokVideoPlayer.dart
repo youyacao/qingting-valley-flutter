@@ -9,7 +9,7 @@ class VideoListController {
   /// 捕捉滑动，实现翻页
   void setPageContrller(PageController pageController) {
     pageController.addListener(() {
-      var p = pageController.page ?? 1;
+      var p = pageController.page;
       if (p % 1 == 0) {
         int target = p ~/ 1;
         if (index.value == target) return;

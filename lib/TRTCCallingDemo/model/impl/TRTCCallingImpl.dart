@@ -24,7 +24,7 @@ import 'package:tencent_im_sdk_plugin/manager/v2_tim_manager.dart';
 
 class TRTCCallingImpl extends TRTCCalling {
   String logTag = "TRTCCallingImpl";
-  static TRTCCallingImpl? sInstance;
+  static TRTCCallingImpl sInstance;
 
   int timeOutCount = 30; //超时时间，默认30s
 
@@ -37,8 +37,8 @@ class TRTCCallingImpl extends TRTCCalling {
   String mCurCallID = "";
   int mCurRoomID = 0;
   String mCurGroupId = ""; //当前群组通话的群组ID
-  String? mNickName;
-  String? mFaceUrl;
+  String mNickName;
+  String mFaceUrl;
 
   /*
    * 当前邀请列表
@@ -58,20 +58,20 @@ class TRTCCallingImpl extends TRTCCalling {
   */
   String mCurSponsorForMe = "";
   //当前通话的类型
-  int? mCurCallType;
+  int mCurCallType;
 
-  late int mSdkAppId;
-  late String mCurUserId;
-  late String mCurUserSig;
-  String? mRoomId;
-  String? mOwnerUserId;
+  int mSdkAppId;
+  String mCurUserId;
+  String mCurUserSig;
+  String mRoomId;
+  String mOwnerUserId;
   bool mIsInitIMSDK = false;
   bool mIsLogin = false;
   String mRole = "audience"; //默认为观众，archor为主播
-  late V2TIMManager timManager;
-  late TRTCCloud mTRTCCloud;
-  late TXAudioEffectManager txAudioManager;
-  late TXDeviceManager txDeviceManager;
+  V2TIMManager timManager;
+  TRTCCloud mTRTCCloud;
+  TXAudioEffectManager txAudioManager;
+  TXDeviceManager txDeviceManager;
   Set<VoiceListenerFunc> listeners = Set();
 
   TRTCCallingImpl() {
@@ -81,7 +81,7 @@ class TRTCCallingImpl extends TRTCCalling {
   }
 
   initTRTC() async {
-    mTRTCCloud = (await TRTCCloud.sharedInstance())!;
+    mTRTCCloud = (await TRTCCloud.sharedInstance());
     txDeviceManager = mTRTCCloud.getDeviceManager();
     txAudioManager = mTRTCCloud.getAudioEffectManager();
   }
@@ -186,7 +186,7 @@ class TRTCCallingImpl extends TRTCCalling {
         String curGroupCallId = _getGroupCallId(invitee);
         if (mCurCallID == inviteID || curGroupCallId == inviteID) {
           try {
-            Map<String, dynamic>? customMap = jsonDecode(data);
+            Map<String, dynamic> customMap = jsonDecode(data);
             mCurInvitedList.remove(invitee);
             if (customMap != null && customMap.containsKey('line_busy')) {
               emitEvent(TRTCCallingDelegate.onLineBusy, invitee);
@@ -207,7 +207,7 @@ class TRTCCallingImpl extends TRTCCalling {
           return;
         }
         try {
-          Map<String, dynamic>? customMap = jsonDecode(data);
+          Map<String, dynamic> customMap = jsonDecode(data);
           if (customMap == null) {
             print(logTag + "onReceiveNewInvitation extraMap is null, ignore");
             return;
@@ -312,7 +312,7 @@ class TRTCCallingImpl extends TRTCCalling {
   * 重要：用于判断是否需要结束本次通话
   * 在用户超时、拒绝、忙线、有人退出房间时需要进行判断
   */
-  _preExitRoom(String? leaveUser) {
+  _preExitRoom(String leaveUser) {
     if (mCurRoomRemoteUserSet.isEmpty && mCurInvitedList.isEmpty && mIsInRoom) {
       // 当没有其他用户在房间里了，则结束通话。
       if (!_isEmpty(leaveUser)) {
@@ -321,7 +321,7 @@ class TRTCCallingImpl extends TRTCCalling {
         if (_isEmpty(mCurGroupId)) {
           timManager
               .getSignalingManager()
-              .invite(invitee: leaveUser!, data: jsonEncode(customMap));
+              .invite(invitee: leaveUser, data: jsonEncode(customMap));
         } else {
           timManager.getSignalingManager().inviteInGroup(
               groupID: mCurGroupId,
@@ -359,7 +359,7 @@ class TRTCCallingImpl extends TRTCCalling {
     mIsInitIMSDK = true;
 
     // 登陆到 IM
-    String? loginedUserId = (await timManager.getLoginUser()).data;
+    String loginedUserId = (await timManager.getLoginUser()).data;
 
     if (loginedUserId != null && loginedUserId == userId) {
       mIsLogin = true;
@@ -465,7 +465,7 @@ class TRTCCallingImpl extends TRTCCalling {
 
   @override
   Future<ActionCallback> groupCall(
-      List<String> userIdList, int type, String? groupId) async {
+      List<String> userIdList, int type, String groupId) async {
     if (_isListEmpty(userIdList)) {
       return ActionCallback(code: codeErr, desc: 'userIdList is empty');
     }
@@ -502,7 +502,7 @@ class TRTCCallingImpl extends TRTCCalling {
       V2TimValueCallback res = await timManager
           .getSignalingManager()
           .inviteInGroup(
-              groupID: groupId!,
+              groupID: groupId,
               inviteeList: mCurInvitedList,
               data: jsonEncode(_getCustomMap()),
               timeout: timeOutCount,
@@ -512,11 +512,11 @@ class TRTCCallingImpl extends TRTCCalling {
     }
   }
 
-  _isListEmpty(List? list) {
+  _isListEmpty(List list) {
     return list == null || list.length == 0;
   }
 
-  _isEmpty(String? data) {
+  _isEmpty(String data) {
     return data == null || data == "";
   }
 

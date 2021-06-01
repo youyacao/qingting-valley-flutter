@@ -14,7 +14,7 @@ class MemberListPage extends StatefulWidget {
 }
 
 class MemberListPageState extends State<MemberListPage> {
-  late TRTCCloud trtcCloud;
+  TRTCCloud trtcCloud;
   var meetModel;
   var userInfo;
   List micList = [];
@@ -29,7 +29,7 @@ class MemberListPageState extends State<MemberListPage> {
   }
 
   initRoom() async {
-    trtcCloud = await TRTCCloud.sharedInstance() as TRTCCloud;
+    trtcCloud = await TRTCCloud.sharedInstance();
   }
 
   showToast(text) {
