@@ -5,11 +5,16 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jmessage_flutter/jmessage_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:trtc_demo/debug/GenerateTestUserSig.dart';
 import 'package:trtc_demo/http/api.dart';
 import 'package:trtc_demo/models/login.dart';
 import 'package:trtc_demo/page/config/application.dart';
 import 'package:trtc_demo/provider/jmessage_manager_provider.dart';
+import 'package:trtc_demo/TRTCChatSalonDemo/model/TRTCChatSalon.dart';
+import 'package:trtc_demo/TRTCChatSalonDemo/model/TRTCChatSalonDef.dart';
+import '../../utils/constants.dart' as constants;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -17,6 +22,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TRTCChatSalon trtcVoiceRoom;
   final FocusNode focusNode = FocusNode();
   Color _colorRed = Color.fromRGBO(236, 97, 94, 1);
   bool _checkValue = true;
@@ -24,6 +30,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _pwdController = TextEditingController();
   String _result;
   String TOKEN;
+  String userId;
 
   @override
   void initState() {
@@ -103,20 +110,30 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         Text.rich(
-                          TextSpan(text: '登录即代表同意并阅读', style: TextStyle(fontSize: 24.sp, color: Color(0xFF999999),), recognizer: TapGestureRecognizer()..onTap = () {
-                            setState(() {
-                              _checkValue = !_checkValue;
-                            });
-                          }, children: [
-                            TextSpan(
-                              text: '《服务协议》',
-                              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                          TextSpan(
+                              text: '登录即代表同意并阅读',
+                              style: TextStyle(
+                                fontSize: 24.sp,
+                                color: Color(0xFF999999),
+                              ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  print('onTap');
+                                  setState(() {
+                                    _checkValue = !_checkValue;
+                                  });
                                 },
-                            ),
-                          ]),
+                              children: [
+                                TextSpan(
+                                  text: '《服务协议》',
+                                  style: TextStyle(
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.bold),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      print('onTap');
+                                    },
+                                ),
+                              ]),
                         ),
                       ],
                     ),
@@ -144,7 +161,10 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
     EasyLoading.show(status: '正在登陆...', maskType: EasyLoadingMaskType.black);
-    await Api.Login({'username': _unameController.text, 'password': _pwdController.text}).then((value) {
+    await Api.Login({
+      'username': _unameController.text,
+      'password': _pwdController.text
+    }).then((value) {
       var res = LoginModel.fromJson(value);
       TOKEN = res.data.token;
       _setToken();
@@ -160,7 +180,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _imLogin() async {
-    await JMessage.login(username: _unameController.text, password: _pwdController.text).then((onValue) {
+    await JMessage.login(
+            username: _unameController.text, password: _pwdController.text)
+        .then((onValue) {
       if (onValue is JMUserInfo) {
         JMUserInfo u = onValue;
         _result = "【登录后】${u.toJson()}";
@@ -201,8 +223,33 @@ class _LoginPageState extends State<LoginPage> {
     await JMessage.userRegister(
         username: _unameController.text,
         nickname: _unameController.text,
-        password: _pwdController.text
-    );
+        password: _pwdController.text);
     _imLogin();
+  }
+
+  _loginIM() async {
+    if ((await Permission.camera.request().isGranted &&
+        await Permission.microphone.request().isGranted)) {
+    } else {
+      // TxUtils.showErrorToast('需要获取音视频权限才能进入', context);
+      return;
+    }
+
+    trtcVoiceRoom = await TRTCChatSalon.sharedInstance();
+    ActionCallback resValue = await trtcVoiceRoom.login(
+      GenerateTestUserSig.sdkAppId,
+      userId,
+      GenerateTestUserSig.genTestSig(userId),
+    );
+
+    await trtcVoiceRoom.setSelfProfile(
+        'ID:' + userId, constants.DEFAULT_ROOM_IMAGE);
+    if (resValue.code == 0) {
+      // TxUtils.showToast(Languages.of(context)!.successLogin, context);
+      // TxUtils.setStorageByKey(constants.USERID_KEY, userId);
+      // Navigator.pushNamed(context, "/index");
+    } else {
+      // TxUtils.showErrorToast('setSelfProfile:' + resValue.desc, context);
+    }
   }
 }
