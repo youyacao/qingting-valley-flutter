@@ -41,5 +41,6 @@ class Routes {
     router.define('/video_contact', handler: videoContactHandler);
     router.define('/audio_contact', handler: audioContactHandler);
     router.define('/calling_view', handler: callingViewtHandler);
+    router.define('/invite', handler: inviteHandler);
   }
 }

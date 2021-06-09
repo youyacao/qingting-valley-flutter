@@ -18,16 +18,14 @@ final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     runApp(APP());
   });
 }
 
 class APP extends StatefulWidget {
   // 用于路由返回监听
-  static final RouteObserver<PageRoute> routeObserver =
-      RouteObserver<PageRoute>();
+  static final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
   @override
   _APP createState() => _APP();
@@ -71,8 +69,7 @@ class _APP extends State<APP> {
           home: GestureDetector(
             onTap: () {
               FocusScopeNode currentFocus = FocusScope.of(context);
-              if (!currentFocus.hasPrimaryFocus &&
-                  currentFocus.focusedChild != null) {
+              if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
                 FocusManager.instance.primaryFocus.unfocus();
               }
             },
