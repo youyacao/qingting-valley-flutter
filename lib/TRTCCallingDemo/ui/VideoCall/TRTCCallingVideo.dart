@@ -6,6 +6,7 @@ import 'package:trtc_demo/TRTCCallingDemo/model/TRTCCalling.dart';
 import 'package:trtc_demo/TRTCCallingDemo/model/TRTCCallingDelegate.dart';
 import 'package:trtc_demo/TRTCCallingDemo/ui/base/CallTypes.dart';
 import 'package:trtc_demo/TRTCCallingDemo/ui/base/CallingScenes.dart';
+import 'package:trtc_demo/page/config/application.dart';
 import 'package:trtc_demo/page/login/ProfileManager_Mock.dart';
 import 'package:trtc_demo/utils/TxUtils.dart';
 import 'dart:async';
@@ -13,6 +14,10 @@ import '../base/ExtendButton.dart';
 import '../base/CallStatus.dart';
 
 class TRTCCallingVideo extends StatefulWidget {
+  TRTCCallingVideo({this.remoteUserInfo, this.callType, this.callingScenes});
+  final UserModel remoteUserInfo;
+  final CallTypes callType;
+  final CallingScenes callingScenes;
   @override
   _TRTCCallingVideoState createState() => _TRTCCallingVideoState();
 }
@@ -105,6 +110,9 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
   initRemoteInfo() async {
     Map arguments = ModalRoute.of(context).settings.arguments as Map;
     safeSetState(() {
+      // _remoteUserInfo = widget.remoteUserInfo;
+      // _currentCallType = widget.callType;
+      // _callingScenes = widget.callingScenes;
       _remoteUserInfo = arguments['remoteUserInfo'] as UserModel;
       _currentCallType = arguments["callType"] as CallTypes;
       _callingScenes = arguments['callingScenes'] as CallingScenes;
@@ -159,10 +167,7 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
     _tRTCCallingService.closeCamera();
     Future.delayed(Duration(seconds: 1), () {
       if (mounted) {
-        Navigator.pushReplacementNamed(
-          context,
-          "/index",
-        );
+        Application.router.pop(context);
       }
     });
   }
@@ -266,10 +271,7 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
     } else {
       await _tRTCCallingService.hangup();
     }
-    Navigator.pushReplacementNamed(
-      context,
-      "/index",
-    );
+    Application.router.pop(context);
   }
 
   //接听

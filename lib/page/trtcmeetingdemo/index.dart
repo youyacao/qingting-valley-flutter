@@ -242,22 +242,19 @@ class IndexPageState extends State<TRTCIndexPage> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 30.0),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: RaisedButton(
-                        padding: EdgeInsets.all(15.0),
-                        child: Text("进入会议"),
-                        color: Theme.of(context).primaryColor,
-                        textColor: Colors.white,
-                        onPressed: enterMeeting,
-                      ),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: RaisedButton(
+                      padding: EdgeInsets.all(15.0),
+                      child: Text("进入会议"),
+                      color: Theme.of(context).primaryColor,
+                      textColor: Colors.white,
+                      onPressed: enterMeeting,
                     ),
-                  ],
-                ),
-              )
+                  ),
+                ],
+              ),
             ],
           ),
         ),

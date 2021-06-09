@@ -4,6 +4,7 @@ import 'package:trtc_demo/TRTCCallingDemo/model/TRTCCallingDelegate.dart';
 import 'package:trtc_demo/TRTCCallingDemo/ui/base/CallTypes.dart';
 import 'package:trtc_demo/TRTCCallingDemo/ui/base/CallingScenes.dart';
 import 'package:trtc_demo/debug/GenerateTestUserSig.dart';
+import 'package:trtc_demo/page/config/application.dart';
 import 'package:trtc_demo/page/login/ProfileManager_Mock.dart';
 import 'package:trtc_demo/utils/TxUtils.dart';
 
@@ -42,15 +43,29 @@ class DemoSevice {
         await GenerateTestUserSig.genTestSig(loginId));
     _isRegisterListener = true;
     _tRTCCallingService.registerListener(onTrtcListener);
+    print('======================start');
   }
 
   onTrtcListener(type, params) async {
+    print('-------------------------------------onTrtcListener事件监听');
+    print('=======类型、参数========${type} ——————————————————————————${params}');
     switch (type) {
       case TRTCCallingDelegate.onInvited:
         {
           BuildContext context = _navigatorKey.currentState.overlay.context;
           UserModel userInfo = await _profileManager
               .querySingleUserInfo(params["sponsor"].toString());
+          // Application.router.navigateTo(context, "/calling_view",
+          //     routeSettings: RouteSettings(
+          //       arguments: {
+          //         "remoteUserInfo": userInfo,
+          //         "callType": CallTypes.Type_Call_Someone,
+          //         "callingScenes": params['type'] == TRTCCalling.typeVideoCall
+          //             ? CallingScenes.VideoOneVOne
+          //             : CallingScenes.AudioOneVOne
+          //       },
+          //     ));
+
           Navigator.pushReplacementNamed(
             context,
             "/calling/callingView",

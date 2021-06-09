@@ -226,22 +226,19 @@ class VoiceRoomCreatePageState extends State<VoiceRoomCreatePage> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 30.0),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: RaisedButton(
-                        padding: EdgeInsets.all(15.0),
-                        child: Text('开始交谈'),
-                        color: Theme.of(context).primaryColor,
-                        textColor: Colors.white,
-                        onPressed: createVoiceRoom,
-                      ),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: RaisedButton(
+                      padding: EdgeInsets.all(15.0),
+                      child: Text('开始交谈'),
+                      color: Theme.of(context).primaryColor,
+                      textColor: Colors.white,
+                      onPressed: createVoiceRoom,
                     ),
-                  ],
-                ),
-              )
+                  ),
+                ],
+              ),
             ],
           ),
         ),

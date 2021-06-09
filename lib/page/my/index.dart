@@ -2,13 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:trtc_demo/TRTCChatSalonDemo/model/TRTCChatSalon.dart';
 import 'package:trtc_demo/http/api.dart';
+import 'package:trtc_demo/main.dart';
 import 'package:trtc_demo/models/user_info.dart';
 import 'package:trtc_demo/page/config/application.dart';
-import 'package:trtc_demo/provider/jmessage_manager_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../app.dart';
+import 'package:trtc_demo/provider/TRTCProvider.dart';
+import 'package:trtc_demo/utils/TxUtils.dart';
+import 'package:trtc_demo/utils/constants.dart' as constants;
 
 class MyPage extends StatefulWidget {
   @override
@@ -17,6 +19,7 @@ class MyPage extends StatefulWidget {
 
 class _MyPageState extends State<MyPage> with RouteAware {
   UserInfoElement _userInfo;
+  TRTCChatSalon trtcVoiceRoom;
 
   @override
   void initState() {
@@ -55,7 +58,7 @@ class _MyPageState extends State<MyPage> with RouteAware {
 
   get nickname {
     if (_userInfo != null) {
-      return _userInfo.nickname != '' ? _userInfo.nickname : _userInfo.username;
+      return _userInfo.username;
     }
     return '请登录';
   }
@@ -75,14 +78,17 @@ class _MyPageState extends State<MyPage> with RouteAware {
                 Icons.textsms_outlined,
                 size: 28,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Application.router.navigateTo(context, "/trtc_index");
+              },
             ),
           ),
           Expanded(
             child: ListView(
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 18.r, horizontal: 30.r),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 18.r, horizontal: 30.r),
                   child: Column(
                     children: [
                       Row(
@@ -97,8 +103,10 @@ class _MyPageState extends State<MyPage> with RouteAware {
                               color: Color.fromRGBO(235, 236, 240, 1),
                             ),
                             child: ClipOval(
-                              child:
-                                  Image.network('${_userInfo?.avatar ?? 'http://api.btstu.cn/sjtx/api.php?lx=c1&format=images'}', width: 130.r, height: 130.r),
+                              child: Image.network(
+                                  '${_userInfo?.avatar ?? 'http://api.btstu.cn/sjtx/api.php?lx=c1&format=images'}',
+                                  width: 130.r,
+                                  height: 130.r),
                             ),
                           ),
                           Column(
@@ -124,7 +132,7 @@ class _MyPageState extends State<MyPage> with RouteAware {
                         ],
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 40.r),
+                        padding: EdgeInsets.symmetric(vertical: 20.r),
                         child: Flex(
                           direction: Axis.horizontal,
                           children: [
@@ -132,7 +140,8 @@ class _MyPageState extends State<MyPage> with RouteAware {
                               flex: 1,
                               child: GestureDetector(
                                 onTap: () {
-                                  Application.router.navigateTo(context, "/fans_list");
+                                  Application.router
+                                      .navigateTo(context, "/fans_list");
                                 },
                                 child: Column(
                                   children: [
@@ -157,7 +166,8 @@ class _MyPageState extends State<MyPage> with RouteAware {
                               flex: 1,
                               child: GestureDetector(
                                 onTap: () {
-                                  Application.router.navigateTo(context, "/follow_list");
+                                  Application.router
+                                      .navigateTo(context, "/follow_list");
                                 },
                                 child: Column(
                                   children: [
@@ -202,7 +212,8 @@ class _MyPageState extends State<MyPage> with RouteAware {
                               flex: 1,
                               child: GestureDetector(
                                 onTap: () {
-                                  Application.router.navigateTo(context, "/invite_list");
+                                  Application.router
+                                      .navigateTo(context, "/invite_list");
                                 },
                                 child: Column(
                                   children: [
@@ -242,7 +253,8 @@ class _MyPageState extends State<MyPage> with RouteAware {
                             padding: EdgeInsets.all(24.r),
                             decoration: BoxDecoration(
                               image: DecorationImage(
-                                image: NetworkImage('https://qingtingyunshejiaoxcx.youyacao.com/mine_viewing_ticket_bg.png'),
+                                image: NetworkImage(
+                                    'https://qingtingyunshejiaoxcx.youyacao.com/mine_viewing_ticket_bg.png'),
                                 fit: BoxFit.contain,
                               ),
                             ),
@@ -275,7 +287,8 @@ class _MyPageState extends State<MyPage> with RouteAware {
                             padding: EdgeInsets.all(24.r),
                             decoration: BoxDecoration(
                               image: DecorationImage(
-                                image: NetworkImage('https://qingtingyunshejiaoxcx.youyacao.com/mine_download_ticket_bg.png'),
+                                image: NetworkImage(
+                                    'https://qingtingyunshejiaoxcx.youyacao.com/mine_download_ticket_bg.png'),
                                 fit: BoxFit.contain,
                               ),
                             ),
@@ -313,7 +326,8 @@ class _MyPageState extends State<MyPage> with RouteAware {
                         padding: EdgeInsets.symmetric(horizontal: 20.r),
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: NetworkImage('https://qingtingyunshejiaoxcx.youyacao.com/mine_promotion_entrance_bg.webp'),
+                            image: NetworkImage(
+                                'https://qingtingyunshejiaoxcx.youyacao.com/mine_promotion_entrance_bg.webp'),
                             fit: BoxFit.contain,
                           ),
                         ),
@@ -370,7 +384,8 @@ class _MyPageState extends State<MyPage> with RouteAware {
                         padding: EdgeInsets.symmetric(horizontal: 20.r),
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: NetworkImage('https://qingtingyunshejiaoxcx.youyacao.com/mine_vip_entrance_bg.webp'),
+                            image: NetworkImage(
+                                'https://qingtingyunshejiaoxcx.youyacao.com/mine_vip_entrance_bg.webp'),
                             fit: BoxFit.contain,
                           ),
                         ),
@@ -426,7 +441,8 @@ class _MyPageState extends State<MyPage> with RouteAware {
                   color: Colors.grey[100],
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30.r, vertical: 20.r),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 30.r, vertical: 20.r),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -457,7 +473,8 @@ class _MyPageState extends State<MyPage> with RouteAware {
                                     ),
                                   ),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         '￥0.00',
@@ -496,7 +513,8 @@ class _MyPageState extends State<MyPage> with RouteAware {
                         padding: EdgeInsets.symmetric(horizontal: 20.r),
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: NetworkImage('https://qingtingyunshejiaoxcx.youyacao.com/mine_proxy_entrance_bg.webp'),
+                            image: NetworkImage(
+                                'https://qingtingyunshejiaoxcx.youyacao.com/mine_proxy_entrance_bg.webp'),
                             fit: BoxFit.contain,
                           ),
                         ),
@@ -541,22 +559,43 @@ class _MyPageState extends State<MyPage> with RouteAware {
                   height: 18.r,
                   color: Colors.grey[100],
                 ),
-                _menuItemBuild('官方福利群', Icons.account_circle_outlined, () {}, '参加活动送VIP'),
-                _menuItemBuild('兑换激活码', Icons.keyboard_outlined, () {
-                  Application.router.navigateTo(context, "/carmi_exchange");
-                },),
+                _menuItemBuild(
+                    '官方福利群', Icons.account_circle_outlined, () {}, '参加活动送VIP'),
+                _menuItemBuild(
+                  '兑换激活码',
+                  Icons.keyboard_outlined,
+                  () {
+                    Application.router.navigateTo(context, "/carmi_exchange");
+                  },
+                ),
                 _menuItemBuild('任务中心', Icons.list_alt_outlined, () {
                   Application.router.navigateTo(context, "/task_center");
                 }, '升级提升特权'),
-                _menuItemBuild('我的评论', Icons.speaker_notes_outlined, () {},),
-                _menuItemBuild('我的点赞', Icons.thumb_up_alt_outlined, () {},),
-                _menuItemBuild('我的下载', Icons.download_outlined, () {
-                  Application.router.navigateTo(context, "/download_record");
-                },),
-                _menuItemBuild('播放记录', Icons.schedule_outlined, () async {
-                  print(await _getToken());
-                  Application.router.navigateTo(context, "/play_record");
-                },),
+                _menuItemBuild(
+                  '我的评论',
+                  Icons.speaker_notes_outlined,
+                  () {},
+                ),
+                _menuItemBuild(
+                  '我的点赞',
+                  Icons.thumb_up_alt_outlined,
+                  () {},
+                ),
+                _menuItemBuild(
+                  '我的下载',
+                  Icons.download_outlined,
+                  () {
+                    Application.router.navigateTo(context, "/download_record");
+                  },
+                ),
+                _menuItemBuild(
+                  '播放记录',
+                  Icons.schedule_outlined,
+                  () async {
+                    print(await _getToken());
+                    Application.router.navigateTo(context, "/play_record");
+                  },
+                ),
                 Container(
                   height: 18.r,
                   color: Colors.grey[100],
@@ -565,10 +604,14 @@ class _MyPageState extends State<MyPage> with RouteAware {
                 //   print('------');
                 //   _logout();
                 // },),
-                _menuItemBuild('登出', Icons.logout, () {
-                  print('------');
-                  _logout();
-                },),
+                _menuItemBuild(
+                  '登出',
+                  Icons.logout,
+                  () {
+                    print('------');
+                    _logout();
+                  },
+                ),
                 // Column(
                 //   children: [
                 //     ElevatedButton(
@@ -622,7 +665,10 @@ class _MyPageState extends State<MyPage> with RouteAware {
                 height: 100.r,
                 decoration: BoxDecoration(
                   border: Border(
-                    bottom: BorderSide(width: 2.r, style: BorderStyle.solid, color: Colors.grey[100]),
+                    bottom: BorderSide(
+                        width: 2.r,
+                        style: BorderStyle.solid,
+                        color: Colors.grey[100]),
                   ),
                 ),
                 child: Row(
@@ -664,7 +710,9 @@ class _MyPageState extends State<MyPage> with RouteAware {
   }
 
   _logout() {
-    JMessage.logout();
+    // JMessage.logout();
+    TRTCProvider.logout();
+    TxUtils.setStorageByKey(constants.USERID_KEY, '');
     _removeToken();
   }
 

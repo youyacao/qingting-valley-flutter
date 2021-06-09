@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:trtc_demo/debug/GenerateTestUserSig.dart';
+import 'package:trtc_demo/page/config/application.dart';
 import '../../utils/TxUtils.dart';
 import '../../page/login/ProfileManager_Mock.dart';
 import '../model/TRTCCalling.dart';
@@ -22,18 +23,12 @@ class _TRTCCallingContactState extends State<TRTCCallingContact> {
   List<UserModel> userList = [];
   TRTCCalling sInstance;
   goIndex() {
-    Navigator.pushReplacementNamed(
-      context,
-      "/index",
-    );
+    Application.router.pop(context);
     return true;
   }
 
   goLoginPage() {
-    Navigator.pushReplacementNamed(
-      context,
-      "/login",
-    );
+    Application.router.navigateTo(context, "/login");
     return true;
   }
 
@@ -53,15 +48,15 @@ class _TRTCCallingContactState extends State<TRTCCallingContact> {
       TxUtils.showErrorToast('不能呼叫自己', context);
       return;
     }
-    Navigator.pushReplacementNamed(
-      context,
-      "/calling/callingView",
-      arguments: {
-        "remoteUserInfo": userInfo,
-        "callType": CallTypes.Type_Call_Someone,
-        "callingScenes": widget.callingScenes
-      },
-    );
+
+    Application.router.navigateTo(context, "/calling_view",
+        routeSettings: RouteSettings(
+          arguments: {
+            "remoteUserInfo": userInfo,
+            "callType": CallTypes.Type_Call_Someone,
+            "callingScenes": widget.callingScenes
+          },
+        ));
   }
 
   // 提示浮层
@@ -249,7 +244,7 @@ class _TRTCCallingContactState extends State<TRTCCallingContact> {
             ? Text('视频通话')
             : Text('语音通话'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios), //color: Colors.black
+          icon: Icon(Icons.arrow_back), //color: Colors.black
           onPressed: () async {
             goIndex();
           },

@@ -182,19 +182,6 @@ class VideoUserInfo extends StatelessWidget {
             desc ?? '#原创 有钱人的生活就是这么朴实无华，且枯燥 #短视频',
             style: StandardTextStyle.normal,
           ),
-          // Container(height: 6),
-          // Row(
-          //   children: <Widget>[
-          //     Icon(Icons.music_note, size: 14),
-          //     Expanded(
-          //       child: Text(
-          //         '朱二旦的枯燥生活创作的原声',
-          //         maxLines: 9,
-          //         style: StandardTextStyle.normal,
-          //       ),
-          //     )
-          //   ],
-          // ),
         ],
       ),
     );

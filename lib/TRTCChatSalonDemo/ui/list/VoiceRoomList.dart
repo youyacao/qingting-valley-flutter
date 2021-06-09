@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:trtc_demo/provider/TRTCProvider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../utils/TxUtils.dart';
 import '../../../TRTCChatSalonDemo/model/TRTCChatSalon.dart';
@@ -19,7 +20,7 @@ class VoiceRoomListPage extends StatefulWidget {
 }
 
 class VoiceRoomListPageState extends State<VoiceRoomListPage> {
-  TRTCChatSalon trtcVoiceRoom;
+  TRTCChatSalon trtcVoiceRoom = TRTCProvider.trtcVoiceRoom;
   List<RoomInfo> roomInfList = [];
   openUrl(String url) async {
     if (await canLaunch(url)) {
@@ -52,7 +53,6 @@ class VoiceRoomListPageState extends State<VoiceRoomListPage> {
   }
 
   getRoomList() async {
-    trtcVoiceRoom = await TRTCChatSalon.sharedInstance();
     var roomIdls = await YunApiHelper.getRoomList();
     print(roomIdls);
     if (roomIdls.isEmpty) {

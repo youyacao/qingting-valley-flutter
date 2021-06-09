@@ -1,13 +1,21 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:jmessage_flutter/jmessage_flutter.dart';
+import 'package:trtc_demo/TRTCCallingDemo/ui/base/CallTypes.dart';
+import 'package:trtc_demo/TRTCCallingDemo/ui/base/CallingScenes.dart';
+import 'package:trtc_demo/models/user_list.dart';
+import 'package:trtc_demo/page/config/application.dart';
+import 'package:trtc_demo/page/login/ProfileManager_Mock.dart';
 import 'package:trtc_demo/provider/jmessage_manager_provider.dart';
+import 'package:trtc_demo/provider/userProvider.dart';
 
 /// 聊天界面示例
 class ChatPage extends StatefulWidget {
+  ChatPage({ this.user });
+
+  final UserListElement user;
+
   @override
   ChatPageState createState() {
     return ChatPageState();
@@ -15,6 +23,8 @@ class ChatPage extends StatefulWidget {
 }
 
 class ChatPageState extends State<ChatPage> {
+  JMSingle kMockUser;
+  UserModel userInfo = UserModel();
   // 信息列表
   List<JMTextMessage> _msgList = [];
 
@@ -24,18 +34,19 @@ class ChatPageState extends State<ChatPage> {
   // 滚动控制器
   ScrollController _scrollController;
 
-  // final JMSingle kMockUser = JMSingle.fromJson({'username': '15882478525', 'appKey': 'e6c4b0e7040066f0d8f8c212'});
-  final JMSingle kMockUser = JMSingle.fromJson({'username': '15882478524', 'appKey': 'e6c4b0e7040066f0d8f8c212'});
-
   @override
   void initState() {
-    super.initState();
     _textEditingController = TextEditingController();
     _textEditingController.addListener(() {
       setState(() {});
     });
     _scrollController = ScrollController();
+    kMockUser = JMSingle.fromJson({'username': username});
+    userInfo.userId = username;
+    userInfo.name = username;
     addListener();
+    _getHistoryMessage();
+    super.initState();
   }
 
   void addListener() async {
@@ -45,8 +56,23 @@ class ChatPageState extends State<ChatPage> {
       setState(() {
         _msgList.insert(0, msg);
       });
+      print('--------------------------------${_msgList.toString()}');
     });
   }
+
+  _getHistoryMessage() async {
+    var historyMessage = await JMessage.getHistoryMessages(
+        type: kMockUser,
+        from: 0,
+        limit: 10
+    );
+    setState(() {
+      // _msgList.addAll(historyMessage);
+    });
+    print('`````````````````````${historyMessage.length}```````````````');
+  }
+
+  String get username => widget.user.username;
 
   @override
   void dispose() {
@@ -61,7 +87,7 @@ class ChatPageState extends State<ChatPage> {
       type: kMockUser,
       text: msg,
     );
-    print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+    print('>>>>>>>>>>>>>>>>>>>>>>>>>_sendMsg>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
     print(message.toJson());
     setState(() {
       _msgList.insert(0, message);
@@ -70,20 +96,53 @@ class ChatPageState extends State<ChatPage> {
     _scrollController.animateTo(0.0, duration: Duration(milliseconds: 300), curve: Curves.linear);
   }
 
+  _selectValueChange(String value) {
+    Application.router.navigateTo(context, "/calling_view",
+        routeSettings: RouteSettings(
+          arguments: {
+            "remoteUserInfo": userInfo,
+            "callType": CallTypes.Type_Call_Someone,
+            "callingScenes": value == 'VideoOneVOne' ? CallingScenes.VideoOneVOne : CallingScenes.AudioOneVOne
+          },
+        ));
+  }
+
+  PopupMenuButton _popMenu() {
+    return PopupMenuButton<String>(
+      itemBuilder: (context) => _getPopupMenu(context),
+      onSelected: (String value) {
+        print('onSelected');
+        _selectValueChange(value);
+      },
+      onCanceled: () {
+        print('onCanceled');
+      },
+//      child: RaisedButton(onPressed: (){},child: Text('选择'),),
+      icon: Icon(Icons.more_horiz),
+    );
+  }
+
+  _getPopupMenu(BuildContext context) {
+    return <PopupMenuEntry<String>>[
+      PopupMenuItem<String>(
+        value: 'VideoOneVOne',
+        child: Text('视频通话'),
+      ),
+      PopupMenuItem<String>(
+        value: 'AudioOneVOne',
+        child: Text('语音通话'),
+      )
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('KnoYo'),
+        title: Text(username),
         centerTitle: false,
-        backgroundColor: Colors.grey[200],
         elevation: 0.0,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.more_horiz),
-            onPressed: () {},
-          ),
-        ],
+        actions: <Widget>[_popMenu()],
       ),
       backgroundColor: Colors.grey[200],
       body: Column(
@@ -154,18 +213,7 @@ class ChatPageState extends State<ChatPage> {
                         ),
                       ),
                   ],
-                  onLoad: () async {
-                    await Future.delayed(Duration(seconds: 2), () {
-                      if (mounted) {
-                        setState(() {
-                          // _msgList.addAll([
-                          //   MessageEntity(true, "It's good!"),
-                          //   MessageEntity(false, 'EasyRefresh'),
-                          // ]);
-                        });
-                      }
-                    });
-                  },
+                  onLoad: () async {},
                 );
               },
             ),
@@ -303,7 +351,7 @@ class ChatPageState extends State<ChatPage> {
               child: Container(
                 height: 40.0,
                 width: 40.0,
-                child: Image.asset('assets/images/head.jpg'),
+                child: _buildAvatar(UserProvider.user?.avatar ?? ''),
               ),
             ),
           ],
@@ -330,14 +378,14 @@ class ChatPageState extends State<ChatPage> {
               child: Container(
                 height: 40.0,
                 width: 40.0,
-                child: Image.asset('assets/images/head_knoyo.jpg'),
+                child: _buildAvatar(widget.user.avatar),
               ),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'KnoYo',
+                  username,
                   style: TextStyle(
                     color: Colors.grey,
                     fontSize: 13.0,
@@ -370,6 +418,14 @@ class ChatPageState extends State<ChatPage> {
           ],
         ),
       );
+    }
+  }
+
+  _buildAvatar(url) {
+    if (url == '') {
+      return SizedBox();
+    } else {
+      return Image.network(url);
     }
   }
 

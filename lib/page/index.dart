@@ -40,7 +40,7 @@ class _IndexPageState extends State<IndexPage> {
     // TODO: implement initState
     super.initState();
     JMessage.addContactNotifyListener((event) {
-      print(event);
+      print('================addContactNotifyListener====================${event.toJson()}');
     });
   }
 

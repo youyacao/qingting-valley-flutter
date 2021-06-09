@@ -60,4 +60,8 @@ class Api {
   static LikeVideoList(data) {
     return Request.post("/like/me", data: data);
   }
+
+  static UserList(data) {
+    return Request.post("/user/search", data: data);
+  }
 }

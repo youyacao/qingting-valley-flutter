@@ -11,13 +11,15 @@ class Routes {
   static String douyin = '/douyin';
 
   static void configureRoutes(FluroRouter router) {
-    router.notFoundHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+    router.notFoundHandler = Handler(
+        handlerFunc: (BuildContext context, Map<String, List<String>> params) {
       print("ROUTE WAS NOT FOUND !!!");
       return;
     });
     router.define(root, handler: rootHandler);
     router.define(demoSimple, handler: demoRouteHandler);
-    router.define(demoSimpleFixedTrans, handler: demoRouteHandler, transitionType: TransitionType.inFromLeft);
+    router.define(demoSimpleFixedTrans,
+        handler: demoRouteHandler, transitionType: TransitionType.inFromLeft);
     router.define(demoFunc, handler: demoFunctionHandler);
     router.define(deepLink, handler: deepLinkHandler);
     router.define(douyin, handler: douyinHandler);
@@ -35,5 +37,9 @@ class Routes {
     router.define('/task_center', handler: taskCenterHandler);
     router.define('/download_record', handler: downloadRecordHandler);
     router.define('/play_record', handler: playRecordHandler);
+    router.define('/trtc_index', handler: trtcIndexHandler);
+    router.define('/video_contact', handler: videoContactHandler);
+    router.define('/audio_contact', handler: audioContactHandler);
+    router.define('/calling_view', handler: callingViewtHandler);
   }
 }
