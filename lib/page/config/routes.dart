@@ -43,5 +43,7 @@ class Routes {
     router.define('/calling_view', handler: callingViewtHandler);
     router.define('/invite', handler: inviteHandler);
     router.define('/recharge_vip', handler: rechargeVipHandler);
+    router.define('/comments_list', handler: commentsListHandler);
+    router.define('/video_likes_list', handler: videoLikesListHandler);
   }
 }

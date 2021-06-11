@@ -67,10 +67,12 @@ class _MyPageState extends State<MyPage> with RouteAware {
   }
 
   /// 打开外部浏览器
-  void _launchURL() async => await canLaunch(_url) ? await launch(_url) : Fluttertoast.showToast(
-    msg: '请配置正确的URL网址',
-    gravity: ToastGravity.CENTER,
-  );
+  void _launchURL() async => await canLaunch(_url)
+      ? await launch(_url)
+      : Fluttertoast.showToast(
+          msg: '请配置正确的URL网址',
+          gravity: ToastGravity.CENTER,
+        );
 
   @override
   Widget build(BuildContext context) {
@@ -389,7 +391,7 @@ class _MyPageState extends State<MyPage> with RouteAware {
                         onTap: () {
                           Application.router.navigateTo(context, "/recharge_vip");
                         },
-                        child:  Container(
+                        child: Container(
                           width: 690.r,
                           height: 120.r,
                           padding: EdgeInsets.symmetric(horizontal: 20.r),
@@ -578,15 +580,15 @@ class _MyPageState extends State<MyPage> with RouteAware {
                 _menuItemBuild('任务中心', Icons.list_alt_outlined, () {
                   Application.router.navigateTo(context, "/task_center");
                 }, '升级提升特权'),
+                _menuItemBuild('我的评论', Icons.speaker_notes_outlined, () {
+                  Application.router.navigateTo(context, "/comments_list");
+                }),
                 _menuItemBuild(
-                  '我的评论',
-                  Icons.speaker_notes_outlined,
-                  () {},
-                ),
-                _menuItemBuild(
-                  '我的点赞',
-                  Icons.thumb_up_alt_outlined,
-                  () {},
+                  '我的喜欢',
+                  Icons.favorite_border_outlined,
+                  () {
+                    Application.router.navigateTo(context, "/video_likes_list");
+                  },
                 ),
                 _menuItemBuild(
                   '我的下载',

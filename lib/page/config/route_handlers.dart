@@ -12,10 +12,12 @@ import 'package:trtc_demo/page/live/index.dart';
 import 'package:trtc_demo/page/login/ProfileManager_Mock.dart';
 import 'package:trtc_demo/page/login/index.dart';
 import 'package:trtc_demo/page/my/carmi/exchange.dart';
+import 'package:trtc_demo/page/my/comments/list.dart';
 import 'package:trtc_demo/page/my/fans/list.dart';
 import 'package:trtc_demo/page/my/follow/list.dart';
 import 'package:trtc_demo/page/my/invite/index.dart';
 import 'package:trtc_demo/page/my/invite/list.dart';
+import 'package:trtc_demo/page/my/like/list.dart';
 import 'package:trtc_demo/page/my/message/trtcIndex.dart';
 import 'package:trtc_demo/page/my/record/download.dart';
 import 'package:trtc_demo/page/my/record/play.dart';
@@ -186,4 +188,12 @@ var inviteHandler = Handler(handlerFunc: (BuildContext context, Map<String, List
 
 var rechargeVipHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return RechargeVipPage();
+});
+
+var commentsListHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return CommentsListPage();
+});
+
+var videoLikesListHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return VideoLikesListPage();
 });

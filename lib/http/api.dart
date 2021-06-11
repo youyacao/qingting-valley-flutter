@@ -68,4 +68,12 @@ class Api {
   static Config(data) {
     return Request.post("/config", data: { 'key': data });
   }
+
+  static VideoCommentsRecords(data) {
+    return Request.post("/comment/me", data: data);
+  }
+
+  static VideoLikesList(data) {
+    return Request.post("/like/me", data: data);
+  }
 }
