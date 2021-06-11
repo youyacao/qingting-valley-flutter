@@ -64,4 +64,8 @@ class Api {
   static UserList(data) {
     return Request.post("/user/search", data: data);
   }
+
+  static Config(data) {
+    return Request.post("/config", data: { 'key': data });
+  }
 }

@@ -19,7 +19,7 @@ class _FilmPageState extends State<FilmPage> with TickerProviderStateMixin {
   Color _colorRed = Color.fromRGBO(236, 97, 94, 1);
   TabController _tabController;
   List tabs = [];
-  int itemCount = 3;
+  int itemCount = 2;
   List _page = [];
   List _videoList = [];
   List _init = [];
@@ -224,8 +224,8 @@ class _FilmPageState extends State<FilmPage> with TickerProviderStateMixin {
                               height: 350.h,
                               child: Swiper(
                                 itemBuilder: (BuildContext context, int index) {
-                                  return Image.network(
-                                    "http://via.placeholder.com/350x150",
+                                  return Image.asset(
+                                    "assets/images/banner0${index + 1}.png",
                                     fit: BoxFit.cover,
                                   );
                                 },

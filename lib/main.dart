@@ -53,7 +53,7 @@ class _APP extends State<APP> {
             create: (_) => JMessageManagerProvider()..init(),
             lazy: false,
           ),
-          ChangeNotifierProvider(create: (_) => UserProvider()),
+          ChangeNotifierProvider(create: (_) => UserProvider()..getConfig(), lazy: false,),
           ChangeNotifierProvider(
             create: (_) => TRTCProvider()..init(),
             lazy: false,

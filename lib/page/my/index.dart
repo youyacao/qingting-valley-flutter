@@ -9,8 +9,10 @@ import 'package:trtc_demo/models/user_info.dart';
 import 'package:trtc_demo/page/config/application.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trtc_demo/provider/TRTCProvider.dart';
+import 'package:trtc_demo/provider/userProvider.dart';
 import 'package:trtc_demo/utils/TxUtils.dart';
 import 'package:trtc_demo/utils/constants.dart' as constants;
+import 'package:url_launcher/url_launcher.dart';
 
 class MyPage extends StatefulWidget {
   @override
@@ -20,6 +22,7 @@ class MyPage extends StatefulWidget {
 class _MyPageState extends State<MyPage> with RouteAware {
   UserInfoElement _userInfo;
   TRTCChatSalon trtcVoiceRoom;
+  String _url = UserProvider.config.baseQq;
 
   @override
   void initState() {
@@ -62,6 +65,12 @@ class _MyPageState extends State<MyPage> with RouteAware {
     }
     return '请登录';
   }
+
+  /// 打开外部浏览器
+  void _launchURL() async => await canLaunch(_url) ? await launch(_url) : Fluttertoast.showToast(
+    msg: '请配置正确的URL网址',
+    gravity: ToastGravity.CENTER,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -313,9 +322,10 @@ class _MyPageState extends State<MyPage> with RouteAware {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Application.router.navigateTo(context, "/invite", routeSettings: RouteSettings(
-                            arguments: _userInfo.refcode,
-                          ));
+                          Application.router.navigateTo(context, "/invite",
+                              routeSettings: RouteSettings(
+                                arguments: _userInfo.refcode,
+                              ));
                         },
                         child: Container(
                           width: 690.r,
@@ -375,58 +385,63 @@ class _MyPageState extends State<MyPage> with RouteAware {
                       Container(
                         height: 18.r,
                       ),
-                      Container(
-                        width: 690.r,
-                        height: 120.r,
-                        padding: EdgeInsets.symmetric(horizontal: 20.r),
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage('https://qingtingyunshejiaoxcx.youyacao.com/mine_vip_entrance_bg.webp'),
-                            fit: BoxFit.contain,
+                      GestureDetector(
+                        onTap: () {
+                          Application.router.navigateTo(context, "/recharge_vip");
+                        },
+                        child:  Container(
+                          width: 690.r,
+                          height: 120.r,
+                          padding: EdgeInsets.symmetric(horizontal: 20.r),
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage('https://qingtingyunshejiaoxcx.youyacao.com/mine_vip_entrance_bg.webp'),
+                              fit: BoxFit.contain,
+                            ),
                           ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Image.network(
-                                  'https://qingtingyunshejiaoxcx.youyacao.com/mine_vip.png',
-                                  width: 42.r,
-                                  height: 30.r,
-                                ),
-                                Container(
-                                  width: 20.r,
-                                ),
-                                Text(
-                                  '购买VIP',
-                                  style: TextStyle(
-                                    fontSize: 32.sp,
-                                    color: Color.fromRGBO(143, 69, 3, 1),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Image.network(
+                                    'https://qingtingyunshejiaoxcx.youyacao.com/mine_vip.png',
+                                    width: 42.r,
+                                    height: 30.r,
                                   ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                  width: 20.r,
-                                ),
-                                Text(
-                                  '开通VIP无限观影',
-                                  style: TextStyle(
-                                    fontSize: 28.sp,
-                                    color: Color.fromRGBO(143, 69, 3, 1),
+                                  Container(
+                                    width: 20.r,
                                   ),
-                                ),
-                                Image.network(
-                                  'https://qingtingyunshejiaoxcx.youyacao.com/yellow_right_arrow.png',
-                                  width: 42.r,
-                                  height: 30.r,
-                                ),
-                              ],
-                            ),
-                          ],
+                                  Text(
+                                    '购买VIP',
+                                    style: TextStyle(
+                                      fontSize: 32.sp,
+                                      color: Color.fromRGBO(143, 69, 3, 1),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 20.r,
+                                  ),
+                                  Text(
+                                    '开通VIP无限观影',
+                                    style: TextStyle(
+                                      fontSize: 28.sp,
+                                      color: Color.fromRGBO(143, 69, 3, 1),
+                                    ),
+                                  ),
+                                  Image.network(
+                                    'https://qingtingyunshejiaoxcx.youyacao.com/yellow_right_arrow.png',
+                                    width: 42.r,
+                                    height: 30.r,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -552,7 +567,7 @@ class _MyPageState extends State<MyPage> with RouteAware {
                   height: 18.r,
                   color: Colors.grey[100],
                 ),
-                _menuItemBuild('官方福利群', Icons.account_circle_outlined, () {}, '参加活动送VIP'),
+                _menuItemBuild('官方福利群', Icons.account_circle_outlined, _launchURL, '参加活动送VIP'),
                 _menuItemBuild(
                   '兑换激活码',
                   Icons.keyboard_outlined,

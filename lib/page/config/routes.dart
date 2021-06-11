@@ -42,5 +42,6 @@ class Routes {
     router.define('/audio_contact', handler: audioContactHandler);
     router.define('/calling_view', handler: callingViewtHandler);
     router.define('/invite', handler: inviteHandler);
+    router.define('/recharge_vip', handler: rechargeVipHandler);
   }
 }

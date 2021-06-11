@@ -20,6 +20,7 @@ import 'package:trtc_demo/page/my/message/trtcIndex.dart';
 import 'package:trtc_demo/page/my/record/download.dart';
 import 'package:trtc_demo/page/my/record/play.dart';
 import 'package:trtc_demo/page/my/task/center.dart';
+import 'package:trtc_demo/page/my/vip/recharge.dart';
 import 'package:trtc_demo/page/trtcmeetingdemo/setting.dart';
 import '../helpers/color_helpers.dart';
 import '../demo/demo_simple_component.dart';
@@ -181,4 +182,8 @@ var inviteHandler = Handler(handlerFunc: (BuildContext context, Map<String, List
   return InvitePage(
     inviteCode: context.settings.arguments,
   );
+});
+
+var rechargeVipHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return RechargeVipPage();
 });
