@@ -5,10 +5,13 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:trtc_demo/http/api.dart';
 import 'package:trtc_demo/models/category.dart';
+import 'package:trtc_demo/models/video_banner.dart';
 import 'package:trtc_demo/models/video_list.dart';
 import 'package:trtc_demo/page/config/application.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FilmPage extends StatefulWidget {
   @override
@@ -24,12 +27,20 @@ class _FilmPageState extends State<FilmPage> with TickerProviderStateMixin {
   List _videoList = [];
   List _init = [];
   List _noData = [];
+  List<VideoBannerElement> _banner = [];
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: tabs.length, vsync: this);
     _getCategory();
+    _getBanner();
+  }
+
+  _getBanner() async {
+    var json = await Api.Banner(2);
+    var result = VideoBannerModel.fromJson(json);
+    _banner.addAll(result.data);
   }
 
   _getCategory() async {
@@ -73,6 +84,14 @@ class _FilmPageState extends State<FilmPage> with TickerProviderStateMixin {
       arguments: video,
     ));
   }
+
+  /// 打开外部浏览器
+  void _launchURL(String url) async => await canLaunch(url)
+      ? await launch(url)
+      : Fluttertoast.showToast(
+    msg: '请配置正确的URL网址',
+    gravity: ToastGravity.CENTER,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -224,12 +243,16 @@ class _FilmPageState extends State<FilmPage> with TickerProviderStateMixin {
                               height: 350.h,
                               child: Swiper(
                                 itemBuilder: (BuildContext context, int index) {
-                                  return Image.asset(
-                                    "assets/images/banner0${index + 1}.png",
+                                  return Image.network(
+                                    // "assets/images/banner0${index + 1}.png",
+                                    _banner[index].imgUrl,
                                     fit: BoxFit.cover,
                                   );
                                 },
-                                itemCount: itemCount,
+                                itemCount: _banner.length,
+                                onTap: (int index) {
+                                  _launchURL(_banner[index].adUrl);
+                                },
                                 // autoplay: true,
                               ),
                             ),

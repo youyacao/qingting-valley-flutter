@@ -24,6 +24,8 @@ import 'package:trtc_demo/page/my/record/play.dart';
 import 'package:trtc_demo/page/my/task/center.dart';
 import 'package:trtc_demo/page/my/vip/recharge.dart';
 import 'package:trtc_demo/page/trtcmeetingdemo/setting.dart';
+import 'package:trtc_demo/page/webview/webview.dart';
+import 'package:trtc_demo/page/webview/webview_example.dart';
 import '../helpers/color_helpers.dart';
 import '../demo/demo_simple_component.dart';
 import 'package:flutter/painting.dart';
@@ -196,4 +198,17 @@ var commentsListHandler = Handler(handlerFunc: (BuildContext context, Map<String
 
 var videoLikesListHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return VideoLikesListPage();
+});
+
+var webviewHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  final arguments = context.settings.arguments as Map;
+  return WebViewPage(
+    title: arguments['title'],
+    url: arguments['url'],
+    isLocalUrl: arguments['isLocalUrl']
+  );
+});
+
+var webviewExampleHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return WebViewExample();
 });

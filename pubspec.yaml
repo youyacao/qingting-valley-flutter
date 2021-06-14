@@ -38,6 +38,7 @@ dependencies:
   url_launcher: ^6.0.3
   badges: ^2.0.1
   qr_flutter: ^4.0.0
+  webview_flutter: ^2.0.8
   flutter:
     sdk: flutter
 
@@ -62,4 +63,4 @@ flutter:
    - assets/images/
    - assets/images/callingDemo/
 
-version: 1.7.3
+version: 1.7.4

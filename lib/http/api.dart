@@ -76,4 +76,12 @@ class Api {
   static VideoLikesList(data) {
     return Request.post("/like/me", data: data);
   }
+
+  static Banner(int type) {
+    return Request.post("/advert/list", data: { 'type': type });
+  }
+
+  static Agreement(data) {
+    return Request.post("/system", data: { 'key': data });
+  }
 }

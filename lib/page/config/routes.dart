@@ -45,5 +45,7 @@ class Routes {
     router.define('/recharge_vip', handler: rechargeVipHandler);
     router.define('/comments_list', handler: commentsListHandler);
     router.define('/video_likes_list', handler: videoLikesListHandler);
+    router.define('/webview', handler: webviewHandler);
+    router.define('/webview_example', handler: webviewExampleHandler);
   }
 }

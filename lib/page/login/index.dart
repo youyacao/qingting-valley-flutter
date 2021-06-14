@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trtc_demo/base/DemoSevice.dart';
 import 'package:trtc_demo/debug/GenerateTestUserSig.dart';
 import 'package:trtc_demo/http/api.dart';
+import 'package:trtc_demo/models/agreement.dart';
 import 'package:trtc_demo/models/login.dart';
 import 'package:trtc_demo/models/user_info.dart';
 import 'package:trtc_demo/page/config/application.dart';
@@ -19,6 +20,7 @@ import 'package:trtc_demo/provider/userProvider.dart';
 import 'package:trtc_demo/TRTCChatSalonDemo/model/TRTCChatSalon.dart';
 import 'package:trtc_demo/TRTCChatSalonDemo/model/TRTCChatSalonDef.dart';
 import 'package:trtc_demo/utils/TxUtils.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../utils/constants.dart' as constants;
 
 class LoginPage extends StatefulWidget {
@@ -36,14 +38,43 @@ class _LoginPageState extends State<LoginPage> {
   String _result;
   String TOKEN;
   String userId;
+  AgreementElement _agreement;
 
   @override
   void initState() {
     // TODO: implement initState
     _unameController.text = '15882478524';
     _pwdController.text = '123456';
+    _getAgreement();
     super.initState();
   }
+
+  _getAgreement() async {
+    var json = await Api.Agreement('user');
+    print('================================');
+    print(json.toString());
+    var result = AgreementModel.fromJson(json);
+    _agreement = result.data;
+    setState(() {});
+  }
+
+  _openWebview(String title, String url) {
+    Application.router.navigateTo(context, "/webview", routeSettings: RouteSettings(
+      arguments: {
+        "title": title,
+        "url": url,
+        "isLocalUrl": false
+      },
+    ));
+  }
+
+  /// 打开外部浏览器
+  void _launchURL(String url) async => await canLaunch(url)
+      ? await launch(url)
+      : Fluttertoast.showToast(
+    msg: '请配置正确的URL网址',
+    gravity: ToastGravity.CENTER,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Transform.scale(
-                          scale: 0.9,
+                          scale: 0.8,
                           child: Checkbox(
                             value: _checkValue,
                             onChanged: (value) {
@@ -116,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         Text.rich(
                           TextSpan(
-                              text: '登录即代表同意并阅读',
+                              text: '已阅读并同意',
                               style: TextStyle(
                                 fontSize: 24.sp,
                                 color: Color(0xFF999999),
@@ -129,13 +160,30 @@ class _LoginPageState extends State<LoginPage> {
                                 },
                               children: [
                                 TextSpan(
-                                  text: '《服务协议》',
+                                  text: '《隐私政策》',
                                   style: TextStyle(
                                       color: Colors.blue,
                                       fontWeight: FontWeight.bold),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
                                       print('onTap');
+                                      // _openWebview('《隐私政策》', 'https://baidu.com');
+                                      _launchURL(_agreement.userPolicyUrl);
+                                    },
+                                ),
+                                TextSpan(
+                                  text: '和',
+                                ),
+                                TextSpan(
+                                  text: '《用户协议》',
+                                  style: TextStyle(
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.bold),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      print('onTap');
+                                      // Application.router.navigateTo(context, "/webview_example");
+                                      _launchURL(_agreement.userAgreement);
                                     },
                                 ),
                               ]),
