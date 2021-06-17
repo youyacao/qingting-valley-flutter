@@ -84,4 +84,8 @@ class Api {
   static Agreement(data) {
     return Request.post("/system", data: { 'key': data });
   }
+
+  static Register(data) {
+    return Request.post("/register", data: data);
+  }
 }

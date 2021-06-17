@@ -47,5 +47,6 @@ class Routes {
     router.define('/video_likes_list', handler: videoLikesListHandler);
     router.define('/webview', handler: webviewHandler);
     router.define('/webview_example', handler: webviewExampleHandler);
+    router.define('/register', handler: registerHandler);
   }
 }

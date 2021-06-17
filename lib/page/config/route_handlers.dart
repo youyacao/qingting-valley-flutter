@@ -23,6 +23,7 @@ import 'package:trtc_demo/page/my/record/download.dart';
 import 'package:trtc_demo/page/my/record/play.dart';
 import 'package:trtc_demo/page/my/task/center.dart';
 import 'package:trtc_demo/page/my/vip/recharge.dart';
+import 'package:trtc_demo/page/register/register.dart';
 import 'package:trtc_demo/page/trtcmeetingdemo/setting.dart';
 import 'package:trtc_demo/page/webview/webview.dart';
 import 'package:trtc_demo/page/webview/webview_example.dart';
@@ -211,4 +212,8 @@ var webviewHandler = Handler(handlerFunc: (BuildContext context, Map<String, Lis
 
 var webviewExampleHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return WebViewExample();
+});
+
+var registerHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return RegisterPage();
 });

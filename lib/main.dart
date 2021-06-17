@@ -32,6 +32,8 @@ class APP extends StatefulWidget {
 }
 
 class _APP extends State<APP> {
+  Color _colorRed = Color.fromRGBO(236, 97, 94, 1);
+
   @override
   void initState() {
     // TODO: implement initState
@@ -65,6 +67,11 @@ class _APP extends State<APP> {
           title: 'Flutter_ScreenUtil',
           theme: ThemeData(
             primarySwatch: Colors.blue,
+            appBarTheme: AppBarTheme(
+              brightness: Brightness.dark,
+              centerTitle: true,
+              backgroundColor: _colorRed
+            ),
           ),
           home: GestureDetector(
             onTap: () {

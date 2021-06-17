@@ -84,6 +84,18 @@ class _LoginPageState extends State<LoginPage> {
         brightness: Brightness.dark,
         centerTitle: true,
         backgroundColor: _colorRed,
+        actions: [
+          TextButton(
+            style: TextButton.styleFrom(
+              primary: Colors.white,
+              textStyle: TextStyle(fontSize: 32.sp),
+            ),
+            onPressed: () {
+              Application.router.navigateTo(context, "/register");
+            },
+            child: const Text('注册'),
+          ),
+        ],
       ),
       body: GestureDetector(
         onTap: () {
@@ -120,7 +132,6 @@ class _LoginPageState extends State<LoginPage> {
                       padding: EdgeInsets.symmetric(vertical: 96.h),
                       child: SizedBox(
                         width: double.infinity,
-                        height: 65.h,
                         child: ElevatedButton(
                           onPressed: () {
                             _login();

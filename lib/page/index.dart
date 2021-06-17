@@ -16,7 +16,7 @@ class _IndexPageState extends State<IndexPage> {
   int _selectedIndex = 0;
   Color _selectdColor = Color.fromRGBO(236, 97, 94, 1);
   Color _unselectdColor = Colors.black;
-  List _bottomBarItems = ['首页', '直播', '', '抖音', '我的'];
+  List _bottomBarItems = ['首页', '直播', '1:1', '抖音', '我的'];
 
   final LivePage _livePage = LivePage();
   final TRTCIndexPage _trtcIndexPage = TRTCIndexPage();
@@ -28,7 +28,7 @@ class _IndexPageState extends State<IndexPage> {
   bool _tab4Show = false;
 
   Widget get tabItem1 => _tab1Show ? _livePage : _sizedBox();
-  Widget get tabItem2 => _tab2Show ? _trtcIndexPage : _sizedBox();
+  Widget get tabItem2 => _tab2Show ? _livePage : _sizedBox();
   Widget get tabItem4 => _tab4Show ? _myPage : _sizedBox();
 
   List<Widget> _indexedStackChildren() {
@@ -64,30 +64,30 @@ class _IndexPageState extends State<IndexPage> {
           direction: Axis.horizontal,
           children: [
             for (var i = 0; i < _bottomBarItems.length; i++)
-              if (_bottomBarItems[i] == '')
-                Expanded(
-                  flex: 1,
-                  child: GestureDetector(
-                    onTap: () {
-                      _onItemTapped(2);
-                    },
-                    child: Center(
-                      child: Container(
-                        height: 45.h,
-                        width: 80.w,
-                        decoration: BoxDecoration(
-                          color: _selectdColor,
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Icon(
-                          Icons.add,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              else
+              // if (_bottomBarItems[i] == '')
+              //   Expanded(
+              //     flex: 1,
+              //     child: GestureDetector(
+              //       onTap: () {
+              //         _onItemTapped(2);
+              //       },
+              //       child: Center(
+              //         child: Container(
+              //           height: 45.h,
+              //           width: 80.w,
+              //           decoration: BoxDecoration(
+              //             color: _selectdColor,
+              //             borderRadius: BorderRadius.circular(6),
+              //           ),
+              //           child: Icon(
+              //             Icons.add,
+              //             color: Colors.white,
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   )
+              // else
                 _bottomBarItem(_bottomBarItems[i], i)
           ],
         ),
