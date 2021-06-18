@@ -518,48 +518,53 @@ class _MyPageState extends State<MyPage> with RouteAware {
                           ],
                         ),
                       ),
-                      Container(
-                        width: 426.r,
-                        height: 160.r,
-                        padding: EdgeInsets.symmetric(horizontal: 20.r),
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage('https://qingtingyunshejiaoxcx.youyacao.com/mine_proxy_entrance_bg.webp'),
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 20.r),
-                              child: Text(
-                                '全名代理',
-                                style: TextStyle(
-                                  fontSize: 32.sp,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
+                      GestureDetector(
+                        onTap: () {
+                          Application.router.navigateTo(context, "/agent");
+                        },
+                        child: Container(
+                          width: 426.r,
+                          height: 160.r,
+                          padding: EdgeInsets.symmetric(horizontal: 20.r),
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage('https://qingtingyunshejiaoxcx.youyacao.com/mine_proxy_entrance_bg.webp'),
+                              fit: BoxFit.contain,
                             ),
-                            Row(
-                              children: [
-                                Text(
-                                  '推广APP，躺着也能赚钱！',
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 20.r),
+                                child: Text(
+                                  '全名代理',
                                   style: TextStyle(
-                                    fontSize: 28.sp,
+                                    fontSize: 32.sp,
                                     color: Colors.white,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                                Image.network(
-                                  'https://qingtingyunshejiaoxcx.youyacao.com/red_right_arrow.png',
-                                  width: 28.r,
-                                  height: 28.r,
-                                ),
-                              ],
-                            ),
-                          ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    '推广APP，躺着也能赚钱！',
+                                    style: TextStyle(
+                                      fontSize: 28.sp,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Image.network(
+                                    'https://qingtingyunshejiaoxcx.youyacao.com/red_right_arrow.png',
+                                    width: 28.r,
+                                    height: 28.r,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],

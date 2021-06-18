@@ -48,5 +48,6 @@ class Routes {
     router.define('/webview', handler: webviewHandler);
     router.define('/webview_example', handler: webviewExampleHandler);
     router.define('/register', handler: registerHandler);
+    router.define('/agent', handler: agentHandler);
   }
 }

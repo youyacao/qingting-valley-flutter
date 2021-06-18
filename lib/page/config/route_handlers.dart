@@ -11,6 +11,7 @@ import 'package:trtc_demo/page/live/create.dart';
 import 'package:trtc_demo/page/live/index.dart';
 import 'package:trtc_demo/page/login/ProfileManager_Mock.dart';
 import 'package:trtc_demo/page/login/index.dart';
+import 'package:trtc_demo/page/my/agent/agent.dart';
 import 'package:trtc_demo/page/my/carmi/exchange.dart';
 import 'package:trtc_demo/page/my/comments/list.dart';
 import 'package:trtc_demo/page/my/fans/list.dart';
@@ -216,4 +217,8 @@ var webviewExampleHandler = Handler(handlerFunc: (BuildContext context, Map<Stri
 
 var registerHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return RegisterPage();
+});
+
+var agentHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return AgentPage();
 });

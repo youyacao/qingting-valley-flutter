@@ -9,6 +9,7 @@ class UserProvider with ChangeNotifier {
 
   static UserInfoElement get user => _user;
   static ConfigElement get config => _config;
+  static String get avatar => _user != null ? _user.avatar : '';
 
   setUser(UserInfoElement user) {
     _user = user;

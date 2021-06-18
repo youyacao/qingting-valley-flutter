@@ -88,4 +88,12 @@ class Api {
   static Register(data) {
     return Request.post("/register", data: data);
   }
+
+  static Agent() {
+    return Request.post("/agentInfo");
+  }
+
+  static AgentList() {
+    return Request.post("/agentNum");
+  }
 }
