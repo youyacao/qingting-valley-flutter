@@ -43,8 +43,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     // TODO: implement initState
-    _unameController.text = '15882478524';
-    _pwdController.text = '123456';
+    // _unameController.text = '15882478524';
+    // _pwdController.text = '123456';
     _getAgreement();
     super.initState();
   }

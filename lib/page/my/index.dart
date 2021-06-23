@@ -23,6 +23,10 @@ class _MyPageState extends State<MyPage> with RouteAware {
   UserInfoElement _userInfo;
   TRTCChatSalon trtcVoiceRoom;
   String _url = UserProvider.config.baseQq;
+  TextStyle _copyrightTextStyle = TextStyle(
+    fontSize: 24.sp,
+    color: Colors.grey,
+  );
 
   @override
   void initState() {
@@ -625,6 +629,18 @@ class _MyPageState extends State<MyPage> with RouteAware {
                     print('------');
                     _logout();
                   },
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 30.r),
+                  child: Column(
+                    children: [
+                      Text('系统开发商：一颗优雅草科技-新蜻蜓v系统', style: _copyrightTextStyle),
+                      Text('官网：https://qingting.youyacao.com', style: _copyrightTextStyle),
+                      Text('本系统所有内容仅供功能演示不做其他一切商业用途', style: _copyrightTextStyle),
+                      Text('服务器：腾讯云 内容识别：知道创宇 美颜剪辑：涂图科技', style: _copyrightTextStyle),
+                      Text('IM支持：极光 TRTC：腾讯云 人工智能：百度', style: _copyrightTextStyle)
+                    ],
+                  ),
                 ),
                 // Column(
                 //   children: [
