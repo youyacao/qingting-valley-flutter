@@ -113,9 +113,9 @@ class _FilmPageState extends State<FilmPage> with TickerProviderStateMixin {
                   Container(
                     padding: EdgeInsets.only(
                       top: 8.r,
-                      right: 8.r,
+                      right: 20.r,
                       bottom: 0,
-                      left: 8.r,
+                      left: 20.r,
                     ),
                     child: Flex(
                       direction: Axis.horizontal,
@@ -160,10 +160,13 @@ class _FilmPageState extends State<FilmPage> with TickerProviderStateMixin {
                             size: 28,
                           ),
                           onPressed: () {
-                            Application.router.navigateTo(context, "/login");
+                            Application.router.navigateTo(context, "/play_record");
                           },
                         ),
-                        Container(
+                        GestureDetector(
+                          onTap: () {
+                            Application.router.navigateTo(context, "/download_record");
+                          },
                           child: Icon(
                             Icons.download_outlined,
                             color: Colors.white,

@@ -4,7 +4,6 @@ import 'package:trtc_demo/page/douyin/index.dart';
 import 'package:trtc_demo/page/film/index.dart';
 import 'package:trtc_demo/page/live/index.dart';
 import 'package:trtc_demo/page/my/index.dart';
-import 'package:trtc_demo/page/trtcmeetingdemo/index.dart';
 import 'package:trtc_demo/provider/jmessage_manager_provider.dart';
 
 class IndexPage extends StatefulWidget {
@@ -16,10 +15,8 @@ class _IndexPageState extends State<IndexPage> {
   int _selectedIndex = 0;
   Color _selectdColor = Color.fromRGBO(236, 97, 94, 1);
   Color _unselectdColor = Colors.black;
-  List _bottomBarItems = ['首页', '直播', '1:1', '抖音', '我的'];
+  List _bottomBarItems = ['首页', '直播', '1v1', '抖音', '我的'];
 
-  final LivePage _livePage = LivePage();
-  final TRTCIndexPage _trtcIndexPage = TRTCIndexPage();
   final DouYinPage _douYinPage = DouYinPage(key: tikTokKey);
   final MyPage _myPage = MyPage();
 
@@ -27,8 +24,8 @@ class _IndexPageState extends State<IndexPage> {
   bool _tab2Show = false;
   bool _tab4Show = false;
 
-  Widget get tabItem1 => _tab1Show ? _livePage : _sizedBox();
-  Widget get tabItem2 => _tab2Show ? _livePage : _sizedBox();
+  Widget get tabItem1 => _tab1Show ? LivePage(initialIndex: 1) : _sizedBox();
+  Widget get tabItem2 => _tab2Show ? LivePage(initialIndex: 0) : _sizedBox();
   Widget get tabItem4 => _tab4Show ? _myPage : _sizedBox();
 
   List<Widget> _indexedStackChildren() {

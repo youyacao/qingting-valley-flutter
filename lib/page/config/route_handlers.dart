@@ -102,7 +102,9 @@ var douyinHandler = Handler(handlerFunc: (BuildContext context, Map<String, List
 });
 
 var liveHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  return LivePage();
+  return LivePage(
+    initialIndex: context.settings.arguments as int
+  );
 });
 
 var createLiveHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {

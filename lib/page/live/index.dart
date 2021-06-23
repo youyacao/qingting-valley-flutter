@@ -12,6 +12,8 @@ import 'package:trtc_demo/page/config/application.dart';
 import 'package:trtc_demo/provider/jmessage_manager_provider.dart';
 
 class LivePage extends StatefulWidget {
+  LivePage({ this.initialIndex = 0 });
+  final int initialIndex;
   @override
   _LivePageState createState() => _LivePageState();
 }
@@ -28,7 +30,7 @@ class _LivePageState extends State<LivePage> with SingleTickerProviderStateMixin
   @override
   void initState() {
     _getUserList();
-    _tabController = TabController(length: tabs.length, vsync: this);
+    _tabController = TabController(length: tabs.length, vsync: this, initialIndex: widget.initialIndex);
     super.initState();
   }
 
