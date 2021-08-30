@@ -1,3 +1,81 @@
+
+# 蜻蜓v系统flutter版本前端
+
+#### 介绍
+蜻蜓V社交聊天IM·短视频直播系统，蜻蜓v系统是2021年6月最新发布产品，蜻蜓V系统是一款集合社交，聊天IM，短视频，直播四大核心功能为一体的产品，适合综合性应用平台的企事业单位采购。，蜻蜓系统逐步全面开源，如果对您有帮助，希望给个小星星鼓励，感谢支持。
+#### 蜻蜓系列软件架构
+
+vue + nuve +uniapp +flutter + java + php +laravel
+
+node.js +springboot2.2+springmvc+druid+mybatis+mangoDB+mysql+shiro-redis+redis+activemq
+
+此库为蜻蜓v前端，蜻蜓v前端使用flutter
+ 
+ 
+ 其他版本请关注松鼠/蜻蜓系统管网 
+
+[松鼠短视频](https://songshu.youyacao.com/video.html)
+[蜻蜓系统](https://songshu.youyacao.com/qingting.html)
+
+#### 安装教程
+
+[蜻蜓系统整体安装教程](https://doc.youyacao.com/web/#/8?page_id=51)
+
+
+### 蜻蜓系统关联仓库
+
+#### PHP后端
+
+[蜻蜓服务端qingting-api](https://gitee.com/youyacao/qingting-api)
+[蜻蜓后台管理端qingting-admmin](https://gitee.com/youyacao/qingting-admin)
+
+#### JAVA后端
+
+[蜻蜓服务端qingtingjava-s-sever](https://gitee.com/youyacao/qingtingjava-s-sever)
+[蜻蜓后台管理端qingting-java-manager-client](https://gitee.com/youyacao/qingting-java-manager-client)
+#### 前端后端
+
+
+[蜻蜓v系统前端](https://gitee.com/youyacao/qingting-valley-flutter)
+[蜻蜓s系统前端](https://gitee.com/youyacao/qingting-s-uniapp)
+[蜻蜓T系统前端](https://gitee.com/youyacao/qingting-team-flutter)
+[蜻蜓q系统前端](https://gitee.com/youyacao/qingting-queen-uniapp)
+[蜻蜓f系统前端](https://gitee.com/youyacao/qingting-f-uniapp)
+
+
+#### 文件目录说明
+
+[蜻蜓系统官方目录说明](https://doc.youyacao.com/web/#/8?page_id=649)
+
+
+
+#### API接口文档
+
+[点击查看API接口文档](https://doc.youyacao.com/web/#/16?page_id=93)
+
+[点击查看JAVA版API接口文档](https://doc.youyacao.com/web/#/18?page_id=226)
+
+
+
+
+#### 购买授权或技术支持
+
+正版授权管网查询：
+
+[点击查询授权以及购买其他技术支持服务](https://zhengban.youyacao.com)
+
+
+官方QQ交流群：929353806
+
+
+
+
+
+
+
+
+#以下说明是关于蜻蜓v系统中trtc的说明
+
 # 跑通Demo(Flutter)
 本文主要介绍如何快速运行腾讯云 TRTC Demo（Flutter）。
 ## 环境要求
@@ -11,7 +89,7 @@
 
 ## 前提条件
 
-您已[注册腾讯云](https://cloud.tencent.com)账号，并完成实名认证。
+您已[注册腾讯云](https://partners.cloud.tencent.com/invitation/1000009941225fd73659498d2)账号，并完成实名认证,申请与优雅草关联并且通过优雅草的审核成为客户可以享受腾讯官方的折扣，不关联则视为直客不享受任何折扣
 
 ## 操作步骤
 <span id="step1"></span>
