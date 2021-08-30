@@ -1,6 +1,8 @@
 
 # 蜻蜓v系统flutter版本前端
 
+![](https://doc.youyacao.com/server/index.php?s=/api/attachment/visitFile/sign/e7dfcfb3b64fd746bb447b68e0b8ccbd)
+
 #### 介绍
 蜻蜓V社交聊天IM·短视频直播系统，蜻蜓v系统是2021年6月最新发布产品，蜻蜓V系统是一款集合社交，聊天IM，短视频，直播四大核心功能为一体的产品，适合综合性应用平台的企事业单位采购。，蜻蜓系统逐步全面开源，如果对您有帮助，希望给个小星星鼓励，感谢支持。
 #### 蜻蜓系列软件架构
@@ -16,6 +18,16 @@ node.js +springboot2.2+springmvc+druid+mybatis+mangoDB+mysql+shiro-redis+redis+a
 
 [松鼠短视频](https://songshu.youyacao.com/video.html)
 [蜻蜓系统](https://songshu.youyacao.com/qingting.html)
+
+
+#### 产品截图
+![](https://doc.youyacao.com/server/index.php?s=/api/attachment/visitFile/sign/fae67cf7c61de6a651618931b9b03101)
+
+![](https://doc.youyacao.com/server/index.php?s=/api/attachment/visitFile/sign/6703949e3a441aa2dfc2cb6578caca31)
+
+![](https://doc.youyacao.com/server/index.php?s=/api/attachment/visitFile/sign/b2a2128ce1339572237b3db0afb2c8b6)
+
+![](https://doc.youyacao.com/server/index.php?s=/api/attachment/visitFile/sign/1f476e8820d4ed0347582db714dd9d1c)
 
 #### 安装教程
 
@@ -66,7 +78,6 @@ node.js +springboot2.2+springmvc+druid+mybatis+mangoDB+mysql+shiro-redis+redis+a
 
 
 官方QQ交流群：929353806
-
 
 
 
